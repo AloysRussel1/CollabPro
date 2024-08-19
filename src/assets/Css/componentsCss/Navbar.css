@@ -1,0 +1,177 @@
+/* src/assets/Css/componentsCss/Navbar.css */
+
+/* Style global pour la navigation */
+nav {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 2rem;
+    background-color: white;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+    z-index: 1000;
+}
+
+/* Style pour le logo */
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: 'Arial', sans-serif;
+    /* Police du logo */
+}
+
+/* Style pour les liens de navigation */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1rem;
+    /* Espacement entre les liens */
+    margin: 0;
+    padding: 0;
+}
+
+/* Style pour chaque lien */
+.nav-links li {
+    display: inline;
+    position: relative;
+    /* Nécessaire pour le menu déroulant */
+}
+
+/* Style pour les liens de navigation */
+.nav-links a {
+    color: black;
+    /* Couleur du texte et des icônes */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    /* Aligner les icônes avec le texte */
+    gap: 0.5rem;
+    /* Espacement entre l'icône et le texte */
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+}
+
+/* Style pour le bouton d'inscription (cta) */
+.nav-links .cta {
+    background-color: #ff5733;
+    /* Couleur de fond du bouton d'inscription */
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+}
+
+/* Style pour les icônes */
+.nav-links i {
+    font-size: 1.2rem;
+    /* Ajuster la taille des icônes */
+}
+
+/* Effet au survol des liens */
+.nav-links a:hover,
+.nav-links .cta:hover {
+    background-color: #f0f0f0;
+    /* Couleur de fond au survol */
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Style pour le menu déroulant */
+.dropdown {
+    position: relative;
+    /* Nécessaire pour le menu déroulant */
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    background-color: white;
+    /* Fond blanc pour le menu déroulant */
+}
+
+/* Style pour les éléments du menu déroulant */
+.dropdown-menu li {
+    padding: 0.5rem 1rem;
+}
+
+/* Style pour les liens dans le menu déroulant */
+.dropdown-menu a {
+    color: black;
+    /* Couleur du texte des liens du menu déroulant */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Effet au survol des liens du menu déroulant */
+.dropdown-menu a:hover {
+    background-color: #f0f0f0;
+    /* Couleur de fond au survol des liens du menu déroulant */
+}
+
+/* Afficher le menu déroulant au survol */
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Styles pour le menu burger */
+.menu-toggle {
+    display: none;
+    /* Masquer le bouton par défaut */
+    background: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 2000;
+    /* Assurez-vous que le bouton burger est au-dessus du contenu */
+}
+
+/* Styles pour les liens du menu burger */
+.nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 300px;
+    height:60%;
+    border-radius: 20px;
+    background-color: white;
+    padding: 2rem 1rem;
+    border-left: 1px solid #ccc;
+    box-shadow: -1px 0 3px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+    transform: translateX(100%);
+}
+
+.nav-links.open {
+    transform: translateX(0);
+}
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+        width: 70px;
+        font-size: 1.2rem;
+        color: black;
+        position: absolute;
+        top: 0rem;
+        right: 1rem;
+        cursor: pointer;
+        z-index: 2000;
+
+    }
+}

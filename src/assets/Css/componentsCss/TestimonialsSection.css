@@ -1,0 +1,103 @@
+/* src/assets/Css/componentsCss/TestimonialsSection.css */
+
+/* Style pour la section des témoignages */
+.testimonials {
+    background-color: #f9f9f9; /* Fond gris clair */
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.testimonials-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.testimonials h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #333; /* Couleur du titre */
+}
+
+.testimonials-carousel {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.testimonial-card {
+    background-color: #ffffff; /* Fond blanc */
+    border: 1px solid #ddd; /* Bordure légère */
+    border-radius: 8px;
+    padding: 2rem;
+    width: calc(33% - 1rem); /* Trois cartes par ligne avec espace */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    position: relative;
+}
+
+.testimonial-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.quote-icon {
+    font-size: 2rem;
+    color: #ff5733; /* Couleur des icônes */
+    margin-bottom: 1rem;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+}
+
+.testimonial-text {
+    font-size: 1.25rem;
+    color: #666; /* Couleur du texte des témoignages */
+    margin: 2rem 0;
+    position: relative;
+    padding-left: 2.5rem;
+}
+
+.testimonial-name {
+    font-size: 1.125rem;
+    font-weight: bold;
+    color: #333; /* Couleur du nom */
+}
+
+.testimonial-role {
+    color: #888; /* Couleur du rôle */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .testimonial-card {
+        width: calc(50% - 1rem); /* Deux cartes par ligne */
+    }
+}
+
+@media (max-width: 768px) {
+    .testimonial-card {
+        width: 100%; /* Une carte par ligne */
+    }
+}
+
+@media (max-width: 480px) {
+    .testimonials h2 {
+        font-size: 2rem; /* Réduction de la taille du titre */
+    }
+
+    .testimonial-card {
+        padding: 1.5rem; /* Réduction du padding pour les petites écrans */
+    }
+
+    .quote-icon {
+        font-size: 1.8rem; /* Réduction de la taille de l'icône */
+    }
+
+    .testimonial-text {
+        font-size: 1.1rem; /* Réduction de la taille du texte */
+    }
+
+    .testimonial-name {
+        font-size: 1rem; /* Réduction de la taille du nom */
+    }
+}

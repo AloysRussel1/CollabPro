@@ -1,0 +1,89 @@
+/* Style pour la section des fonctionnalités */
+.features {
+    background-color: #ffffff; /* Fond blanc */
+    padding: 4rem 2rem;
+    text-align: center;
+}
+
+.features-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.features h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #333; /* Couleur du titre */
+}
+
+.feature-cards {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.feature-card {
+    background-color: #f9f9f9; /* Fond des cartes */
+    border: 1px solid #ddd; /* Bordure légère */
+    border-radius: 8px;
+    padding: 2rem;
+    width: calc(33% - 1rem); /* Trois cartes par ligne avec espace */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.feature-icon {
+    font-size: 2rem;
+    color: #ff5733; /* Couleur des icônes */
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #333; /* Couleur des sous-titres */
+}
+
+.feature-card p {
+    color: #666; /* Couleur du texte des descriptions */
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .feature-card {
+        width: calc(50% - 1rem); /* Deux cartes par ligne */
+    }
+}
+
+@media (max-width: 768px) {
+    .feature-card {
+        width: 100%; /* Une carte par ligne */
+    }
+}
+
+@media (max-width: 480px) {
+    .features h2 {
+        font-size: 2rem; /* Réduction de la taille du titre */
+    }
+
+    .feature-card {
+        padding: 1.5rem; /* Réduction du padding pour les petites écrans */
+    }
+
+    .feature-icon {
+        font-size: 1.8rem; /* Réduction de la taille de l'icône */
+    }
+
+    .feature-card h3 {
+        font-size: 1.3rem; /* Réduction de la taille du sous-titre */
+    }
+
+    .feature-card p {
+        font-size: 0.9rem; /* Réduction de la taille du texte */
+    }
+}
