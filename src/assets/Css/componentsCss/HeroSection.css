@@ -6,10 +6,25 @@
     justify-content: center;
     align-items: center;
     height: 80vh;
-    background: linear-gradient(to right, #ff5733, #f0f0f0); /* Dégradé orange à gris clair */
-    color: #333; /* Couleur du texte */
+    background-image: url('./../../images/collabPro.png'); 
+    background-size: cover; /* Couvre toute la section */
+    background-position: center; /* Centre l'image */
+    color: #fff; /* Couleur du texte */
     text-align: center;
     position: relative;
+    overflow: hidden; /* Assure que l'image de fond ne dépasse pas */
+}
+
+/* Style pour le dégradé sur l'image */
+.hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)); /* Dégradé noir semi-transparent */
+    z-index: 1; /* Place le dégradé au-dessus de l'image mais sous le contenu */
 }
 
 /* Style pour le contenu de la section Hero */
@@ -17,6 +32,8 @@
     max-width: 80%;
     margin: 0 auto;
     padding: 0 1rem;
+    z-index: 2; /* Place le contenu au-dessus du dégradé */
+    position: relative;
 }
 
 .hero h1 {
@@ -46,11 +63,11 @@
 
 .scroll-down {
     position: absolute;
-    bottom: 2rem;
+    bottom: -10rem;
     left: 50%;
     transform: translateX(-50%);
     font-size: 2rem;
-    color: #333; /* Couleur de l'icône de défilement */
+    color: #fff; /* Couleur de l'icône de défilement */
     animation: bounce 1.5s infinite; /* Animation de rebond */
 }
 

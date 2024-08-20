@@ -1,0 +1,93 @@
+/* src/assets/Css/pagesCss/AnnoncePage.css */
+
+.annonce-page {
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+  
+  .annonce-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .search-filters {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .search-filters input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 300px;
+    margin-right: 10px;
+  }
+  
+  .search-button {
+    padding: 10px 20px;
+    background-color: orange;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .annonce-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+  
+  .annonce-item {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+  }
+  
+  .annonce-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .annonce-item h2 {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  .annonce-item p {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .view-details-button {
+    padding: 10px 20px;
+    background-color: orange;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .cta {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .cta-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: orange;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+  }
+  

@@ -1,0 +1,110 @@
+/* src/assets/Css/pagesCss/AboutPage.css */
+
+.about-page {
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding: 20px;
+  }
+
+  
+  .about-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .about-header h1 {
+    color: #ff6600; /* Orange */
+  }
+  
+  .about-story {
+    margin-bottom: 20px;
+  }
+  
+  .about-story h2 {
+    color: #ff6600; /* Orange */
+  }
+  
+  .about-story-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .about-story-image {
+    max-width: 50%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .team {
+    margin-bottom: 20px;
+  }
+  
+  .team h2 {
+    color: #ff6600; /* Orange */
+  }
+  
+  .team-members {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .team-member {
+    text-align: center;
+    width: 45%;
+    margin-bottom: 20px;
+  }
+  
+  .team-member img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .team-member h3 {
+    margin: 10px 0 5px;
+  }
+  
+  .testimonials {
+    margin-bottom: 20px;
+  }
+  
+  .testimonials h2 {
+    color: #ff6600; /* Orange */
+  }
+  
+  .testimonials blockquote {
+    border-left: 4px solid #ff6600; /* Orange */
+    padding-left: 15px;
+    margin: 0;
+    font-style: italic;
+  }
+  
+  .testimonials footer {
+    text-align: right;
+    color: #666;
+  }
+  
+  .cta {
+    text-align: center;
+  }
+  
+  .cta h2 {
+    color: #ff6600; /* Orange */
+  }
+  
+  .cta-button {
+    background-color: #ff6600; /* Orange */
+    color: #ffffff; /* Blanc */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 16px;
+  }
+  
+  .cta-button:hover {
+    background-color: #e65c00; /* Darker orange */
+  }
+  

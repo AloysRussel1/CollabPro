@@ -1,0 +1,72 @@
+/* src/assets/Css/componentsCss/Dashboard.css */
+.dashboard {
+    padding: 20px;
+  }
+  
+  .dashboard-header {
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  .dashboard-header h1 {
+    margin: 0;
+  }
+  
+  .dashboard-overview {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .overview-item {
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+    flex: 1;
+    margin-right: 10px;
+    text-align: center;
+  }
+  
+  .overview-item:last-child {
+    margin-right: 0;
+  }
+  
+  .overview-icon {
+    font-size: 24px;
+    color: #ff5733;
+  }
+  
+  .dashboard-projects, .dashboard-shortcuts {
+    margin-bottom: 20px;
+  }
+  
+  .dashboard-projects ul, .dashboard-shortcuts div {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .dashboard-projects li, .dashboard-shortcuts .shortcut-item {
+    background-color: #f4f4f4;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+  
+  .shortcut-icon {
+    font-size: 20px;
+    color: #ff5733;
+    margin-right: 10px;
+  }
+  
+  .shortcut-item a {
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .shortcut-item a:hover {
+    color:#ff5733;
+  }
+  

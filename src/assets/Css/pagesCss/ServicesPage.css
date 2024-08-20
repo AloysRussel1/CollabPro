@@ -1,0 +1,11 @@
+/* src/pages/ServicesPage.css */
+
+.services-page {
+    display: flex;
+}
+
+.services-content {
+    margin-left: 250px; /* Largeur de la sidebar */
+    padding: 2rem;
+    flex: 1;
+}
