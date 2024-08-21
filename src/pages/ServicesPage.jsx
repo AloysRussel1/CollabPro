@@ -1,14 +1,22 @@
 // src/pages/ServicesPage.jsx
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import Sidebar from './../components/Sidebar';
-import './../assets/Css/pagesCss/ServicesPage.css'; // Assurez-vous d'ajouter les styles appropriés
+import './../assets/Css/pagesCss/ServicesPage.css'; 
+import Dashboard from './Dashboard';
+import ProjectDetailPage from './ProjectDetailPage';
+
+// import ProjectDetailPage from './ProjectDetailPage';
 
 const ServicesPage = () => {
   return (
     <div className="services-page">
       <Sidebar />
       <div className="services-content">
-        {/* Contenu spécifique à chaque élément sélectionné dans la sidebar */}
+        <Routes>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="projects/${project.id}" element={<ProjectDetailPage />} />
+        </Routes>
       </div>
     </div>
   );

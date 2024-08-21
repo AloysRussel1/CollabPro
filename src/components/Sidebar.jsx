@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaCog, FaUsers, FaEnvelope, FaCalendar, FaChartLine, FaQuestionCircle, FaTachometerAlt, FaProjectDiagram } from 'react-icons/fa';
@@ -12,8 +11,7 @@ const Sidebar = () => {
         <div className="sidebar-section">
           <div className="sidebar-section-title">
             <FaTachometerAlt className="sidebar-icon" />
-            <li><Link to="/services/dashboard"> <span>Tableau de Bord</span></Link></li>
-           
+            <Link to="/services/dashboard" className="sidebar-link"><span>Tableau de Bord</span></Link>
           </div>
         </div>
 
@@ -24,9 +22,9 @@ const Sidebar = () => {
             <span>Gestion des Projets</span>
           </div>
           <ul className="sidebar-submenu">
-            <li><Link to="/services/projects/overview">Vue d'Ensemble</Link></li>
-            <li><Link to="/services/projects/add">Ajouter un Projet</Link></li>
-            <li><Link to="/services/projects/list">Liste des Projets</Link></li>
+            <li><Link to="/services/projects/overview" className="sidebar-link">Vue d'Ensemble</Link></li>
+            <li><Link to="/services/projects/add" className="sidebar-link">Ajouter un Projet</Link></li>
+            <li><Link to="/services/projects/list" className="sidebar-link">Liste des Projets</Link></li>
           </ul>
         </div>
 
@@ -37,9 +35,9 @@ const Sidebar = () => {
             <span>Gestion des Équipes</span>
           </div>
           <ul className="sidebar-submenu">
-            <li><Link to="/services/teams/overview">Vue d'Ensemble</Link></li>
-            <li><Link to="/services/teams/add">Ajouter une Équipe</Link></li>
-            <li><Link to="/services/teams/list">Liste des Équipes</Link></li>
+            <li><Link to="/services/teams/overview" className="sidebar-link">Vue d'Ensemble</Link></li>
+            <li><Link to="/services/teams/add" className="sidebar-link">Ajouter une Équipe</Link></li>
+            <li><Link to="/services/teams/list" className="sidebar-link">Liste des Équipes</Link></li>
           </ul>
         </div>
 
@@ -47,7 +45,7 @@ const Sidebar = () => {
         <div className="sidebar-section">
           <div className="sidebar-section-title">
             <FaEnvelope className="sidebar-icon" />
-            <span>Boîte de Réception</span>
+            <Link to="/services/inbox" className="sidebar-link"><span>Boîte de Réception</span></Link>
           </div>
         </div>
 
@@ -58,8 +56,8 @@ const Sidebar = () => {
             <span>Gestion des Réservations</span>
           </div>
           <ul className="sidebar-submenu">
-            <li><Link to="/services/reservations/current">Réservations Actuelles</Link></li>
-            <li><Link to="/services/reservations/history">Historique des Réservations</Link></li>
+            <li><Link to="/services/reservations/current" className="sidebar-link">Réservations Actuelles</Link></li>
+            <li><Link to="/services/reservations/history" className="sidebar-link">Historique des Réservations</Link></li>
           </ul>
         </div>
 
@@ -70,8 +68,8 @@ const Sidebar = () => {
             <span>Rapports et Statistiques</span>
           </div>
           <ul className="sidebar-submenu">
-            <li><Link to="/services/reports/performance">Rapports de Performance</Link></li>
-            <li><Link to="/services/reports/users">Statistiques des Utilisateurs</Link></li>
+            <li><Link to="/services/reports/performance" className="sidebar-link">Rapports de Performance</Link></li>
+            <li><Link to="/services/reports/users" className="sidebar-link">Statistiques des Utilisateurs</Link></li>
           </ul>
         </div>
 
@@ -82,8 +80,8 @@ const Sidebar = () => {
             <span>Paramètres</span>
           </div>
           <ul className="sidebar-submenu">
-            <li><Link to="/services/settings/configuration">Configuration des Services</Link></li>
-            <li><Link to="/services/settings/preferences">Préférences d'Affichage</Link></li>
+            <li><Link to="/services/settings/configuration" className="sidebar-link">Configuration des Services</Link></li>
+            <li><Link to="/services/settings/preferences" className="sidebar-link">Préférences d'Affichage</Link></li>
           </ul>
         </div>
 
@@ -91,7 +89,7 @@ const Sidebar = () => {
         <div className="sidebar-section">
           <div className="sidebar-section-title">
             <FaQuestionCircle className="sidebar-icon" />
-            <span>Aide et Support</span>
+            <Link to="/services/help" className="sidebar-link"><span>Aide et Support</span></Link>
           </div>
         </div>
       </nav>

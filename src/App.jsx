@@ -9,8 +9,6 @@ import ContactPage from './pages/ContactPage';
 import AboutPage from './pages/AboutPage';
 import AnnoncePage from './pages/AnnoncePage';
 import ServicesPage from './pages/ServicesPage';
-import Dashboard from './pages/Dashboard';
-
 
 
 function App() {
@@ -24,11 +22,8 @@ function App() {
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/announcements" element={<AnnoncePage />} />
-      <Route path="/services" element={<ServicesPage />} />
-      <Route path="/services/dashboard" element={<Dashboard />} />
-
-
-
+      <Route path="/services/*" element={<ServicesPage />} />
+      
     </Routes>
     <Footer />
   </Router>

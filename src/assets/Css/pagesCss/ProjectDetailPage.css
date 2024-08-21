@@ -1,0 +1,51 @@
+/* src/assets/Css/pagesCss/ProjectDetailPage.css */
+
+.project-detail-page {
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+}
+
+.project-info, .message-section {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.project-info p, .message-section p {
+  margin: 5px 0;
+}
+
+.project-info strong {
+  font-weight: bold;
+}
+
+.message-section .MuiTextField-root {
+  margin-bottom: 10px;
+}
+
+.message-section .MuiButton-root {
+  margin-top: 10px;
+}
+
+.table-container {
+  margin-bottom: 20px;
+}
+
+.table-container .MuiTable-root {
+  min-width: 700px;
+}
+
+.table-container .MuiLinearProgress-root {
+  height: 10px;
+  border-radius: 5px;
+}
+
+.table-container .MuiLinearProgress-bar {
+  background-color: #ff9800;
+}
+
+.table-container .MuiLinearProgress-barColorPrimary {
+  background-color: #4caf50;
+}

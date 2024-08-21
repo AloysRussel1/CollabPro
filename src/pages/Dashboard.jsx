@@ -1,9 +1,19 @@
-// src/components/Dashboard.jsx
 import React from 'react';
 import './../assets/Css/pagesCss/Dashboard.css';
 import { FaProjectDiagram, FaTasks, FaBell, FaPlusCircle } from 'react-icons/fa';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, LinearProgress } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
+const projects = [
+  { id: '1', name: 'Projet Alpha', progress: 70, deadline: '2024-08-30' },
+  { id: '2', name: 'Projet Beta', progress: 50, deadline: '2024-09-15' },
+  { id: '3', name: 'Projet Gamma', progress: 90, deadline: '2024-10-05' },
+];
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  const buttonColor = '#ff5733'; 
+
   return (
     <div className="dashboard">
       <header className="dashboard-header">
@@ -36,11 +46,55 @@ const Dashboard = () => {
 
       <section className="dashboard-projects">
         <h2>Projets Récents</h2>
-        <ul>
-          <li>Projet Alpha - En cours</li>
-          <li>Projet Beta - Complété</li>
-          <li>Projet Gamma - En attente</li>
-        </ul>
+        <TableContainer component={Paper}>
+          <Table aria-label="recent projects">
+            <TableHead>
+              <TableRow>
+                <TableCell>Projets</TableCell>
+                <TableCell>État d'avancement</TableCell>
+                <TableCell>Échéance</TableCell>
+                <TableCell align="right">Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {projects.map((project) => (
+                <TableRow key={project.id}>
+                  <TableCell>{project.name}</TableCell>
+                  <TableCell>
+                    <LinearProgress 
+                      variant="determinate" 
+                      value={project.progress} 
+                      sx={{ 
+                        height: 10, 
+                        borderRadius: 5, 
+                        backgroundColor: '#e0e0e0',
+                        '& .MuiLinearProgress-bar': { 
+                          backgroundColor: project.progress === 100 ? '#4caf50' : '#ff9800' 
+                        } 
+                      }} 
+                    />
+                  </TableCell>
+                  <TableCell>{project.deadline}</TableCell>
+                  <TableCell align="right">
+                    <Button 
+                      variant="contained" 
+                      style={{ 
+                        backgroundColor: buttonColor, 
+                        color: '#fff',
+                        '&:hover': {
+                          backgroundColor: '#ff5733', // Slightly darker on hover
+                        },
+                      }}
+                      onClick={() => navigate(`/services/projects/${project.id}`)} 
+                    >
+                      Détails
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </section>
 
       <section className="dashboard-shortcuts">
