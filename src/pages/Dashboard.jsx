@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './../assets/Css/pagesCss/Dashboard.css';
 import { FaProjectDiagram, FaTasks, FaBell, FaPlusCircle } from 'react-icons/fa';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, LinearProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import AddTaskModal from './AddTaskModal';
+import AddProjectModal from './AddProjectPage';
 
 const projects = [
   { id: '1', name: 'Projet Alpha', progress: 70, deadline: '2024-08-30' },
@@ -13,6 +15,17 @@ const projects = [
 const Dashboard = () => {
   const navigate = useNavigate();
   const buttonColor = '#ff5733'; 
+
+  // États pour gérer l'ouverture des modals
+  const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
+  const [isAddProjectModalOpen, setAddProjectModalOpen] = useState(false);
+
+  // Fonctions pour ouvrir/fermer les modals
+  const openAddTaskModal = () => setAddTaskModalOpen(true);
+  const closeAddTaskModal = () => setAddTaskModalOpen(false);
+
+  const openAddProjectModal = () => setAddProjectModalOpen(true);
+  const closeAddProjectModal = () => setAddProjectModalOpen(false);
 
   return (
     <div className="dashboard">
@@ -99,15 +112,27 @@ const Dashboard = () => {
 
       <section className="dashboard-shortcuts">
         <h2>Raccourcis</h2>
-        <div className="shortcut-item">
+        <div 
+          className="shortcut-item" 
+          onClick={openAddProjectModal}
+          style={{ cursor: 'pointer' }}
+        >
           <FaPlusCircle className="shortcut-icon" />
-          <a href="/services/projects/add">Ajouter un Projet</a>
+          <a href="#" onClick={(e) => e.preventDefault()}>Ajouter un Projet</a>
         </div>
-        <div className="shortcut-item">
+        <div 
+          className="shortcut-item" 
+          onClick={openAddTaskModal}
+          style={{ cursor: 'pointer' }}
+        >
           <FaPlusCircle className="shortcut-icon" />
-          <a href="/services/tasks/add">Ajouter une Tâche</a>
+          <a href="#" onClick={(e) => e.preventDefault()}>Ajouter une Tâche</a>
         </div>
       </section>
+
+      {/* Modals */}
+      <AddProjectModal open={isAddProjectModalOpen} onClose={closeAddProjectModal} />
+      <AddTaskModal open={isAddTaskModalOpen} onClose={closeAddTaskModal} />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaCog, FaUsers, FaEnvelope, FaCalendar, FaChartLine, FaQuestionCircle, FaTachometerAlt, FaProjectDiagram } from 'react-icons/fa';
+import { FaCog, FaUsers, FaEnvelope, FaCalendar, FaChartLine, FaQuestionCircle, FaTachometerAlt, FaProjectDiagram, FaTasks, FaComments, FaFileAlt, FaSlidersH } from 'react-icons/fa';
 import './../assets/Css/componentsCss/Sidebar.css';
 
 const Sidebar = () => {
@@ -19,55 +19,50 @@ const Sidebar = () => {
         <div className="sidebar-section">
           <div className="sidebar-section-title">
             <FaProjectDiagram className="sidebar-icon" />
-            <span>Gestion des Projets</span>
+            <span>Projets</span>
           </div>
           <ul className="sidebar-submenu">
-            <li><Link to="/services/projects/overview" className="sidebar-link">Vue d'Ensemble</Link></li>
-            <li><Link to="/services/projects/add" className="sidebar-link">Ajouter un Projet</Link></li>
-            <li><Link to="/services/projects/list" className="sidebar-link">Liste des Projets</Link></li>
+            <li><Link to="/services/projects/myprojects" className="sidebar-link">Mes Projets</Link></li>
+            <li><Link to="/services/projects/add-project" className="sidebar-link">Ajouter un Projet</Link></li>
+            <li><Link to="/services/projects/templates" className="sidebar-link">Templates de Projets</Link></li>
           </ul>
         </div>
 
-        {/* Gestion des Équipes */}
+        {/* Gestion des Tâches */}
         <div className="sidebar-section">
           <div className="sidebar-section-title">
-            <FaUsers className="sidebar-icon" />
-            <span>Gestion des Équipes</span>
+            <FaTasks className="sidebar-icon" />
+            <span>Tâches</span>
           </div>
           <ul className="sidebar-submenu">
-            <li><Link to="/services/teams/overview" className="sidebar-link">Vue d'Ensemble</Link></li>
-            <li><Link to="/services/teams/add" className="sidebar-link">Ajouter une Équipe</Link></li>
-            <li><Link to="/services/teams/list" className="sidebar-link">Liste des Équipes</Link></li>
+            <li><Link to="/services/tasks/overview" className="sidebar-link">Mes Tâches</Link></li>
+            <li><Link to="/services/tasks/add" className="sidebar-link">Ajouter une Tâche</Link></li>
+            <li><Link to="/services/tasks/kanban" className="sidebar-link">Tableau Kanban</Link></li>
+            <li><Link to="/services/tasks/calendar" className="sidebar-link">Calendrier</Link></li>
           </ul>
         </div>
 
-        {/* Boîte de Réception */}
+        {/* Collaboration et Communication */}
         <div className="sidebar-section">
           <div className="sidebar-section-title">
-            <FaEnvelope className="sidebar-icon" />
-            <Link to="/services/inbox" className="sidebar-link"><span>Boîte de Réception</span></Link>
-          </div>
-        </div>
-
-        {/* Gestion des Réservations */}
-        <div className="sidebar-section">
-          <div className="sidebar-section-title">
-            <FaCalendar className="sidebar-icon" />
-            <span>Gestion des Réservations</span>
+            <FaComments className="sidebar-icon" />
+            <span>Collaboration</span>
           </div>
           <ul className="sidebar-submenu">
-            <li><Link to="/services/reservations/current" className="sidebar-link">Réservations Actuelles</Link></li>
-            <li><Link to="/services/reservations/history" className="sidebar-link">Historique des Réservations</Link></li>
+            <li><Link to="/services/inbox" className="sidebar-link">Boîte de Réception</Link></li>
+            <li><Link to="/services/chat" className="sidebar-link">Chat en Temps Réel</Link></li>
+            <li><Link to="/services/documents" className="sidebar-link">Documents Partagés</Link></li>
           </ul>
         </div>
 
-        {/* Rapports et Statistiques */}
+        {/* Suivi des Projets et Reporting */}
         <div className="sidebar-section">
           <div className="sidebar-section-title">
             <FaChartLine className="sidebar-icon" />
-            <span>Rapports et Statistiques</span>
+            <span>Suivi et Reporting</span>
           </div>
           <ul className="sidebar-submenu">
+            <li><Link to="/services/reports/overview" className="sidebar-link">Vue d'Ensemble</Link></li>
             <li><Link to="/services/reports/performance" className="sidebar-link">Rapports de Performance</Link></li>
             <li><Link to="/services/reports/users" className="sidebar-link">Statistiques des Utilisateurs</Link></li>
           </ul>
@@ -80,8 +75,9 @@ const Sidebar = () => {
             <span>Paramètres</span>
           </div>
           <ul className="sidebar-submenu">
-            <li><Link to="/services/settings/configuration" className="sidebar-link">Configuration des Services</Link></li>
-            <li><Link to="/services/settings/preferences" className="sidebar-link">Préférences d'Affichage</Link></li>
+            <li><Link to="/services/settings/configuration" className="sidebar-link">Configuration</Link></li>
+            <li><Link to="/services/settings/preferences" className="sidebar-link">Préférences</Link></li>
+            <li><Link to="/services/settings/integrations" className="sidebar-link">Intégrations</Link></li>
           </ul>
         </div>
 

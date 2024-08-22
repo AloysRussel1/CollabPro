@@ -1,16 +1,31 @@
-import React, { useState } from 'react';
-import './../assets/Css/componentsCss/AddProjectModal.css';
+import React, { useState, useEffect } from 'react';
+import './../assets/Css/pagesCss/AddTaskModal.css';
 
-const AddProjectModal = ({ showModal, onClose, onSave }) => {
+const AddTaskModal = ({ showModal, onClose, onSave, projects, teamMembers }) => {
   const [formData, setFormData] = useState({
-    id: '',
     titre: '',
     description: '',
     dateDebut: '',
     dateEcheance: '',
     priorite: '',
-    idUtilisateur: ''
+    projetId: '',
+    responsableId: ''
   });
+
+  useEffect(() => {
+    if (showModal) {
+      // Réinitialiser le formulaire lorsque la modal est affichée
+      setFormData({
+        titre: '',
+        description: '',
+        dateDebut: '',
+        dateEcheance: '',
+        priorite: '',
+        projetId: '',
+        responsableId: ''
+      });
+    }
+  }, [showModal]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,7 +42,7 @@ const AddProjectModal = ({ showModal, onClose, onSave }) => {
   return (
     <div className="modal" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2>Ajouter un Projet</h2>
+        <h2>Ajouter une Tâche</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="titre">Titre</label>
@@ -55,6 +70,24 @@ const AddProjectModal = ({ showModal, onClose, onSave }) => {
               <option value="urgent">Urgent</option>
             </select>
           </div>
+          <div className="form-group">
+            <label htmlFor="projetId">Projet</label>
+            <select id="projetId" name="projetId" value={formData.projetId} onChange={handleChange} required>
+              <option value="">Choisir un projet</option>
+              {projects.map((project) => (
+                <option key={project.id} value={project.id}>{project.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="responsableId">Responsable</label>
+            <select id="responsableId" name="responsableId" value={formData.responsableId} onChange={handleChange} required>
+              <option value="">Choisir un responsable</option>
+              {teamMembers.map((member) => (
+                <option key={member.id} value={member.id}>{member.name}</option>
+              ))}
+            </select>
+          </div>
           <div className="modal-actions">
             <button type="submit" className="btn-save">Enregistrer</button>
             <button type="button" className="btn-cancel" onClick={onClose}>Annuler</button>
@@ -65,4 +98,4 @@ const AddProjectModal = ({ showModal, onClose, onSave }) => {
   );
 };
 
-export default AddProjectModal;
+export default AddTaskModal;
