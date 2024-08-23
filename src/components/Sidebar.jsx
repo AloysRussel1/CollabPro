@@ -23,6 +23,7 @@ const Sidebar = () => {
           </div>
           <ul className="sidebar-submenu">
             <li><Link to="/services/projects/myprojects" className="sidebar-link">Mes Projets</Link></li>
+            <li><Link to="/services/tasks/kanban" className="sidebar-link">Tableau Kanban</Link></li>
             <li><Link to="/services/projects/add-project" className="sidebar-link">Ajouter un Projet</Link></li>
             <li><Link to="/services/projects/templates" className="sidebar-link">Templates de Projets</Link></li>
           </ul>
@@ -36,8 +37,7 @@ const Sidebar = () => {
           </div>
           <ul className="sidebar-submenu">
             <li><Link to="/services/tasks/overview" className="sidebar-link">Mes Tâches</Link></li>
-            <li><Link to="/services/tasks/add" className="sidebar-link">Ajouter une Tâche</Link></li>
-            <li><Link to="/services/tasks/kanban" className="sidebar-link">Tableau Kanban</Link></li>
+            <li><Link to="/services/tasks/add-task" className="sidebar-link">Ajouter une Tâche</Link></li>
             <li><Link to="/services/tasks/calendar" className="sidebar-link">Calendrier</Link></li>
           </ul>
         </div>
