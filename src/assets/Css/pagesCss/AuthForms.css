@@ -3,18 +3,23 @@
     max-width: 400px;
     margin: 2rem auto;
     padding: 2rem;
+    padding-top: 200px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: white;
+    position: relative;
+    z-index: 1;
 }
 
+/* Style pour le titre du formulaire */
 .form-container h2 {
     margin-bottom: 1rem;
     font-size: 1.5rem;
     text-align: center;
-    color: #333;
+    color: #6a0dad;
 }
 
+/* Style pour les groupes de champs */
 .form-group {
     margin-bottom: 1rem;
 }
@@ -36,16 +41,17 @@
 }
 
 .form-group input:focus {
-    border-color: #ff5733; /* Couleur de bordure au focus */
+    border-color: #6a0dad; 
     outline: none;
 }
 
+/* Style pour le bouton de soumission */
 button {
     width: 100%;
     padding: 0.75rem;
     border: none;
     border-radius: 4px;
-    background-color: #ff5733;
+    background-color: #6a0dad; 
     color: white;
     font-size: 1rem;
     cursor: pointer;
@@ -53,9 +59,42 @@ button {
 }
 
 button:hover {
-    background-color: #e14d2a; /* Couleur de fond au survol */
+    background-color: #5b009f;
 }
 
+/* Style pour les options du formulaire (Remember Me et Forgot Password) */
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    color: #555;
+}
+
+.form-options .remember-me {
+    display: flex;
+    align-items: center;
+}
+
+.form-options .remember-me input {
+    margin-right: 0.5rem;
+}
+
+.form-options .forgot-password {
+    display: flex;
+    align-items: center;
+}
+
+.form-options .forgot-password a {
+    color: #6a0dad;
+    text-decoration: none;
+}
+
+.form-options .forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* Style pour le pied de page du formulaire */
 .form-footer {
     margin-top: 1rem;
     text-align: center;
@@ -67,7 +106,7 @@ button:hover {
 }
 
 .form-footer a {
-    color: #ff5733;
+    color: #6a0dad; 
     text-decoration: none;
     font-weight: bold;
 }

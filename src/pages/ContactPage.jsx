@@ -44,21 +44,6 @@ const ContactPage = () => {
         <p><strong>E-mail :</strong> contact@example.com</p>
         <p><strong>Horaires d'ouverture :</strong> Lundi - Vendredi, 9h - 18h</p>
       </section>
-      <section className="social-links">
-        <h2>Suivez-nous</h2>
-        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FaFacebook /></a>
-        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><FaTwitter /></a>
-        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
-      </section>
-      <section className="featured-articles">
-        <h2>Articles les Plus Lus</h2>
-        <ul>
-          <li><a href="/article-1">Article 1</a></li>
-          <li><a href="/article-2">Article 2</a></li>
-          <li><a href="/article-3">Article 3</a></li>
-        </ul>
-      </section>
       <section className="testimonials">
         <h2>Témoignages Clients</h2>
         <blockquote>

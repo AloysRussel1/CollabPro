@@ -13,7 +13,7 @@
 .features h2 {
     font-size: 2.5rem;
     margin-bottom: 2rem;
-    color: #333; /* Couleur du titre */
+    color: #4b0082; /* Couleur du titre en violet foncé */
 }
 
 .feature-cards {
@@ -24,7 +24,7 @@
 }
 
 .feature-card {
-    background-color: #f9f9f9; /* Fond des cartes */
+    background-color: #f4f1f9; /* Fond des cartes légèrement violet */
     border: 1px solid #ddd; /* Bordure légère */
     border-radius: 8px;
     padding: 2rem;
@@ -39,14 +39,14 @@
 
 .feature-icon {
     font-size: 2rem;
-    color: #ff5733; /* Couleur des icônes */
+    color: #800080; /* Couleur des icônes en violet */
     margin-bottom: 1rem;
 }
 
 .feature-card h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    color: #333; /* Couleur des sous-titres */
+    color: #4b0082; /* Couleur des sous-titres en violet foncé */
 }
 
 .feature-card p {

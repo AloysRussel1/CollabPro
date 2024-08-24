@@ -1,131 +1,145 @@
 /* src/assets/Css/pagesCss/ContactPage.css */
 
 .contact-page {
-    font-family: Arial, sans-serif;
-    color: #333;
-    padding: 20px;
-  }
-  
-  .contact-header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .contact-header h1 {
-    color: #ff6600; /* Orange */
-  }
-  
+  font-family: 'Arial', sans-serif; /* Police de base */
+  color: #333;
+  padding: 20px;
+  padding-top: 100px;
+  background-color: #f4f4f9; /* Fond légèrement gris pour un meilleur contraste */
+}
+
+/* Style pour l'en-tête */
+.contact-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.contact-header h1 {
+  color: #6a0dad; /* Violet */
+  font-family: 'Helvetica Neue', sans-serif; /* Police alternative pour le titre */
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+/* Style pour le contenu de contact */
+.contact-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Alignement au début de l'élément */
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+/* Style pour l'image de contact */
+.contact-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style pour le formulaire de contact */
+.contact-form {
+  flex: 1;
+  background-color: #ffffff; /* Blanc */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form h2 {
+  color: #6a0dad; /* Violet */
+  font-family: 'Helvetica Neue', sans-serif; /* Police alternative pour les sous-titres */
+  font-size: 1.75rem;
+  font-weight: bold;
+}
+
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.contact-form input,
+.contact-form textarea {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.contact-form button {
+  background-color: #6a0dad; /* Violet */
+  color: #ffffff; /* Blanc */
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+  background-color: #5b00a0; /* Violet plus foncé */
+}
+
+/* Styles pour les sections d'informations, de liens sociaux, d'articles et de témoignages */
+.contact-info,
+.social-links,
+.featured-articles,
+.testimonials {
+  background-color: #ffffff; /* Fond blanc pour chaque section */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Style pour les titres des sections */
+.contact-info h2,
+.social-links h2,
+.featured-articles h2,
+.testimonials h2 {
+  color: #6a0dad; /* Violet */
+  font-family: 'Helvetica Neue', sans-serif; /* Police alternative pour les sous-titres */
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Style pour les informations de contact */
+.contact-info p {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+
+/* Style pour les témoignages */
+.testimonials blockquote {
+  border-left: 4px solid #6a0dad; /* Violet */
+  padding-left: 15px;
+  margin: 0;
+  font-style: italic;
+  font-size: 1.125rem;
+}
+
+.testimonials footer {
+  text-align: right;
+  color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
   .contact-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .contact-image img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      flex-direction: column;
+      align-items: center;
   }
   
   .contact-form {
-    flex: 1;
-    background-color: #ffffff; /* Blanc */
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
   }
-  
-  .contact-form h2 {
-    color: #ff6600; /* Orange */
-  }
-  
-  .contact-form form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .contact-form label {
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .contact-form input,
-  .contact-form textarea {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .contact-form button {
-    background-color: #ff6600; /* Orange */
-    color: #ffffff; /* Blanc */
-    border: none;
-    padding: 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .contact-form button:hover {
-    background-color: #e65c00; /* Darker orange */
-  }
-  
-  .contact-info,
-  .social-links,
-  .featured-articles,
-  .testimonials {
-    margin-bottom: 20px;
-  }
-  
-  .contact-info h2,
-  .social-links h2,
-  .featured-articles h2,
-  .testimonials h2 {
-    color: #ff6600; /* Orange */
-  }
-  
-  .contact-info p {
-    margin: 5px 0;
-  }
-  
-  .social-links a {
-    color: #ff6600; /* Orange */
-    margin: 0 10px;
-    font-size: 24px;
-    text-decoration: none;
-  }
-  
-  .featured-articles ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .featured-articles li {
-    margin-bottom: 10px;
-  }
-  
-  .featured-articles a {
-    color: #333;
-    text-decoration: none;
-  }
-  
-  .featured-articles a:hover {
-    text-decoration: underline;
-  }
-  
-  .testimonials blockquote {
-    border-left: 4px solid #ff6600; /* Orange */
-    padding-left: 15px;
-    margin: 0;
-    font-style: italic;
-  }
-  
-  .testimonials footer {
-    text-align: right;
-    color: #666;
-  }
-  
+}

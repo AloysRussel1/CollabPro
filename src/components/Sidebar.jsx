@@ -1,17 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaCog, FaUsers, FaEnvelope, FaCalendar, FaChartLine, FaQuestionCircle, FaTachometerAlt, FaProjectDiagram, FaTasks, FaComments, FaFileAlt, FaSlidersH } from 'react-icons/fa';
+import { FaCog, FaUsers, FaEnvelope, FaCalendar, FaChartLine, FaQuestionCircle, FaTachometerAlt, FaProjectDiagram, FaTasks, FaComments } from 'react-icons/fa';
 import './../assets/Css/componentsCss/Sidebar.css';
 
 const Sidebar = () => {
   return (
     <div className="sidebar">
-      <nav className="sidebar-menu">
+      <div className="sidebar-menu">
         {/* Dashboard */}
         <div className="sidebar-section">
           <div className="sidebar-section-title">
             <FaTachometerAlt className="sidebar-icon" />
-            <Link to="/services/dashboard" className="sidebar-link"><span>Tableau de Bord</span></Link>
+            <Link to="/services/dashboard" className="sidebar-link">Tableau de Bord</Link>
           </div>
         </div>
 
@@ -19,7 +19,7 @@ const Sidebar = () => {
         <div className="sidebar-section">
           <div className="sidebar-section-title">
             <FaProjectDiagram className="sidebar-icon" />
-            <span>Projets</span>
+            Projets
           </div>
           <ul className="sidebar-submenu">
             <li><Link to="/services/projects/myprojects" className="sidebar-link">Mes Projets</Link></li>
@@ -33,7 +33,7 @@ const Sidebar = () => {
         <div className="sidebar-section">
           <div className="sidebar-section-title">
             <FaTasks className="sidebar-icon" />
-            <span>Tâches</span>
+            Tâches
           </div>
           <ul className="sidebar-submenu">
             <li><Link to="/services/tasks/overview" className="sidebar-link">Mes Tâches</Link></li>
@@ -46,7 +46,7 @@ const Sidebar = () => {
         <div className="sidebar-section">
           <div className="sidebar-section-title">
             <FaComments className="sidebar-icon" />
-            <span>Collaboration</span>
+            Collaboration
           </div>
           <ul className="sidebar-submenu">
             <li><Link to="/services/inbox" className="sidebar-link">Boîte de Réception</Link></li>
@@ -59,7 +59,7 @@ const Sidebar = () => {
         <div className="sidebar-section">
           <div className="sidebar-section-title">
             <FaChartLine className="sidebar-icon" />
-            <span>Suivi et Reporting</span>
+            Suivi et Reporting
           </div>
           <ul className="sidebar-submenu">
             <li><Link to="/services/reports/overview" className="sidebar-link">Vue d'Ensemble</Link></li>
@@ -72,7 +72,7 @@ const Sidebar = () => {
         <div className="sidebar-section">
           <div className="sidebar-section-title">
             <FaCog className="sidebar-icon" />
-            <span>Paramètres</span>
+            Paramètres
           </div>
           <ul className="sidebar-submenu">
             <li><Link to="/services/settings/configuration" className="sidebar-link">Configuration</Link></li>
@@ -85,10 +85,10 @@ const Sidebar = () => {
         <div className="sidebar-section">
           <div className="sidebar-section-title">
             <FaQuestionCircle className="sidebar-icon" />
-            <Link to="/services/help" className="sidebar-link"><span>Aide et Support</span></Link>
+            <Link to="/services/help" className="sidebar-link">Aide et Support</Link>
           </div>
         </div>
-      </nav>
+      </div>
     </div>
   );
 };

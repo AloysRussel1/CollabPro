@@ -16,6 +16,15 @@ const SignIn = () => {
           <label htmlFor="password"><FaLock /> Mot de passe</label>
           <input type="password" id="password" name="password" required />
         </div>
+        <div className="form-options">
+          <div className="remember-me">
+            <input type="checkbox" id="remember-me" name="remember-me" />
+            <label htmlFor="remember-me">Se souvenir de moi</label>
+          </div>
+          <div className="forgot-password">
+            <Link to="/forgot-password">Mot de passe oublié ?</Link>
+          </div>
+        </div>
         <button type="submit">Se connecter</button>
         <div className="form-footer">
           <p>Pas encore de compte ? <Link to="/register">S'inscrire</Link></p>

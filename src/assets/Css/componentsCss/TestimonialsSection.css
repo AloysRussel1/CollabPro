@@ -2,7 +2,7 @@
 
 /* Style pour la section des témoignages */
 .testimonials {
-    background-color: #f9f9f9; /* Fond gris clair */
+    background-color: #f4f1f9; /* Fond violet clair */
     padding: 4rem 2rem;
     text-align: center;
 }
@@ -15,7 +15,7 @@
 .testimonials h2 {
     font-size: 2.5rem;
     margin-bottom: 2rem;
-    color: #333; /* Couleur du titre */
+    color: #4b0082; /* Couleur du titre en violet foncé */
 }
 
 .testimonials-carousel {
@@ -42,7 +42,7 @@
 
 .quote-icon {
     font-size: 2rem;
-    color: #ff5733; /* Couleur des icônes */
+    color: #800080; /* Couleur des icônes en violet */
     margin-bottom: 1rem;
     position: absolute;
     top: 1rem;
@@ -60,11 +60,11 @@
 .testimonial-name {
     font-size: 1.125rem;
     font-weight: bold;
-    color: #333; /* Couleur du nom */
+    color: #4b0082; /* Couleur du nom en violet foncé */
 }
 
 .testimonial-role {
-    color: #888; /* Couleur du rôle */
+    color: #800080; /* Couleur du rôle en violet */
 }
 
 /* Responsive adjustments */
