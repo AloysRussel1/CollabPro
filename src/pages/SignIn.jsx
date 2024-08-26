@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'; // Assurez-vous que React Router est co
 
 const SignIn = () => {
   return (
+  <div className="container">
     <div className="form-container">
       <h2>Se connecter</h2>
       <form>
@@ -31,6 +32,7 @@ const SignIn = () => {
         </div>
       </form>
     </div>
+  </div>
   );
 };
 

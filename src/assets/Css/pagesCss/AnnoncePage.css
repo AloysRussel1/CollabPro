@@ -5,39 +5,42 @@
   color: #333;
   padding: 20px;
   padding-top: 100px;
-  background-color: #f4f4f9; /* Fond légèrement gris pour un meilleur contraste */
+  /* background-color: #000; */
 }
 
+/* En-tête */
 .annonce-header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .annonce-header h1 {
-  color: #6a0dad; /* Violet */
-  font-family: 'Helvetica Neue', sans-serif; /* Police moderne pour les titres */
-  font-size: 2rem;
+  color: #000; 
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 2.5rem; 
   font-weight: bold;
+  margin: 0;
 }
 
+/* Filtres de recherche */
 .search-filters {
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 30px;
 }
 
 .search-filters input {
-  padding: 10px;
-  border: 1px solid #ddd;
+  padding: 12px;
+  border: 1px solid #333; /* Bordure gris foncé */
   border-radius: 4px;
   width: 300px;
-  margin-right: 10px;
   font-size: 1rem;
 }
 
 .search-button {
-  padding: 10px 20px;
-  background-color: #6a0dad; /* Violet */
+  padding: 12px 24px;
+  background-color: #000; /* Rouge */
   color: white;
   border: none;
   border-radius: 4px;
@@ -47,9 +50,10 @@
 }
 
 .search-button:hover {
-  background-color: #5b00a0; /* Violet plus foncé */
+  background-color: #cc0000; /* Rouge plus foncé */
 }
 
+/* Liste des annonces */
 .annonce-list {
   display: flex;
   flex-wrap: wrap;
@@ -57,11 +61,12 @@
   justify-content: center;
 }
 
+/* Élément d'annonce */
 .annonce-item {
-  background-color: white;
-  padding: 15px;
+  background-color: #fff; /* Fond blanc pour les annonces */
+  padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 300px;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -69,7 +74,7 @@
 
 .annonce-item:hover {
   transform: translateY(-5px); /* Légère élévation au survol */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre plus marquée */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Ombre plus marquée */
 }
 
 .annonce-item img {
@@ -79,48 +84,68 @@
 }
 
 .annonce-item h2 {
-  font-size: 1.25rem;
-  margin: 10px 0;
-  color: #333;
+  font-size: 1.5rem; /* Taille du titre augmentée pour une meilleure visibilité */
+  margin: 15px 0;
+  color: #000; /* Texte noir pour les titres */
 }
 
 .annonce-item p {
-  font-size: 0.875rem;
-  color: #666;
+  font-size: 1rem;
+  color: #666; /* Gris pour le texte */
 }
 
+/* Bouton de détails */
 .view-details-button {
   padding: 10px 20px;
-  background-color: #6a0dad; /* Violet */
+  background-color: #ff0000; /* Rouge */
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 15px;
   font-size: 1rem;
   transition: background-color 0.3s ease;
 }
 
 .view-details-button:hover {
-  background-color: #5b00a0; /* Violet plus foncé */
+  background-color: #cc0000; /* Rouge plus foncé */
 }
 
+/* Appel à l'action (CTA) */
 .cta {
   text-align: center;
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
 .cta-button {
   display: inline-block;
-  padding: 10px 20px;
-  background-color: #6a0dad; /* Violet */
+  padding: 12px 24px;
+  background-color: #ff0000; /* Rouge */
   color: white;
   text-decoration: none;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 1.125rem; /* Taille du texte légèrement augmentée pour les CTA */
   transition: background-color 0.3s ease;
 }
 
 .cta-button:hover {
-  background-color: #5b00a0; /* Violet plus foncé */
+  background-color: #cc0000; /* Rouge plus foncé */
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .search-filters {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .search-filters input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .annonce-item {
+    width: 100%;
+    max-width: 500px;
+  }
 }

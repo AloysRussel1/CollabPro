@@ -1,72 +1,119 @@
 /* src/assets/Css/componentsCss/Dashboard.css */
+
 .dashboard {
-    padding: 20px;
-  }
-  
-  .dashboard-header {
-    background-color: #333;
-    color: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-  }
-  
-  .dashboard-header h1 {
-    margin: 0;
-  }
-  
+  padding: 20px;
+  background-color: #f9f9f9; /* Fond clair */
+  color: #333333; /* Texte en gris foncé */
+}
+
+.dashboard-header {
+  background-color: #ffffff; /* Fond blanc pour le header */
+  color: #333333; /* Texte en gris foncé */
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Légère ombre */
+  border-left: 5px solid #ff0000; /* Bordure gauche rouge pour accent */
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 24px;
+  color: #ff0000; /* Rouge vif pour le titre */
+}
+
+.dashboard-overview {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.overview-item {
+  background-color: #ffffff; /* Fond blanc pour les éléments d'aperçu */
+  padding: 15px;
+  border-radius: 8px;
+  flex: 1;
+  margin-right: 10px;
+  text-align: center;
+  color: #333333; /* Texte en gris foncé */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Légère ombre */
+  border-bottom: 4px solid #ff0000; /* Bordure inférieure rouge */
+}
+
+.overview-item:last-child {
+  margin-right: 0;
+}
+
+.overview-icon {
+  font-size: 24px;
+  color: #ff0000; /* Rouge pour les icônes */
+  margin-bottom: 10px;
+}
+
+.dashboard-projects, .dashboard-shortcuts {
+  margin-bottom: 20px;
+}
+
+.dashboard-projects ul, .dashboard-shortcuts div {
+  list-style: none;
+  padding: 0;
+}
+
+.dashboard-projects li, .dashboard-shortcuts .shortcut-item {
+  background-color: #ffffff; /* Fond blanc pour les projets et raccourcis */
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  color: #333333; /* Texte en gris foncé */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Légère ombre */
+  display: flex;
+  align-items: center;
+  border-left: 5px solid #ff0000; /* Bordure gauche rouge */
+}
+
+.shortcut-icon {
+  font-size: 20px;
+  color: #ff0000; /* Rouge pour les icônes de raccourci */
+  margin-right: 10px;
+}
+
+.shortcut-item a {
+  text-decoration: none;
+  color: #333333; /* Texte en gris foncé */
+}
+
+.shortcut-item a:hover {
+  color: #ff0000; /* Rouge vif au hover */
+}
+
+/* Style des boutons interactifs */
+.button-primary {
+  background-color: #ff0000; /* Bouton rouge */
+  color: #ffffff; /* Texte en blanc */
+  padding: 10px 15px;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+.button-primary:hover {
+  background-color: #cc0000; /* Rouge plus sombre au hover */
+}
+
+/* Ajustements pour les appareils mobiles */
+@media (max-width: 768px) {
   .dashboard-overview {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
+    flex-direction: column;
   }
-  
+
   .overview-item {
-    background-color: #f4f4f4;
-    padding: 15px;
-    border-radius: 8px;
-    flex: 1;
-    margin-right: 10px;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .dashboard-header {
     text-align: center;
   }
-  
-  .overview-item:last-child {
-    margin-right: 0;
-  }
-  
-  .overview-icon {
-    font-size: 24px;
-    color: #ff5733;
-  }
-  
-  .dashboard-projects, .dashboard-shortcuts {
-    margin-bottom: 20px;
-  }
-  
-  .dashboard-projects ul, .dashboard-shortcuts div {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .dashboard-projects li, .dashboard-shortcuts .shortcut-item {
-    background-color: #f4f4f4;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-  }
-  
-  .shortcut-icon {
-    font-size: 20px;
-    color: #ff5733;
-    margin-right: 10px;
-  }
-  
-  .shortcut-item a {
-    text-decoration: none;
-    color: #333;
-  }
-  
-  .shortcut-item a:hover {
-    color:#ff5733;
-  }
-  
+}

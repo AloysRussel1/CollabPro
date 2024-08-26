@@ -2,8 +2,8 @@
 
 /* Style global pour le footer */
 .footer {
-    background: linear-gradient(135deg, #4b0082, #6a0dad); /* Dégradé du violet foncé au violet clair */
-    color: white;
+    background-color: #000000; 
+    color: #ffffff; 
     padding: 2rem 1rem;
     text-align: center;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
@@ -29,7 +29,7 @@
 .footer-logo .logo {
     font-size: 2rem;
     font-weight: bold;
-    color: #e0e0ff; /* Couleur du texte du logo */
+    color: #ff0000; /* Rouge */
 }
 
 .footer-logo img {
@@ -42,7 +42,7 @@
 .footer h3 {
     margin-bottom: 1rem;
     font-size: 1.25rem;
-    color: #e0e0ff; /* Titre en violet clair */
+    color: #ff0000; /* Rouge */
 }
 
 /* Style pour les liens dans le footer */
@@ -54,7 +54,7 @@
 }
 
 .footer a:hover {
-    color: #dda0dd; /* Couleur violette pâle au survol */
+    color: #ff0000; /* Rouge au survol */
 }
 
 /* Style pour les icônes sociales */
@@ -63,14 +63,14 @@
 }
 
 .footer .social-icons a {
-    color: white;
+    color: #ffffff; /* Icônes blanches */
     margin: 0 0.5rem;
     font-size: 1.5rem;
     transition: color 0.3s ease;
 }
 
 .footer .social-icons a:hover {
-    color: #dda0dd; /* Couleur violette pâle au survol */
+    color: #ff0000; /* Rouge au survol */
 }
 
 /* Style responsive */

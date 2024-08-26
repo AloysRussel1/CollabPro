@@ -2,9 +2,9 @@ import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, IconButton } from '@mui/material';
 import { LinearProgress } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
-import MessageIcon from '@mui/icons-material/Message'; // Importer l'icône de message
-import InfoIcon from '@mui/icons-material/Info'; // Importer l'icône de détails
-import './../assets/Css/pagesCss/ProjectDetailPage.css'; 
+import MessageIcon from '@mui/icons-material/Message';
+import InfoIcon from '@mui/icons-material/Info';
+import './../assets/Css/pagesCss/ProjectDetailPage.css';
 
 const tasks = [
     { id: '1', name: 'Task Alpha', progress: 60, deadline: '2024-08-25', responsible: 'Alice Johnson' },
@@ -15,9 +15,8 @@ const tasks = [
 const ProjectDetailPage = () => {
     const { projectId } = useParams();
     const navigate = useNavigate();
-    const themeColor = '#ff5733'; // Remplacez cette couleur par la couleur de votre thème
+    const themeColor = '#ff0000'; // Rouge vif
 
-    // Exemple de données du projet, à remplacer par une requête API
     const project = {
         name: 'Projet Alpha',
         description: 'Description du projet Alpha.',
@@ -28,28 +27,28 @@ const ProjectDetailPage = () => {
     return (
         <div className="project-detail-page">
             <header className="project-header">
-                <Typography variant="h4">{project.name}</Typography>
-                <Typography variant="body1">{project.description}</Typography>
+                <Typography variant="h4" color="textPrimary">{project.name}</Typography>
+                <Typography variant="body1" color="textSecondary">{project.description}</Typography>
                 <div className="project-progress">
-                    <Typography variant="body2">Progress: {project.progress}%</Typography>
+                    <Typography variant="body2">Progression: {project.progress}%</Typography>
                     <LinearProgress
                         variant="determinate"
                         value={project.progress}
                         sx={{
                             height: 10,
                             borderRadius: 5,
-                            backgroundColor: '#e0e0e0',
+                            backgroundColor: '#e0e0e0', /* Fond gris clair */
                             '& .MuiLinearProgress-bar': {
-                                backgroundColor: project.progress === 100 ? '#4caf50' : '#ff9800',
+                                backgroundColor: project.progress === 100 ? '#4caf50' : themeColor, /* Vert pour 100% ou rouge pour les autres */
                             },
                         }}
                     />
                 </div>
-                <Typography variant="body2">Deadline: {project.deadline}</Typography>
+                <Typography variant="body2" color="textSecondary">Échéance: {project.deadline}</Typography>
             </header>
 
             <section className="tasks-section">
-                <Typography variant="h6">Tâches</Typography>
+                <Typography variant="h6" color="textPrimary">Tâches</Typography>
                 <TableContainer component={Paper}>
                     <Table>
                         <TableHead>
@@ -74,7 +73,7 @@ const ProjectDetailPage = () => {
                                                 borderRadius: 5,
                                                 backgroundColor: '#e0e0e0',
                                                 '& .MuiLinearProgress-bar': {
-                                                    backgroundColor: task.progress === 100 ? '#4caf50' : '#ff9800',
+                                                    backgroundColor: task.progress === 100 ? '#4caf50' : themeColor,
                                                 },
                                             }}
                                         />
@@ -83,13 +82,12 @@ const ProjectDetailPage = () => {
                                     <TableCell>{task.deadline}</TableCell>
                                     <TableCell align="right">
                                         <IconButton
-                                            color="primary"
-                                            onClick={() => navigate(`/tasks/${task.id}`)} // Navigate to task details
+                                            onClick={() => navigate(`/tasks/${task.id}`)}
                                             sx={{ color: themeColor }}
                                         >
                                             <InfoIcon />
                                         </IconButton>
-                                        <IconButton color="primary" sx={{ color: themeColor }}>
+                                        <IconButton sx={{ color: themeColor }}>
                                             <MessageIcon />
                                         </IconButton>
                                     </TableCell>

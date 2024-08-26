@@ -1,31 +1,69 @@
-/* src/assets/Css/pagesCss/ProjectDetailPage.css */
+/* src/assets/Css/pagesCss/ProjectDetail.css */
 
 .project-detail-page {
-  padding: 1rem;
+  padding: 2rem;
+  background-color: #f0f0f0; /* Fond gris clair pour un contraste doux avec les éléments */
 }
 
 .project-header {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem; 
+  color: #333; /* Texte sombre pour la lisibilité */
+  border-bottom: 2px solid #ff0000; /* Bordure rouge sous le titre */
+  padding-bottom: 1rem;
+}
+
+.project-header h1 {
+  font-size: 2rem;
+  color: #000000; /* Noir pour le titre principal */
 }
 
 .project-progress {
-  margin: 1rem 0;
+  margin: 1.5rem 0;
+}
+
+.project-progress .MuiLinearProgress-root {
+  background-color: #e0e0e0; /* Fond gris clair pour la barre de progression */
+}
+
+.project-progress .MuiLinearProgress-bar {
+  background-color: #ff0000; /* Rouge vif pour la barre de progression */
 }
 
 .tasks-section {
-  margin-top: 2rem;
+  margin-top: 3rem;
 }
 
 .tasks-section .MuiTable-root {
-  min-width: 650px;
+  min-width: 750px; 
+  background-color: #ffffff; /* Fond blanc pour le tableau */
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère pour le tableau */
 }
 
 .tasks-section .MuiTableCell-root {
-  padding: 8px;
+  padding: 12px;
+  color: #333; /* Texte sombre pour les cellules du tableau */
+}
+
+.tasks-section .MuiTableCell-root:nth-of-type(even) {
+  background-color: #f9f9f9; /* Fond gris très clair pour les lignes alternées */
 }
 
 .tasks-section .MuiIconButton-root {
   padding: 8px;
   margin-right: 8px;
-  color: green; 
+  color: #ff0000; /* Rouge vif pour les icônes des boutons */
+}
+
+.tasks-section .MuiIconButton-root:hover {
+  color: #cc0000; /* Rouge plus foncé au survol */
+}
+
+.tasks-section .MuiTableHead-root {
+  
+  color: #000000; /* Texte blanc pour contraster avec le noir */
+}
+
+.tasks-section .MuiTableHead-root .MuiTableCell-root {
+  color: #000; /* Texte blanc pour les en-têtes de cellules */
 }

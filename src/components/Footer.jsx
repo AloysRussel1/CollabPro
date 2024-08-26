@@ -3,14 +3,20 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import './../assets/Css/componentsCss/Footer.css';
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
+import SignIn from '../pages/SignIn';
+import Register from '../pages/Register';
 // import logo from './../assets/images/logo.png'; // Assurez-vous que le chemin d'accès est correct
 
 const Footer = () => {
   const location = useLocation();
   const isServicePage = location.pathname.startsWith('/services');
+  const isAuthPage = location.pathname === '/signin' || location.pathname === '/register';
 
+  if (isAuthPage) {
+    return null; // Ne pas rendre la barre de navigation si sur une page de connexion
+  }
   if (isServicePage) {
-    return null; // Ne pas rendre le footer si on est sur une page de services
+    return null; 
   }
 
   return (

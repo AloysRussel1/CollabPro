@@ -12,7 +12,7 @@ const projects = [
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const buttonColor = '#ff5733';
+  const buttonColor = '#000'; // Rouge vif pour les boutons
 
   return (
     <div className="dashboard">
@@ -22,21 +22,21 @@ const Dashboard = () => {
 
       <section className="dashboard-overview">
         <div className="overview-item">
-          <FaProjectDiagram className="overview-icon" />
+          <FaProjectDiagram className="overview-icon" style={{ color: '#ff0000' }} /> {/* Rouge vif */}
           <div className="overview-content">
             <h2>Total Projets</h2>
             <p>34</p>
           </div>
         </div>
         <div className="overview-item">
-          <FaTasks className="overview-icon" />
+          <FaTasks className="overview-icon" style={{ color: '#ff0000' }} /> {/* Rouge vif */}
           <div className="overview-content">
             <h2>Total Tâches</h2>
             <p>120</p>
           </div>
         </div>
         <div className="overview-item">
-          <FaBell className="overview-icon" />
+          <FaBell className="overview-icon" style={{ color: '#ff0000' }} /> {/* Rouge vif */}
           <div className="overview-content">
             <h2>Alertes</h2>
             <p>3 nouvelles alertes</p>
@@ -46,14 +46,14 @@ const Dashboard = () => {
 
       <section className="dashboard-projects">
         <h2>Projets Récents</h2>
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} style={{ backgroundColor: '#ffffff' }}>
           <Table aria-label="recent projects">
             <TableHead>
               <TableRow>
-                <TableCell>Projets</TableCell>
-                <TableCell>État d'avancement</TableCell>
-                <TableCell>Échéance</TableCell>
-                <TableCell align="right">Actions</TableCell>
+                <TableCell style={{ color: '#ff0000', fontWeight: 'bold' }}>Projets</TableCell>
+                <TableCell style={{ color: '#ff0000', fontWeight: 'bold' }}>État d'avancement</TableCell>
+                <TableCell style={{ color: '#ff0000', fontWeight: 'bold' }}>Échéance</TableCell>
+                <TableCell align="right" style={{ color: '#ff0000', fontWeight: 'bold' }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -67,9 +67,9 @@ const Dashboard = () => {
                       sx={{
                         height: 10,
                         borderRadius: 5,
-                        backgroundColor: '#e0e0e0',
+                        backgroundColor: '#e0e0e0', // Fond clair pour la progression
                         '& .MuiLinearProgress-bar': {
-                          backgroundColor: project.progress === 100 ? '#4caf50' : '#ff9800'
+                          backgroundColor: project.progress === 100 ? '#6a0dad' : '#ff0000' // Violet pour 100% ou rouge pour les autres
                         }
                       }}
                     />
@@ -80,16 +80,15 @@ const Dashboard = () => {
                       variant="contained"
                       style={{
                         backgroundColor: buttonColor,
-                        color: '#fff',
+                        color: '#ffffff',
                         '&:hover': {
-                          backgroundColor: '#ff5733', // Slightly darker on hover
+                          backgroundColor: '#000000', // Rouge plus foncé au survol
                         },
                       }}
                       onClick={() => navigate(`/services/projects/${project.id}`)}
                     >
                       Détails
                     </Button>
-
                   </TableCell>
                 </TableRow>
               ))}

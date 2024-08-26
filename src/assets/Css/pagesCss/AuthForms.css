@@ -1,14 +1,26 @@
-/* Style global pour les formulaires */
+/* Conteneur de formulaire avec image de fond */
+.container{
+    background-image: url(./../../images/AuthBg.png);
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .form-container {
-    max-width: 400px;
-    margin: 2rem auto;
+    max-width: 800px;
+    margin: 150px auto;
     padding: 2rem;
-    padding-top: 200px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    background-color: rgba(255, 255, 255, 0.9); 
     position: relative;
     z-index: 1;
+    background-image: url('./../../images/SingnInBg.png'); 
+    background-size: cover;
+    background-position: center; 
 }
 
 /* Style pour le titre du formulaire */
@@ -16,7 +28,7 @@
     margin-bottom: 1rem;
     font-size: 1.5rem;
     text-align: center;
-    color: #6a0dad;
+    color: #ff0000; /* Titre en rouge */
 }
 
 /* Style pour les groupes de champs */
@@ -28,20 +40,22 @@
     display: flex;
     align-items: center;
     font-size: 0.9rem;
-    color: #555;
+    color: #fff; /* Texte des labels en noir */
 }
 
 .form-group input {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.75rem; /* Augmenter le padding pour plus de confort */
     margin-top: 0.25rem;
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc; /* Bordure grise */
     border-radius: 4px;
     box-sizing: border-box;
+    background-color: #f9f9f9; /* Fond gris clair pour les champs de saisie */
 }
 
+/* Style pour les champs de saisie au focus */
 .form-group input:focus {
-    border-color: #6a0dad; 
+    border-color: #ff0000; /* Bordure rouge au focus */
     outline: none;
 }
 
@@ -51,15 +65,15 @@ button {
     padding: 0.75rem;
     border: none;
     border-radius: 4px;
-    background-color: #6a0dad; 
-    color: white;
+    background-color: #ff0000; /* Bouton rouge */
+    color: #ffffff; /* Texte blanc */
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #5b009f;
+    background-color: #cc0000; /* Rouge plus foncé au survol */
 }
 
 /* Style pour les options du formulaire (Remember Me et Forgot Password) */
@@ -68,12 +82,13 @@ button:hover {
     justify-content: space-between;
     margin-bottom: 1rem;
     font-size: 0.875rem;
-    color: #555;
+    color: #fff; /* Texte en noir */
 }
 
 .form-options .remember-me {
     display: flex;
     align-items: center;
+    margin-right: 15px;
 }
 
 .form-options .remember-me input {
@@ -86,7 +101,7 @@ button:hover {
 }
 
 .form-options .forgot-password a {
-    color: #6a0dad;
+    color: #fff; /* Lien en rouge */
     text-decoration: none;
 }
 
@@ -103,10 +118,11 @@ button:hover {
 .form-footer p {
     margin: 0;
     font-size: 0.875rem;
+    color: #fff;
 }
 
 .form-footer a {
-    color: #6a0dad; 
+    color: #ff0000; /* Lien en rouge */
     text-decoration: none;
     font-weight: bold;
 }
@@ -119,5 +135,9 @@ button:hover {
 @media (max-width: 768px) {
     .form-container {
         padding: 1.5rem;
+    }
+    .container {
+        height: auto;
+        padding-bottom: 2rem;
     }
 }

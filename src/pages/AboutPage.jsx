@@ -1,4 +1,3 @@
-// src/pages/AboutPage.jsx
 import React from 'react';
 import './../assets/Css/pagesCss/AboutPage.css';
 import historyImage from './../assets/images/ourStory.png'; // Assurez-vous que le chemin est correct
@@ -14,14 +13,16 @@ const AboutPage = () => {
       </header>
 
       <section className="about-story">
-        <h2>Notre Histoire</h2>
         <div className="about-story-content">
+          <div className="about-story-text">
+            <h2>Notre Histoire</h2>
+            <p>
+              Depuis notre création en 2020, nous nous engageons à fournir des solutions innovantes
+              pour améliorer la vie de nos clients. Notre parcours est marqué par des défis passionnants
+              et des réussites qui témoignent de notre dévouement et de notre expertise.
+            </p>
+          </div>
           <img src={historyImage} alt="Notre Histoire" className="about-story-image" />
-          <p>
-            Depuis notre création en 2020, nous nous engageons à fournir des solutions innovantes
-            pour améliorer la vie de nos clients. Notre parcours est marqué par des défis passionnants
-            et des réussites qui témoignent de notre dévouement et de notre expertise.
-          </p>
         </div>
       </section>
 
@@ -44,14 +45,16 @@ const AboutPage = () => {
 
       <section className="testimonials">
         <h2>Avis Clients</h2>
-        <blockquote>
-          <p>"Un service impeccable! Leur engagement et leur professionnalisme sont inégalés."</p>
-          <footer>- Client Heureux</footer>
-        </blockquote>
-        <blockquote>
-          <p>"Nous avons été impressionnés par la qualité et la rapidité de leur travail."</p>
-          <footer>- Partenaire Satisfait</footer>
-        </blockquote>
+        <div className="testimonials-content">
+          <blockquote>
+            <p>"Un service impeccable! Leur engagement et leur professionnalisme sont inégalés."</p>
+            <footer>- Client Heureux</footer>
+          </blockquote>
+          <blockquote>
+            <p>"Nous avons été impressionnés par la qualité et la rapidité de leur travail."</p>
+            <footer>- Partenaire Satisfait</footer>
+          </blockquote>
+        </div>
       </section>
 
       <section className="cta">

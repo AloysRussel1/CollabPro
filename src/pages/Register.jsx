@@ -5,11 +5,12 @@ import { Link } from 'react-router-dom'; // Assurez-vous que React Router est co
 
 const Register = () => {
   return (
+    <div className="container">
     <div className="form-container">
       <h2>S'inscrire</h2>
       <form>
         <div className="form-group">
-          <label htmlFor="username"><FaUser /> Nom dutilisateur</label>
+          <label htmlFor="username"><FaUser /> Nom d'utilisateur</label>
           <input type="text" id="username" name="username" required />
         </div>
         <div className="form-group">
@@ -24,12 +25,13 @@ const Register = () => {
           <label htmlFor="confirm-password"><FaLock /> Confirmer le mot de passe</label>
           <input type="password" id="confirm-password" name="confirm-password" required />
         </div>
-        <button type="submit">Sinscrire</button>
+        <button type="submit">S'inscrire</button>
         <div className="form-footer">
           <p>Déjà un compte ? <Link to="/signin">Se connecter</Link></p>
         </div>
       </form>
     </div>
+  </div>
   );
 };
 

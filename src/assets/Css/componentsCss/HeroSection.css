@@ -5,8 +5,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh;
-    background-image: url('./../../images/background2.png'); 
+    height: 100vh;
+    background-image: url('./../../images/carrouselimg.png'); 
     background-size: cover; /* Couvre toute la section */
     background-position: center; /* Centre l'image */
     color: #fff; /* Couleur du texte */

@@ -1,15 +1,21 @@
-/* src/assets/Css/componentsCss/Sidebar.css */
+:root {
+    --sidebar-bg-color: #f4f4f4; /* Couleur de fond de la sidebar */
+    --sidebar-border-color: #ddd; /* Couleur de la bordure de la sidebar */
+    --sidebar-text-color: #333; /* Couleur du texte */
+    --sidebar-hover-bg-color: #ddd; /* Couleur de fond au survol */
+    --sidebar-active-bg-color: #e0e0e0; /* Couleur de fond pour l'élément actif */
+}
 
 .sidebar {
     width: 250px;
-    background-color: #f4f4f4;
+    background-color: var(--sidebar-bg-color);
     padding: 1rem;
     padding-top: 130px;
     height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
-    border-right: 1px solid #ddd;
+    border-right: 1px solid var(--sidebar-border-color);
 }
 
 .sidebar-menu {
@@ -28,19 +34,21 @@
     border-radius: 4px;
     font-weight: bold;
     cursor: pointer;
+    color: var(--sidebar-text-color);
 }
 
 .sidebar-section-title:hover {
-    background-color: #ddd;
+    background-color: var(--sidebar-hover-bg-color);
 }
 
 .sidebar-icon {
     font-size: 1.5rem;
     margin-right: 0.5rem;
+    color: var(--sidebar-text-color);
 }
 
 .sidebar-link {
-    color: #333;
+    color: var(--sidebar-text-color);
     text-decoration: none;
     font-size: 1rem;
     display: block;
@@ -49,7 +57,7 @@
 }
 
 .sidebar-link:hover {
-    background-color: #ddd;
+    background-color: var(--sidebar-hover-bg-color);
 }
 
 .sidebar-submenu {
@@ -69,12 +77,12 @@
 }
 
 .sidebar-submenu li a {
-    color: #333;
+    color: var(--sidebar-text-color);
     text-decoration: none;
     display: block;
     padding: 0.5rem;
 }
 
 .sidebar-submenu li a:hover {
-    background-color: #ddd;
+    background-color: var(--sidebar-hover-bg-color);
 }

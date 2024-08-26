@@ -1,18 +1,25 @@
-// src/components/Navbar.jsx
 import './../assets/Css/componentsCss/Navbar.css';
 import { 
   FaInfoCircle, FaHome, FaEnvelope, 
   FaSignInAlt, FaUserPlus, FaBars, FaTimes, FaUser, FaTools, FaClipboardList
 } from 'react-icons/fa';
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+
+  // Déterminer si nous sommes sur les pages de connexion ou d'inscription
+  const isAuthPage = location.pathname === '/signin' || location.pathname === '/register';
+
+  if (isAuthPage) {
+    return null; // Ne pas rendre la barre de navigation si sur une page de connexion
+  }
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
-
 
   return (
     <nav>

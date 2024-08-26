@@ -1,6 +1,6 @@
 /* Style pour la section des fonctionnalités */
 .features {
-    background-color: #ffffff; /* Fond blanc */
+    background-color: #f4f4f4; /* Fond gris clair */
     padding: 4rem 2rem;
     text-align: center;
 }
@@ -13,7 +13,7 @@
 .features h2 {
     font-size: 2.5rem;
     margin-bottom: 2rem;
-    color: #4b0082; /* Couleur du titre en violet foncé */
+    color: #333; /* Couleur du titre en gris foncé */
 }
 
 .feature-cards {
@@ -24,8 +24,8 @@
 }
 
 .feature-card {
-    background-color: #f4f1f9; /* Fond des cartes légèrement violet */
-    border: 1px solid #ddd; /* Bordure légère */
+    background-color: #fff; /* Fond des cartes en blanc */
+    border: 1px solid #ddd; /* Bordure légère en gris */
     border-radius: 8px;
     padding: 2rem;
     width: calc(33% - 1rem); /* Trois cartes par ligne avec espace */
@@ -39,18 +39,18 @@
 
 .feature-icon {
     font-size: 2rem;
-    color: #800080; /* Couleur des icônes en violet */
+    color: #ff0000; /* Couleur des icônes en rouge */
     margin-bottom: 1rem;
 }
 
 .feature-card h3 {
     font-size: 1.5rem;
     margin-bottom: 1rem;
-    color: #4b0082; /* Couleur des sous-titres en violet foncé */
+    color: #333; /* Couleur des sous-titres en gris foncé */
 }
 
 .feature-card p {
-    color: #666; /* Couleur du texte des descriptions */
+    color: #666; /* Couleur du texte des descriptions en gris moyen */
 }
 
 /* Responsive adjustments */

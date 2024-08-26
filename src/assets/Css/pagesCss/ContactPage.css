@@ -1,11 +1,11 @@
 /* src/assets/Css/pagesCss/ContactPage.css */
 
 .contact-page {
-  font-family: 'Arial', sans-serif; /* Police de base */
-  color: #333;
+  font-family: 'Arial', sans-serif;
+  color: #ffffff; 
   padding: 20px;
   padding-top: 100px;
-  background-color: #f4f4f9; /* Fond légèrement gris pour un meilleur contraste */
+  background-color: #000000; 
 }
 
 /* Style pour l'en-tête */
@@ -15,8 +15,8 @@
 }
 
 .contact-header h1 {
-  color: #6a0dad; /* Violet */
-  font-family: 'Helvetica Neue', sans-serif; /* Police alternative pour le titre */
+  color: #ff0000; /* Rouge */
+  font-family: 'Helvetica Neue', sans-serif; 
   font-size: 2.5rem;
   font-weight: bold;
 }
@@ -25,7 +25,7 @@
 .contact-content {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* Alignement au début de l'élément */
+  align-items: flex-start;
   gap: 20px;
   margin-bottom: 20px;
 }
@@ -35,21 +35,21 @@
   max-width: 100%;
   height: auto;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3); 
 }
 
 /* Style pour le formulaire de contact */
 .contact-form {
   flex: 1;
-  background-color: #ffffff; /* Blanc */
+  background-color: #ffffff; 
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .contact-form h2 {
-  color: #6a0dad; /* Violet */
-  font-family: 'Helvetica Neue', sans-serif; /* Police alternative pour les sous-titres */
+  color: #ff0000; /* Rouge pour les sous-titres */
+  font-family: 'Helvetica Neue', sans-serif; 
   font-size: 1.75rem;
   font-weight: bold;
 }
@@ -62,6 +62,7 @@
 .contact-form label {
   margin-bottom: 5px;
   font-weight: bold;
+  color: #000000; 
 }
 
 .contact-form input,
@@ -74,8 +75,8 @@
 }
 
 .contact-form button {
-  background-color: #6a0dad; /* Violet */
-  color: #ffffff; /* Blanc */
+  background-color: #ff0000; 
+  color: #ffffff; 
   border: none;
   padding: 10px;
   border-radius: 4px;
@@ -85,7 +86,7 @@
 }
 
 .contact-form button:hover {
-  background-color: #5b00a0; /* Violet plus foncé */
+  background-color: #cc0000; 
 }
 
 /* Styles pour les sections d'informations, de liens sociaux, d'articles et de témoignages */
@@ -93,10 +94,10 @@
 .social-links,
 .featured-articles,
 .testimonials {
-  background-color: #ffffff; /* Fond blanc pour chaque section */
+  background-color: #ffffff; 
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
   margin-bottom: 20px;
 }
 
@@ -105,8 +106,8 @@
 .social-links h2,
 .featured-articles h2,
 .testimonials h2 {
-  color: #6a0dad; /* Violet */
-  font-family: 'Helvetica Neue', sans-serif; /* Police alternative pour les sous-titres */
+  color: #ff0000;
+  font-family: 'Helvetica Neue', sans-serif; 
   font-size: 1.5rem;
   font-weight: bold;
 }
@@ -115,21 +116,22 @@
 .contact-info p {
   margin: 5px 0;
   font-size: 1rem;
+  color: #000000; 
 }
-
 
 /* Style pour les témoignages */
 .testimonials blockquote {
-  border-left: 4px solid #6a0dad; /* Violet */
+  border-left: 4px solid #ff0000;
   padding-left: 15px;
   margin: 0;
   font-style: italic;
   font-size: 1.125rem;
+  color: #000;
 }
 
 .testimonials footer {
   text-align: right;
-  color: #666;
+  color: #666; 
 }
 
 /* Responsive */
@@ -143,3 +145,6 @@
       width: 100%;
   }
 }
+
+
+

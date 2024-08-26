@@ -6,16 +6,16 @@
     color: #333;
     margin-top: 80px; /* Décalage pour la barre de navigation fixe */
     padding: 0 1rem;
+    background-color: #ffffff; /* Fond blanc pour la page */
 }
 
 /* Style pour l'en-tête */
 .about-header {
     text-align: center;
     padding: 3rem 1rem;
-    background-color: #6a0dad; /* Couleur unie pour l'en-tête */
-    color: white;
-    border-bottom: 5px solid #fff;
-    margin-bottom: 2rem;
+    background-color: #f8f9fa; /* Fond gris clair */
+    color: #000; /* Texte noir */
+    margin-bottom: 3rem;
 }
 
 .about-header h1 {
@@ -31,15 +31,15 @@
 
 /* Style pour la section d'histoire */
 .about-story {
-    padding: 3rem 1rem;
-    background-color: #f9f9f9; /* Fond léger pour la section */
+    padding: 4rem 1rem;
+    background-color: #f8f9fa; /* Fond gris clair pour la section */
 }
 
 .about-story h2 {
     text-align: center;
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: #333;
+    color: #333; /* Couleur texte sombre */
 }
 
 .about-story-content {
@@ -61,22 +61,22 @@
 
 .about-story p {
     font-size: 1rem;
-    line-height: 1.8;
+    line-height: 1.6;
     max-width: 800px;
     margin: 0 auto;
 }
 
 /* Style pour la section d'équipe */
 .team {
-    padding: 3rem 1rem;
+    padding: 4rem 1rem;
     background-color: #ffffff; /* Fond blanc pour la section */
 }
 
 .team h2 {
     text-align: center;
     font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #333;
+    margin-bottom: 1.5rem;
+    color: #333; /* Couleur texte sombre */
 }
 
 .team-members {
@@ -88,8 +88,8 @@
 
 .team-member {
     text-align: center;
-    max-width: 240px;
-    background: #f9f9f9;
+    max-width: 220px;
+    background: #f1f1f1;
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -101,7 +101,7 @@
 }
 
 .team-member img {
-    max-width: 100%;
+    max-width: 100px;
     height: auto;
     border-radius: 50%;
     margin-bottom: 1rem;
@@ -110,29 +110,35 @@
 .team-member h3 {
     margin: 0.5rem 0;
     font-size: 1.25rem;
-    color: #333;
 }
 
 .team-member p {
-    color: #666;
+    color: #666; /* Gris pour les descriptions */
 }
 
 /* Style pour la section témoignages */
 .testimonials {
-    padding: 3rem 1rem;
-    background-color: #f9f9f9; /* Fond léger pour la section */
+    padding: 4rem 1rem;
+    background-color: #ffffff; /* Fond blanc pour la section */
 }
 
 .testimonials h2 {
     text-align: center;
     font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #333;
+    margin-bottom: 1.5rem;
+    color: #333; /* Couleur texte sombre */
+}
+
+.testimonials-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
 }
 
 .testimonials blockquote {
-    background: #ffffff;
-    border-left: 6px solid #6a0dad;
+    background: #f1f1f1; /* Fond gris clair */
+    border-left: 4px solid #333; /* Bordure sombre */
     padding: 1rem 1.5rem;
     margin: 1rem auto;
     max-width: 800px;
@@ -144,7 +150,6 @@
 
 .testimonials blockquote p {
     margin-bottom: 0.5rem;
-    color: #555;
 }
 
 .testimonials blockquote footer {
@@ -155,18 +160,18 @@
 
 /* Style pour la section CTA */
 .cta {
-    background-color: #6a0dad; /* Couleur unie pour la CTA */
-    color: white;
+    background-color: #f1f1f1; /* Fond gris clair */
     text-align: center;
-    padding: 3rem 1rem;
+    padding: 4rem 1rem;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 2rem;
+    margin-top: 3rem;
 }
 
 .cta h2 {
     font-size: 2rem;
     margin-bottom: 1rem;
+    color: #333; /* Couleur texte sombre */
 }
 
 .cta p {
@@ -176,19 +181,19 @@
 }
 
 .cta-button {
-    background-color: #ffffff;
-    color: #6a0dad;
+    background-color: #007bff; /* Couleur principale de votre thème */
+    color: #ffffff; /* Texte blanc pour le bouton */
     text-decoration: none;
     padding: 1rem 2rem;
     border-radius: 8px;
     font-weight: bold;
     font-size: 1.125rem;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 .cta-button:hover {
-    background-color: #ffffff;
-    color: #333;
+    background-color: #0056b3; /* Couleur plus sombre au survol */
+    color: #ffffff; /* Texte blanc au survol */
 }
 
 /* Responsive */
