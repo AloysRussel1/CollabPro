@@ -34,9 +34,8 @@ const Sidebar = () => {
             Tâches
           </div>
           <ul className="sidebar-submenu">
-            <li><Link to="/services/tasks/overview" className="sidebar-link">Mes Tâches</Link></li>
+            <li><Link to="/services/tasks/mytasks" className="sidebar-link">Mes Tâches</Link></li>
             <li><Link to="/services/tasks/add-task" className="sidebar-link">Ajouter une Tâche</Link></li>
-            <li><Link to="/services/tasks/calendar" className="sidebar-link">Calendrier</Link></li>
           </ul>
         </div>
 

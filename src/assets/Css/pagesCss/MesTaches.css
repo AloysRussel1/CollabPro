@@ -1,0 +1,41 @@
+/* src/assets/Css/pagesCss/MesTaches.css */
+
+.mes-taches {
+  padding: 2rem;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.mes-taches-header h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.mes-taches-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.mes-taches-list .table-header-cell {
+  font-weight: bold;
+}
+
+.mes-taches-list .MuiLinearProgress-root {
+  border-radius: 5px;
+  height: 10px;
+}
+
+.kanban-section, .calendar-section, .map-section {
+  padding: 2rem;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  min-height: 50vh;
+}
+
+.kanban-section h2, .calendar-section h2, .map-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}

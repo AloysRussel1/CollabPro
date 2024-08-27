@@ -19,12 +19,7 @@ const ProjectDetailPage = () => {
     const { projectId } = useParams();
     const navigate = useNavigate();
     const themeColor = '#ff0000';
-    const progressColor = '#000';
-    const addbuttonColor = '#000';
-    const updatebuttonColor = 'green';
-    const infoColor = '#1976d2';
-    const messageColor = '#4caf50'; 
-    const deleteColor = '#d32f2f'; 
+    const progressColor = '#000'; 
 
     const project = {
         name: 'Projet Alpha',
@@ -62,7 +57,7 @@ const ProjectDetailPage = () => {
                     <Button
                         variant="outlined"
                         startIcon={<EditIcon />}
-                        sx={{ color: updatebuttonColor, borderColor: updatebuttonColor, marginRight: 1 }}
+                        sx={{ backgroundColor: '#000000', color: '#ffffff', width: '100%', hover: { backgroundColor: '#cc0000' } }}
                         onClick={() => alert('Modifier le projet')}
                     >
                         Modifier
@@ -70,7 +65,7 @@ const ProjectDetailPage = () => {
                     <Button
                         variant="outlined"
                         startIcon={<DeleteIcon />}
-                        sx={{ color: themeColor, borderColor: themeColor, marginRight: 1 }}
+                        sx={{ backgroundColor: '#cc0000', color: '#ffffff', width: '100%', hover: { backgroundColor: '#cc0000' } }}
                         onClick={() => alert('Supprimer le projet')}
                     >
                         Supprimer
@@ -78,7 +73,7 @@ const ProjectDetailPage = () => {
                     <Button
                         variant="outlined"
                         startIcon={<AddTaskIcon />}
-                        sx={{ color: addbuttonColor, borderColor: addbuttonColor }}
+                        sx={{ backgroundColor: '#000000', color: '#ffffff', width: '100%',hover: { backgroundColor: '#cc0000' } }}
                         onClick={() => alert('Ajouter une tâche')}
                     >
                         Ajouter Tâche
@@ -124,7 +119,7 @@ const ProjectDetailPage = () => {
                                     <TableCell align="center">
                                         <Button
                                             variant="contained"
-                                            sx={{ backgroundColor: infoColor, color: '#fff', width: '100%' }}
+                                            sx={{ backgroundColor: '#000000', color: '#ffffff', width: '100%',hover:{ backgroundColor: '#cc0000' } }}
                                             startIcon={<InfoIcon />}
                                             onClick={() => handleViewDetails(task.id)}
                                         >
@@ -134,7 +129,7 @@ const ProjectDetailPage = () => {
                                     <TableCell align="center">
                                         <Button
                                             variant="contained"
-                                            sx={{ backgroundColor: messageColor, color: '#fff', width: '100%' }}
+                                            sx={{ backgroundColor: '#000000', color: '#ffffff', width: '100%',hover: { backgroundColor: '#cc0000' } }}
                                             startIcon={<MessageIcon />}
                                         >
                                             Message
@@ -143,7 +138,7 @@ const ProjectDetailPage = () => {
                                     <TableCell align="center">
                                         <Button
                                             variant="contained"
-                                            sx={{ backgroundColor: deleteColor, color: '#fff', width: '100%' }}
+                                            sx={{ backgroundColor: '#cc0000', color: '#ffffff', width: '100%',hover: { backgroundColor: '#000000' } }}
                                             startIcon={<DeleteIcon />}
                                         >
                                             Supprimer

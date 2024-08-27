@@ -101,7 +101,7 @@ const MesProjets = () => {
                       variant="contained" 
                       color="info"
                       startIcon={<FaInfoCircle />}
-                      style={{ width: '100%' }}
+                      style={{ backgroundColor: '#000000', color: '#ffffff', width: '100%' }}
                       onClick={() => handleViewDetails(project.id)} // Appel de la fonction handleViewDetails
                     >
                       Détails
@@ -112,7 +112,7 @@ const MesProjets = () => {
                       variant="contained" 
                       color="primary"
                       startIcon={<FaEdit />}
-                      style={{ width: '100%' }}
+                      style={{ backgroundColor: '#000000', color: '#ffffff', width: '100%' }}
                     >
                       Modifier
                     </Button>
@@ -122,7 +122,7 @@ const MesProjets = () => {
                       variant="contained" 
                       color="secondary"
                       startIcon={<FaTrash />}
-                      style={{ width: '100%' }}
+                      style={{  backgroundColor: '#cc0000', color: '#ffffff', width: '100%' }}
                     >
                       Supprimer
                     </Button>
