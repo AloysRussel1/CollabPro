@@ -1,9 +1,12 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, IconButton } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button } from '@mui/material';
 import { LinearProgress } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import MessageIcon from '@mui/icons-material/Message';
 import InfoIcon from '@mui/icons-material/Info';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddTaskIcon from '@mui/icons-material/PlaylistAdd';
 import './../assets/Css/pagesCss/ProjectDetailPage.css';
 
 const tasks = [
@@ -15,13 +18,23 @@ const tasks = [
 const ProjectDetailPage = () => {
     const { projectId } = useParams();
     const navigate = useNavigate();
-    const themeColor = '#ff0000'; // Rouge vif
+    const themeColor = '#ff0000';
+    const progressColor = '#000';
+    const addbuttonColor = '#000';
+    const updatebuttonColor = 'green';
+    const infoColor = '#1976d2';
+    const messageColor = '#4caf50'; 
+    const deleteColor = '#d32f2f'; 
 
     const project = {
         name: 'Projet Alpha',
         description: 'Description du projet Alpha.',
         progress: 70,
         deadline: '2024-08-30',
+    };
+
+    const handleViewDetails = (taskId) => {
+        navigate(`/tasks/${taskId}`);
     };
 
     return (
@@ -37,14 +50,40 @@ const ProjectDetailPage = () => {
                         sx={{
                             height: 10,
                             borderRadius: 5,
-                            backgroundColor: '#e0e0e0', /* Fond gris clair */
+                            backgroundColor: '#e0e0e0',
                             '& .MuiLinearProgress-bar': {
-                                backgroundColor: project.progress === 100 ? '#4caf50' : themeColor, /* Vert pour 100% ou rouge pour les autres */
+                                backgroundColor: project.progress === 100 ? '#4caf50' : progressColor,
                             },
                         }}
                     />
                 </div>
                 <Typography variant="body2" color="textSecondary">Échéance: {project.deadline}</Typography>
+                <div className="project-actions">
+                    <Button
+                        variant="outlined"
+                        startIcon={<EditIcon />}
+                        sx={{ color: updatebuttonColor, borderColor: updatebuttonColor, marginRight: 1 }}
+                        onClick={() => alert('Modifier le projet')}
+                    >
+                        Modifier
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        startIcon={<DeleteIcon />}
+                        sx={{ color: themeColor, borderColor: themeColor, marginRight: 1 }}
+                        onClick={() => alert('Supprimer le projet')}
+                    >
+                        Supprimer
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        startIcon={<AddTaskIcon />}
+                        sx={{ color: addbuttonColor, borderColor: addbuttonColor }}
+                        onClick={() => alert('Ajouter une tâche')}
+                    >
+                        Ajouter Tâche
+                    </Button>
+                </div>
             </header>
 
             <section className="tasks-section">
@@ -53,11 +92,13 @@ const ProjectDetailPage = () => {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell>Tâche</TableCell>
-                                <TableCell>État d'avancement</TableCell>
-                                <TableCell>Responsable</TableCell>
-                                <TableCell>Échéance</TableCell>
-                                <TableCell align="right">Actions</TableCell>
+                                <TableCell className="table-header-cell">Tâche</TableCell>
+                                <TableCell className="table-header-cell">État d'avancement</TableCell>
+                                <TableCell className="table-header-cell">Responsable</TableCell>
+                                <TableCell className="table-header-cell">Échéance</TableCell>
+                                <TableCell className="table-header-cell" align="center">Détails</TableCell>
+                                <TableCell className="table-header-cell" align="center">Message</TableCell>
+                                <TableCell className="table-header-cell" align="center">Supprimer</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -80,16 +121,33 @@ const ProjectDetailPage = () => {
                                     </TableCell>
                                     <TableCell>{task.responsible}</TableCell>
                                     <TableCell>{task.deadline}</TableCell>
-                                    <TableCell align="right">
-                                        <IconButton
-                                            onClick={() => navigate(`/tasks/${task.id}`)}
-                                            sx={{ color: themeColor }}
+                                    <TableCell align="center">
+                                        <Button
+                                            variant="contained"
+                                            sx={{ backgroundColor: infoColor, color: '#fff', width: '100%' }}
+                                            startIcon={<InfoIcon />}
+                                            onClick={() => handleViewDetails(task.id)}
                                         >
-                                            <InfoIcon />
-                                        </IconButton>
-                                        <IconButton sx={{ color: themeColor }}>
-                                            <MessageIcon />
-                                        </IconButton>
+                                            Détails
+                                        </Button>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <Button
+                                            variant="contained"
+                                            sx={{ backgroundColor: messageColor, color: '#fff', width: '100%' }}
+                                            startIcon={<MessageIcon />}
+                                        >
+                                            Message
+                                        </Button>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <Button
+                                            variant="contained"
+                                            sx={{ backgroundColor: deleteColor, color: '#fff', width: '100%' }}
+                                            startIcon={<DeleteIcon />}
+                                        >
+                                            Supprimer
+                                        </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}

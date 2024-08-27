@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importez useNavigate
 import './../assets/Css/pagesCss/MesProjets.css';
-import { FaSearch, FaEdit, FaTrash, FaCheckCircle } from 'react-icons/fa';
+import { FaSearch, FaEdit, FaTrash, FaInfoCircle } from 'react-icons/fa';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField, Select, MenuItem, LinearProgress } from '@mui/material';
 
 const projects = [
@@ -13,6 +14,7 @@ const projects = [
 const MesProjets = () => {
   const [filter, setFilter] = useState('Tous');
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate(); // Utilisez useNavigate
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
@@ -20,6 +22,10 @@ const MesProjets = () => {
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
+  };
+
+  const handleViewDetails = (projectId) => {
+    navigate(`/services/projects/${projectId}`); // Naviguer vers la page des détails
   };
 
   const filteredProjects = projects.filter(project => {
@@ -59,12 +65,14 @@ const MesProjets = () => {
           <Table aria-label="mes projets">
             <TableHead>
               <TableRow>
-                <TableCell>Nom du Projet</TableCell>
-                <TableCell>Statut</TableCell>
-                <TableCell>État d'avancement</TableCell>
-                <TableCell>Date de Début</TableCell>
-                <TableCell>Date de Fin</TableCell>
-                <TableCell align="right">Actions</TableCell>
+                <TableCell className="table-header-cell">Nom du Projet</TableCell>
+                <TableCell className="table-header-cell">Statut</TableCell>
+                <TableCell className="table-header-cell">État d'avancement</TableCell>
+                <TableCell className="table-header-cell">Date de D'attribution</TableCell>
+                <TableCell className="table-header-cell">Date de Fin</TableCell>
+                <TableCell className="table-header-cell" align="center">Détails</TableCell>
+                <TableCell className="table-header-cell" align="center">Modifier</TableCell>
+                <TableCell className="table-header-cell" align="center">Supprimer</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -81,42 +89,43 @@ const MesProjets = () => {
                         borderRadius: 5, 
                         backgroundColor: '#e0e0e0',
                         '& .MuiLinearProgress-bar': { 
-                          backgroundColor: project.progress === 100 ? '#4caf50' : '#ff9800' 
+                          backgroundColor: project.progress === 100 ? '#4caf50' : '#cc0000' 
                         } 
                       }} 
                     />
                   </TableCell>
                   <TableCell>{project.startDate}</TableCell>
                   <TableCell>{project.endDate}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="center">
+                    <Button 
+                      variant="contained" 
+                      color="info"
+                      startIcon={<FaInfoCircle />}
+                      style={{ width: '100%' }}
+                      onClick={() => handleViewDetails(project.id)} // Appel de la fonction handleViewDetails
+                    >
+                      Détails
+                    </Button>
+                  </TableCell>
+                  <TableCell align="center">
                     <Button 
                       variant="contained" 
                       color="primary"
                       startIcon={<FaEdit />}
+                      style={{ width: '100%' }}
                     >
                       Modifier
                     </Button>
+                  </TableCell>
+                  <TableCell align="center">
                     <Button 
                       variant="contained" 
                       color="secondary"
                       startIcon={<FaTrash />}
-                      style={{ marginLeft: 8 }}
+                      style={{ width: '100%' }}
                     >
                       Supprimer
                     </Button>
-                    {project.status === 'En cours' && (
-                      <Button 
-                        variant="contained" 
-                        style={{ 
-                          backgroundColor: '#4caf50', 
-                          color: '#fff', 
-                          marginLeft: 8 
-                        }}
-                        startIcon={<FaCheckCircle />}
-                      >
-                        Marquer comme Terminé
-                      </Button>
-                    )}
                   </TableCell>
                 </TableRow>
               ))}

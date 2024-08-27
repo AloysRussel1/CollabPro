@@ -23,9 +23,7 @@ const Sidebar = () => {
           </div>
           <ul className="sidebar-submenu">
             <li><Link to="/services/projects/myprojects" className="sidebar-link">Mes Projets</Link></li>
-            <li><Link to="/services/tasks/kanban" className="sidebar-link">Tableau Kanban</Link></li>
             <li><Link to="/services/projects/add-project" className="sidebar-link">Ajouter un Projet</Link></li>
-            <li><Link to="/services/projects/templates" className="sidebar-link">Templates de Projets</Link></li>
           </ul>
         </div>
 

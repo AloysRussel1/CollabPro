@@ -98,7 +98,7 @@ const AddTaskPage = ({ projects = [], users = [], onSave }) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="dateDebut">Date de Début</label>
+            <label htmlFor="dateDebut">Date de D'attribution</label>
             <input
               type="date"
               id="dateDebut"
@@ -120,23 +120,6 @@ const AddTaskPage = ({ projects = [], users = [], onSave }) => {
               required
             />
           </div>
-
-          <div className="form-group">
-            <label htmlFor="priorite">Priorité</label>
-            <select
-              id="priorite"
-              name="priorite"
-              value={formData.priorite}
-              onChange={handleChange}
-              required
-            >
-              <option value="faible">Faible</option>
-              <option value="moyen">Moyen</option>
-              <option value="eleve">Élevé</option>
-              <option value="urgent">Urgent</option>
-            </select>
-          </div>
-
           <div className="page-actions">
             <button type="submit" className="btn-save">Enregistrer</button>
           </div>

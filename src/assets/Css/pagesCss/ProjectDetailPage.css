@@ -1,32 +1,24 @@
-/* src/assets/Css/pagesCss/ProjectDetail.css */
+/* src/assets/Css/pagesCss/ProjectDetailPage.css */
 
 .project-detail-page {
   padding: 2rem;
-  background-color: #f0f0f0; /* Fond gris clair pour un contraste doux avec les éléments */
+  background-color: #f0f0f0;
+  overflow-x: hidden;
 }
 
 .project-header {
-  margin-bottom: 2rem; 
-  color: #333; /* Texte sombre pour la lisibilité */
-  border-bottom: 2px solid #ff0000; /* Bordure rouge sous le titre */
+  margin-bottom: 2rem;
+  color: #333;
+  border-bottom: 2px solid #ff0000;
   padding-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
-.project-header h1 {
-  font-size: 2rem;
-  color: #000000; /* Noir pour le titre principal */
-}
-
-.project-progress {
-  margin: 1.5rem 0;
-}
-
-.project-progress .MuiLinearProgress-root {
-  background-color: #e0e0e0; /* Fond gris clair pour la barre de progression */
-}
-
-.project-progress .MuiLinearProgress-bar {
-  background-color: #ff0000; /* Rouge vif pour la barre de progression */
+.project-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-start; /* Aligne les boutons vers la gauche */
 }
 
 .tasks-section {
@@ -34,36 +26,38 @@
 }
 
 .tasks-section .MuiTable-root {
-  min-width: 750px; 
-  background-color: #ffffff; /* Fond blanc pour le tableau */
+  width: 100%; /* Assure que le tableau prend toute la largeur disponible */
+  background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Ombre légère pour le tableau */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .tasks-section .MuiTableCell-root {
   padding: 12px;
-  color: #333; /* Texte sombre pour les cellules du tableau */
+  color: #333;
 }
 
 .tasks-section .MuiTableCell-root:nth-of-type(even) {
-  background-color: #f9f9f9; /* Fond gris très clair pour les lignes alternées */
+  background-color: #f9f9f9;
+}
+
+.tasks-section .task-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .tasks-section .MuiIconButton-root {
   padding: 8px;
-  margin-right: 8px;
-  color: #ff0000; /* Rouge vif pour les icônes des boutons */
+  margin-left: 8px; /* Espace entre les boutons */
+  color: #ff0000;
 }
 
 .tasks-section .MuiIconButton-root:hover {
-  color: #cc0000; /* Rouge plus foncé au survol */
-}
-
-.tasks-section .MuiTableHead-root {
-  
-  color: #000000; /* Texte blanc pour contraster avec le noir */
+  color: #cc0000;
 }
 
 .tasks-section .MuiTableHead-root .MuiTableCell-root {
-  color: #000; /* Texte blanc pour les en-têtes de cellules */
+  color: #000;
 }
+

@@ -1,45 +1,45 @@
 .add-task-page {
-  padding: 1.5rem;
-  max-width: 600px;
-  margin: 0 auto;
+  padding: 2rem;
+  max-width: 650px;
+  margin: 2rem auto; /* Ajout d'une marge en haut */
   background-color: #ffffff; /* Fond blanc pour plus de clarté */
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .page-content {
-  background-color: #ffffff; /* Fond blanc pour plus de clarté */
-  padding: 1.5rem;
-  border-radius: 8px;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
 }
 
 .page-content h2 {
   margin-top: 0;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: #333; /* Couleur sombre pour le texte */
   text-align: center;
 }
 
 .form-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
   font-weight: bold;
-  color: #555; /* Couleur gris foncé pour les labels */
+  color: #222; /* Couleur noire pour les labels */
 }
 
 .form-group input,
 .form-group textarea,
 .form-group select {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd; /* Bord gris clair */
-  border-radius: 4px;
-  font-size: 0.9rem;
-  color: #333; /* Couleur sombre pour le texte des champs */
+  padding: 0.75rem;
+  border: 1px solid #ccc; /* Bord gris clair */
+  border-radius: 6px;
+  font-size: 1rem;
+  color: #222; /* Couleur noire pour le texte des champs */
 }
 
 .form-group textarea {
@@ -49,19 +49,20 @@
 .page-actions {
   display: flex;
   justify-content: center;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 }
 
 .btn-save {
-  background-color: #ff5733; /* Couleur rouge vif */
+  background-color: #ff0000; /* Rouge vif */
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  font-size: 0.9rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .btn-save:hover {
-  background-color: #e64a19; /* Rouge foncé au survol */
+  background-color: #cc0000; /* Rouge plus sombre au survol */
 }

@@ -1,87 +1,91 @@
-/* MesProjets.css */
-
 .mes-projets {
-    padding: 20px;
-    background-color: #f4f6f8;
-  }
-  
-  .mes-projets-header {
-    margin-bottom: 20px;
-  }
-  
-  .mes-projets-header h1 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .mes-projets-filters {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 20px;
-  }
-  
-  .mes-projets-filters .MuiTextField-root {
-    flex: 1;
-  }
-  
-  .mes-projets-filters .MuiSelect-root {
-    flex: 0.2;
-  }
-  
-  .mes-projets-list {
-    margin-top: 20px;
-  }
-  
-  .mes-projets-list .MuiTable-root {
-    border-collapse: separate;
-    border-spacing: 0;
-  }
-  
-  .mes-projets-list .MuiTableCell-root {
-    padding: 16px;
-  }
-  
-  .mes-projets-list .MuiTableCell-root:nth-of-type(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .mes-projets-list .MuiTableCell-root:last-child {
-    display: flex;
-    gap: 8px;
-  }
-  
-  .mes-projets-list .MuiButton-root {
-    font-size: 12px;
-    text-transform: none;
-    padding: 6px 12px;
-  }
-  
-  .mes-projets-list .MuiButton-root + .MuiButton-root {
-    margin-left: 8px;
-  }
-  
-  .mes-projets-list .MuiButton-root.MuiButton-containedPrimary {
-    background-color: #4caf50;
-    color: #fff;
-  }
-  
-  .mes-projets-list .MuiButton-root.MuiButton-containedSecondary {
-    background-color: #f44336; /* Rouge pour le bouton Supprimer */
-    color: #fff;
-  }
-  
-  .mes-projets-list .MuiButton-root.MuiButton-contained {
-    border-radius: 4px;
-    min-width: 80px; /* Ajuste la largeur minimale des boutons */
-  }
-  
-  .mes-projets-list .MuiLinearProgress-root {
-    width: 100%;
-    border-radius: 5px;
-  }
-  
-  .mes-projets-list .MuiLinearProgress-bar {
-    background-color: #ff9800;
-  }
-  
+  padding: 20px;
+  background-color: #f4f6f8;
+}
+
+.mes-projets-header {
+  margin-bottom: 20px;
+}
+
+.mes-projets-header h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.mes-projets-filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.mes-projets-filters .MuiTextField-root {
+  flex: 1;
+}
+
+.mes-projets-filters .MuiSelect-root {
+  flex: 0.2;
+}
+
+
+.mes-projets-list .table-header-cell {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.mes-projets-list {
+  margin-top: 20px;
+}
+
+.mes-projets-list .MuiTable-root {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.mes-projets-list .MuiTableCell-root {
+  padding: 16px;
+}
+
+.mes-projets-list .MuiTableCell-root:nth-of-type(even) {
+  background-color: #f9f9f9;
+}
+
+.mes-projets-list .MuiTableCell-root:last-child {
+  padding: 0;
+}
+
+.mes-projets-list .MuiButton-root {
+  font-size: 12px;
+  text-transform: none;
+  padding: 6px 12px;
+}
+
+.mes-projets-list .MuiButton-root.MuiButton-containedInfo {
+  background-color: #2196f3; /* Bleu pour le bouton Détails */
+  color: #fff;
+}
+
+.mes-projets-list .MuiButton-root.MuiButton-containedPrimary {
+  background-color: #4caf50; /* Vert pour le bouton Modifier */
+  color: #fff;
+}
+
+.mes-projets-list .MuiButton-root.MuiButton-containedSecondary {
+  background-color: #f44336; /* Rouge pour le bouton Supprimer */
+  color: #fff;
+}
+
+.mes-projets-list .MuiButton-root {
+  width: 100%;
+  min-width: 80px;
+}
+
+.mes-projets-list .MuiLinearProgress-root {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.mes-projets-list .MuiLinearProgress-bar {
+  background-color: #ff9800;
+}
+

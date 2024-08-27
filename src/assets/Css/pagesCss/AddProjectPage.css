@@ -1,67 +1,81 @@
 .add-project-page {
-  padding: 1.5rem;
-  max-width: 600px;
-  margin: 0 auto;
-  background-color: #ffffff; /* Fond blanc pour plus de clarté */
+  padding: 2rem; /* Plus d'espace au-dessus */
+  max-width: 800px;
+  margin: 2rem auto; /* Marge supérieure ajoutée */
+  background-color: #ffffff; 
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.page-content {
-  background-color: #ffffff; /* Fond blanc pour plus de clarté */
-  padding: 1.5rem;
-  border-radius: 8px;
-}
-
 .page-content h2 {
   margin-top: 0;
-  font-size: 1.5rem;
-  color: #333; /* Couleur sombre pour le texte */
+  font-size: 1.8rem;
+  color: #333;
   text-align: center;
 }
 
-.form-group {
+.page-content h3 {
+  font-size: 1.4rem;
+  color: #555;
   margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
 }
 
 .form-group label {
   display: block;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
   font-weight: bold;
-  color: #555; /* Couleur gris foncé pour les labels */
+  color: #333;
 }
 
 .form-group input,
 .form-group textarea,
 .form-group select {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd; /* Bord gris clair */
+  padding: 0.75rem; /* Augmenté pour plus de confort */
+  border: 1px solid #ddd; 
   border-radius: 4px;
-  font-size: 0.9rem;
-  color: #333; /* Couleur sombre pour le texte des champs */
+  font-size: 1rem;
+  color: #333;
 }
 
-.form-group textarea {
-  resize: vertical;
+.btn-save, .btn-next, .btn-previous, .btn-add-membre {
+  background-color: #ff5733; /* Rouge vif */
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem; /* Réduit pour rendre les boutons plus petits */
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin: 0.5rem; /* Espace entre les boutons */
+}
+
+.btn-save:hover, .btn-next:hover, .btn-previous:hover, .btn-add-membre:hover {
+  background-color: #cc4626; /* Rouge plus foncé au survol */
 }
 
 .page-actions {
   display: flex;
-  justify-content: center;
-  margin-top: 1.5rem;
+  justify-content: space-between;
+  margin-top: 1.5rem; /* Espace ajusté */
 }
 
-.btn-save {
-  background-color: #ff5733; /* Couleur rouge vif */
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
+.membre-section {
+  margin-bottom: 2rem; /* Espacement entre les membres */
+  padding: 1rem;
+  background-color: #f8f9fa;
   border-radius: 5px;
-  font-size: 0.9rem;
-  cursor: pointer;
 }
 
-.btn-save:hover {
-  background-color: #e64a19; /* Rouge foncé au survol */
+.btn-add-membre {
+  display: block;
+  margin: 1rem auto;
+  background-color: #d32f2f; /* Rouge pour ajouter un membre */
+}
+
+.btn-add-membre:hover {
+  background-color: #b71c1c; /* Rouge foncé au survol */
 }

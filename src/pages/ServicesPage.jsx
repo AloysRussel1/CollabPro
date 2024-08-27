@@ -8,6 +8,7 @@ import MesProjets from './MesProjets';
 import AddProjectPage from './AddProjectPage';
 import AddTaskPage from './AddTaskPage';
 import ProjectDetailPage from './ProjectDetailPage';
+import TaskDetailPage from './TaskDetailPage';
 
 const ServicesPage = () => {
   return (
@@ -21,6 +22,7 @@ const ServicesPage = () => {
         <Route path="/projects/add-project" element={<AddProjectPage/>} />
         <Route path="/tasks/add-task" element={<AddTaskPage/>} />
         <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
+        <Route path="/tasks/:taskId" element={<TaskDetailPage />} />
         
 
         </Routes>
