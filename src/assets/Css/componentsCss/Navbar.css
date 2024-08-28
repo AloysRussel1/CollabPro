@@ -1,3 +1,15 @@
+/* Conteneur pour le logo */
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Style pour l'image du logo */
+.logo-image {
+    height: 150px; /* Ajustez la taille du logo */
+    margin-right: 0px;
+}
+
 /* Style global pour la navigation */
 nav {
     margin: 0;

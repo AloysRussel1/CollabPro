@@ -40,7 +40,7 @@
     display: flex;
     align-items: center;
     font-size: 0.9rem;
-    color: #fff; /* Texte des labels en noir */
+    color: #ffffff; /* Texte des labels en noir */
 }
 
 .form-group input {

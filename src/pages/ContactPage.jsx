@@ -39,9 +39,9 @@ const ContactPage = () => {
       </section>
       <section className="contact-info">
         <h2>Informations de Contact</h2>
-        <p><strong>Adresse :</strong> 123 Rue de l'Exemple, Ville, Pays</p>
-        <p><strong>Téléphone :</strong> +123 456 7890</p>
-        <p><strong>E-mail :</strong> contact@example.com</p>
+        <p><strong>Adresse :</strong> Medong, Yaounde</p>
+        <p><strong>Téléphone :</strong> +237 698 824 068</p>
+        <p><strong>E-mail :</strong> aloysrussel1@gmail.com</p>
         <p><strong>Horaires d'ouverture :</strong> Lundi - Vendredi, 9h - 18h</p>
       </section>
       <section className="testimonials">

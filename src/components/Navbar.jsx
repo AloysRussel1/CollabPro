@@ -5,6 +5,7 @@ import {
 } from 'react-icons/fa';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import logo from './../assets/images/logo.png'; // Remplacez par le chemin correct de votre logo
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +24,10 @@ const Navbar = () => {
 
   return (
     <nav>
-      <div className="logo">CollabPro</div>
+      <div className="logo-container">
+        <img src={logo} alt="Logo" className="logo-image" /> {/* Ajout du logo */}
+        <div className="logo">CollabPro</div>
+      </div>
       <button className="menu-toggle" onClick={toggleMenu}>
         {isOpen ? <FaTimes /> : <FaBars />}
       </button>
