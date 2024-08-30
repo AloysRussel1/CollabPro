@@ -89,10 +89,21 @@
   color: #000; /* Texte noir pour les titres */
 }
 
+/* src/assets/Css/pagesCss/AnnoncePage.css */
+
 .annonce-item p {
   font-size: 1rem;
   color: #666; /* Gris pour le texte */
+  overflow: hidden; /* Cache le débordement */
+  white-space: nowrap; /* Empêche le texte de passer à la ligne suivante */
+  text-overflow: ellipsis; /* Ajoute des points de suspension (...) */
+  max-height: 3.6em; /* Hauteur maximale pour trois lignes (optionnel si vous ne voulez qu'une seule ligne) */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limite le texte à 3 lignes (optionnel) */
+  -webkit-box-orient: vertical;
 }
+
+
 
 /* Bouton de détails */
 .view-details-button {

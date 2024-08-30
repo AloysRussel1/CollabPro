@@ -1,7 +1,7 @@
 // BoiteDeReception.jsx
 import React, { useState } from 'react';
 import { Button, List, ListItem, ListItemText, Divider, TextField, IconButton } from '@mui/material';
-import { FaPaperPlane, FaPlus, FaPaperclip } from 'react-icons/fa';
+import { FaPaperPlane, FaPlus, FaPaperclip, FaSearch } from 'react-icons/fa';
 import './../assets/Css/pagesCss/BoiteDeReception.css'; 
 
 const discussions = [
@@ -13,6 +13,7 @@ const discussions = [
 const BoiteDeReception = () => {
   const [selectedDiscussion, setSelectedDiscussion] = useState(null);
   const [messageInput, setMessageInput] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleSelectDiscussion = (discussion) => {
     setSelectedDiscussion(discussion);
@@ -24,6 +25,10 @@ const BoiteDeReception = () => {
       setMessageInput('');
     }
   };
+
+  const filteredDiscussions = discussions.filter(discussion =>
+    discussion.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="boite-de-reception">
@@ -40,8 +45,24 @@ const BoiteDeReception = () => {
       </header>
       <div className="boite-content">
         <div className="discussions-list">
+          <div className="search-bar">
+            <TextField
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              variant="outlined"
+              size="small"
+              placeholder="Rechercher"
+              InputProps={{
+                startAdornment: (
+                  <IconButton edge="start" color="inherit" aria-label="search">
+                    <FaSearch />
+                  </IconButton>
+                ),
+              }}
+            />
+          </div>
           <List>
-            {discussions.map((discussion) => (
+            {filteredDiscussions.map((discussion) => (
               <ListItem 
                 key={discussion.id} 
                 button 
@@ -66,27 +87,28 @@ const BoiteDeReception = () => {
                   </div>
                 ))}
               </div>
+              <Divider />
+              <div className="message-input">
+                <TextField
+                  value={messageInput}
+                  onChange={(e) => setMessageInput(e.target.value)}
+                  variant="outlined"
+                  size="small"
+                  placeholder="Tapez un message"
+                  className="message-text-field"
+                />
+                <IconButton 
+                  onClick={handleSendMessage} 
+                  color="primary" 
+                  className="send-button"
+                >
+                  <FaPaperPlane />
+                </IconButton>
+              </div>
             </>
           ) : (
             <div className="no-discussion">Sélectionnez une discussion pour voir les messages.</div>
           )}
-          <Divider />
-          <div className="message-input">
-            <IconButton color="default" className="file-upload">
-              <FaPaperclip />
-            </IconButton>
-            <TextField
-              value={messageInput}
-              onChange={(e) => setMessageInput(e.target.value)}
-              variant="outlined"
-              size="small"
-              placeholder="Tapez un message"
-              className="message-text-field"
-            />
-            <IconButton onClick={handleSendMessage} color="primary">
-              <FaPaperPlane />
-            </IconButton>
-          </div>
         </div>
       </div>
     </div>

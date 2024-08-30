@@ -78,6 +78,11 @@ const AddProjectPage = ({ onSave }) => {
                   required
                 />
               </div>
+            </>
+          )}
+
+          {step === 2 && (
+            <>
               <div className="form-group">
                 <label htmlFor="dateDebut">Date de Début</label>
                 <input
@@ -119,7 +124,7 @@ const AddProjectPage = ({ onSave }) => {
             </>
           )}
 
-          {step === 2 && (
+          {step === 3 && (
             <>
               <h3>Constitution de l'équipe</h3>
               {formData.membres.map((membre, index) => (
@@ -185,7 +190,7 @@ const AddProjectPage = ({ onSave }) => {
                 Précédent
               </button>
             )}
-            {step < 2 ? (
+            {step < 3 ? (
               <button type="button" className="btn-next" onClick={nextStep}>
                 Suivant
               </button>
