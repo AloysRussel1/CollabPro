@@ -1,6 +1,5 @@
-/* Style pour la section des fonctionnalités */
 .features {
-    background-color: #f4f4f4; /* Fond gris clair */
+    background-color: #ffffff; /* Fond blanc */
     padding: 4rem 2rem;
     text-align: center;
 }
@@ -13,77 +12,76 @@
 .features h2 {
     font-size: 2.5rem;
     margin-bottom: 2rem;
-    color: #333; /* Couleur du titre en gris foncé */
+    color: #333;
 }
 
-.feature-cards {
+/* Conteneur pour les éléments */
+.feature-items {
     display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 2rem;
 }
 
-.feature-card {
-    background-color: #fff; /* Fond des cartes en blanc */
-    border: 1px solid #ddd; /* Bordure légère en gris */
-    border-radius: 8px;
+.feature-item {
+    background: linear-gradient(90deg, #1e1e1e, #333333); /* Dégradé du noir au gris foncé */
+    border-radius: 50px; /* Arrondir les coins */
     padding: 2rem;
-    width: calc(33% - 1rem); /* Trois cartes par ligne avec espace */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
+    width: 100%;
+    text-align: left;
+    position: relative;
+    color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-.feature-card:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+/* Bande rouge à gauche */
+.feature-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12px;
+    height: 100%;
+    background-color:#ff4b2b;
+    border-radius: 50px 0 0 50px; 
+}
+
+/* Effet au survol */
+.feature-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 25px rgba(255, 0, 0, 0.5);
 }
 
 .feature-icon {
-    font-size: 2rem;
-    color: #ff0000; /* Couleur des icônes en rouge */
+    font-size: 2.5rem;
+    color: #ff4b2b;
+    margin-right: 1rem;
+    vertical-align: middle;
+}
+
+.feature-item h3 {
+    font-size: 1.7rem;
     margin-bottom: 1rem;
+    display: inline-block;
+    vertical-align: middle;
 }
 
-.feature-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: #333; /* Couleur des sous-titres en gris foncé */
+.feature-item p {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    color: #ddd; /* Texte en gris clair */
 }
 
-.feature-card p {
-    color: #666; /* Couleur du texte des descriptions en gris moyen */
-}
-
-/* Responsive adjustments */
 @media (max-width: 1024px) {
-    .feature-card {
-        width: calc(50% - 1rem); /* Deux cartes par ligne */
+    .feature-item {
+        width: 90%;
+        margin: 0 auto;
     }
 }
 
 @media (max-width: 768px) {
-    .feature-card {
-        width: 100%; /* Une carte par ligne */
-    }
-}
-
-@media (max-width: 480px) {
-    .features h2 {
-        font-size: 2rem; /* Réduction de la taille du titre */
-    }
-
-    .feature-card {
-        padding: 1.5rem; /* Réduction du padding pour les petites écrans */
-    }
-
-    .feature-icon {
-        font-size: 1.8rem; /* Réduction de la taille de l'icône */
-    }
-
-    .feature-card h3 {
-        font-size: 1.3rem; /* Réduction de la taille du sous-titre */
-    }
-
-    .feature-card p {
-        font-size: 0.9rem; /* Réduction de la taille du texte */
+    .feature-item {
+        padding: 1.5rem;
     }
 }

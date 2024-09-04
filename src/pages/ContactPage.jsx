@@ -44,13 +44,6 @@ const ContactPage = () => {
         <p><strong>E-mail :</strong> aloysrussel1@gmail.com</p>
         <p><strong>Horaires d'ouverture :</strong> Lundi - Vendredi, 9h - 18h</p>
       </section>
-      <section className="testimonials">
-        <h2>Témoignages Clients</h2>
-        <blockquote>
-          <p>"Un excellent service et une équipe très professionnelle. Je recommande vivement!"</p>
-          <footer>- Client Satisfait</footer>
-        </blockquote>
-      </section>
     </div>
   );
 };

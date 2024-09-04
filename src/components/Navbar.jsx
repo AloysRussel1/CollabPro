@@ -25,7 +25,7 @@ const Navbar = () => {
   return (
     <nav>
       <div className="logo-container">
-        <img src={logo} alt="Logo" className="logo-image" /> {/* Ajout du logo */}
+        <img src={logo} alt="Logo" className="logo-image" />
         <div className="logo">CollabPro</div>
       </div>
       <button className="menu-toggle" onClick={toggleMenu}>

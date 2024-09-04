@@ -77,24 +77,29 @@
     background-color: #e0e0e0;
     align-self: flex-end;
   }
-  
-  .message-input {
+  .discussion-detail .message-input {
     display: flex;
     align-items: center;
-    padding: 8px;
-    border-top: 1px solid #ddd;
-    background-color: #ffffff;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+    top: -100px;
   }
   
-  .message-text-field {
+  .message-input .message-text-field {
     flex: 1;
-    margin-right: 8px;
-    max-width: 100%;
+    margin-right: 10px;
+    width:  800px;
   }
   
-  .send-button {
-    margin-left: 8px;
-    color: #007bff;
+  .message-input .send-button {
+    color: #c42626;
+  }
+  
+  .send-button:hover {
+    color: #b71c1c;
   }
   
   .no-discussion {

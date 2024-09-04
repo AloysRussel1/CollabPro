@@ -68,7 +68,7 @@ const MesProjets = () => {
                 <TableCell className="table-header-cell">Nom du Projet</TableCell>
                 <TableCell className="table-header-cell">Statut</TableCell>
                 <TableCell className="table-header-cell">État d'avancement</TableCell>
-                <TableCell className="table-header-cell">Date de D'attribution</TableCell>
+                <TableCell className="table-header-cell">Date de Debut</TableCell>
                 <TableCell className="table-header-cell">Date de Fin</TableCell>
                 <TableCell className="table-header-cell" align="center">Détails</TableCell>
                 <TableCell className="table-header-cell" align="center">Modifier</TableCell>

@@ -1,56 +1,59 @@
 /* Style global pour le footer */
 .footer {
-    background-color: #000000; 
-    color: #ffffff; 
-    padding: 2rem 1rem;
-    text-align: center;
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(180deg, #000000 0%, #333333 100%);
+    color: #ffffff;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Style pour le contenu du footer */
+.footer-content {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 /* Style pour chaque colonne du footer */
 .footer-column {
     flex: 1;
-    margin: 0 1rem;
+    margin: 1rem;
     min-width: 200px;
-    text-align: center; /* Centrage du contenu */
 }
 
-/* Style pour le logo et le texte dans la première colonne */
+/* Style pour le texte dans la première colonne */
 .footer-logo {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.footer-logo img {
-    max-width: 150px;
-    height: auto;
-    margin-bottom:5px;
-    position: relative;
-    top: -50px;
-}
-
 .footer-logo p {
-    position: relative;
-    bottom: 110px;
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 0.5rem;
 }
 
 /* Style pour les sections du footer */
 .footer h3 {
     margin-bottom: 1rem;
-    font-size: 1.25rem;
-    color: #ff0000; /* Rouge */
+    font-size: 1.5rem;
+    color: #ff0000; /* Rouge vif */
+    text-transform: uppercase;
+    border-bottom: 2px solid #ff0000; /* Ligne rouge sous le titre */
+    padding-bottom: 0.5rem;
 }
 
 /* Style pour les liens dans le footer */
 .footer a {
-    color: #f0f0f0; /* Couleur des liens */
+    color: #f0f0f0;
     text-decoration: none;
     margin: 0.5rem 0;
     display: block;
+    font-size: 1rem;
+    transition: color 0.3s ease;
 }
 
 .footer a:hover {
@@ -60,12 +63,13 @@
 /* Style pour les icônes sociales */
 .footer .social-icons {
     margin: 1rem 0;
+    text-align: center;
 }
 
 .footer .social-icons a {
-    color: #ffffff; /* Icônes blanches */
-    margin: 0 0.5rem;
-    font-size: 1.5rem;
+    color: #ffffff;
+    margin: 0 0.75rem;
+    font-size: 2rem;
     transition: color 0.3s ease;
 }
 
@@ -73,38 +77,30 @@
     color: #ff0000; /* Rouge au survol */
 }
 
+/* Style pour la section de copyright */
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid #444;
+}
+
+.footer-bottom p {
+    font-size: 0.875rem;
+    color: #f0f0f0;
+}
+
 /* Style responsive */
 @media (max-width: 768px) {
     .footer {
-        flex-direction: column;
-        align-items: center;
-        padding: 1.5rem 0.5rem;
+        padding: 2rem 1rem;
     }
 
     .footer-column {
-        margin: 1rem 0; 
+        margin: 1rem 0;
     }
 
     .footer h3 {
-        font-size: 1.1rem;
-    }
-
-    .footer a {
-        margin: 0.25rem 0;
-    }
-
-    .footer .social-icons a {
         font-size: 1.25rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .footer {
-        padding: 1rem 0.5rem;
-    }
-
-    .footer h3 {
-        font-size: 1rem;
     }
 
     .footer a {
@@ -112,6 +108,24 @@
     }
 
     .footer .social-icons a {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer {
+        padding: 1rem;
+    }
+
+    .footer h3 {
         font-size: 1rem;
+    }
+
+    .footer a {
+        font-size: 0.75rem;
+    }
+
+    .footer .social-icons a {
+        font-size: 1.25rem;
     }
 }

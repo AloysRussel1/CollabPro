@@ -1,82 +1,83 @@
-/* src/assets/Css/pagesCss/AboutPage.css */
-
 /* Style global pour la page */
 .about-page {
     font-family: 'Montserrat', sans-serif;
     color: #333;
     margin-top: 80px; /* Décalage pour la barre de navigation fixe */
-    padding: 0 1rem;
+    padding: 0 2rem;
     background-color: #ffffff; /* Fond blanc pour la page */
 }
 
 /* Style pour l'en-tête */
 .about-header {
     text-align: center;
-    padding: 3rem 1rem;
-    background-color: #f8f9fa; /* Fond gris clair */
-    color: #000; /* Texte noir */
-    margin-bottom: 3rem;
+    padding: 4rem 2rem;
+    background-color: #f5f5f5; /* Fond gris clair */
+    color: #333; /* Texte sombre */
+    border-bottom: 1px solid #dddddd; /* Bordure subtile en bas */
 }
 
 .about-header h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin-bottom: 0.5rem;
 }
 
 .about-header p {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
+    font-size: 1.5rem;
     line-height: 1.6;
+    margin-bottom: 1rem;
 }
 
 /* Style pour la section d'histoire */
 .about-story {
-    padding: 4rem 1rem;
-    background-color: #f8f9fa; /* Fond gris clair pour la section */
-}
-
-.about-story h2 {
+    padding: 4rem 2rem;
+    background-color: #ffffff; /* Fond blanc pour un contraste doux */
+    border: 1px solid #f5f5f5; /* Bordure gris clair */
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #333; /* Couleur texte sombre */
 }
 
 .about-story-content {
     max-width: 1200px;
-    margin: 0 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    text-align: center;
 }
 
 .about-story-image {
-    max-width: 100%;
+    max-width: 90%;
     height: auto;
-    border-radius: 8px;
+    border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.about-story h2 {
+    font-size: 2.5rem;
+    color: #000000; /* Texte noir */
+}
+
 .about-story p {
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 1.125rem;
+    line-height: 1.8;
     max-width: 800px;
-    margin: 0 auto;
+    color: #666666; /* Gris clair */
 }
 
 /* Style pour la section d'équipe */
 .team {
-    padding: 4rem 1rem;
-    background-color: #ffffff; /* Fond blanc pour la section */
+    padding: 4rem 2rem;
+    background-color: #ffffff; /* Fond blanc */
 }
 
 .team h2 {
     text-align: center;
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    color: #333; /* Couleur texte sombre */
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #000000; /* Texte noir */
 }
 
 .team-members {
@@ -88,20 +89,22 @@
 
 .team-member {
     text-align: center;
-    max-width: 220px;
-    background: #f1f1f1;
+    max-width: 240px;
+    background: #ffffff;
     padding: 1.5rem;
-    border-radius: 8px;
+    border: 1px solid #dddddd; /* Bordure gris clair */
+    border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .team-member:hover {
-    transform: scale(1.05);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .team-member img {
-    max-width: 100px;
+    max-width: 120px;
     height: auto;
     border-radius: 50%;
     margin-bottom: 1rem;
@@ -110,89 +113,75 @@
 .team-member h3 {
     margin: 0.5rem 0;
     font-size: 1.25rem;
+    color: #000000; /* Texte noir */
 }
 
 .team-member p {
-    color: #666; /* Gris pour les descriptions */
+    color: #666666; /* Gris clair */
 }
 
-/* Style pour la section témoignages */
-.testimonials {
-    padding: 4rem 1rem;
-    background-color: #ffffff; /* Fond blanc pour la section */
-}
-
-.testimonials h2 {
+/* Style pour la section mission */
+.mission {
+    padding: 4rem 2rem;
+    background-color: #f9f9f9; /* Fond gris clair */
     text-align: center;
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    color: #333; /* Couleur texte sombre */
-}
-
-.testimonials-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-}
-
-.testimonials blockquote {
-    background: #f1f1f1; /* Fond gris clair */
-    border-left: 4px solid #333; /* Bordure sombre */
-    padding: 1rem 1.5rem;
-    margin: 1rem auto;
-    max-width: 800px;
-    border-radius: 8px;
+    border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-size: 1rem;
-    line-height: 1.6;
 }
 
-.testimonials blockquote p {
-    margin-bottom: 0.5rem;
+.mission h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #000000; /* Texte noir */
 }
 
-.testimonials blockquote footer {
-    text-align: right;
-    font-style: italic;
-    color: #666;
+.mission p {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+    color: #666666; /* Gris clair */
 }
 
 /* Style pour la section CTA */
 .cta {
-    background-color: #f1f1f1; /* Fond gris clair */
+    background-color: #ffffff; /* Fond blanc */
+    color: #000000; /* Texte noir */
     text-align: center;
-    padding: 4rem 1rem;
-    border-radius: 8px;
+    padding: 4rem 2rem;
+    border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 3rem;
+    border: 1px solid #ff0000; /* Bordure rouge subtile */
 }
 
 .cta h2 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: #333; /* Couleur texte sombre */
+    color: #ff0000; /* Texte rouge */
 }
 
 .cta p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
-    line-height: 1.6;
+    line-height: 1.8;
+    color: #666666; /* Gris clair */
 }
 
 .cta-button {
-    background-color: #007bff; /* Couleur principale de votre thème */
-    color: #ffffff; /* Texte blanc pour le bouton */
+    background-color: #ff0000; /* Fond rouge */
+    color: #ffffff; /* Texte blanc */
     text-decoration: none;
-    padding: 1rem 2rem;
-    border-radius: 8px;
+    padding: 1rem 2.5rem;
+    border-radius: 12px;
     font-weight: bold;
     font-size: 1.125rem;
-    transition: background-color 0.3s ease;
+    border: 2px solid #ff0000; /* Bordure rouge */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .cta-button:hover {
-    background-color: #0056b3; /* Couleur plus sombre au survol */
+    background-color: #cc0000; /* Rouge plus foncé au survol */
     color: #ffffff; /* Texte blanc au survol */
 }
 
@@ -208,5 +197,9 @@
 
     .team-member {
         max-width: 100%;
+    }
+
+    .mission p {
+        font-size: 1rem;
     }
 }

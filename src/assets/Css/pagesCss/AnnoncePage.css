@@ -4,8 +4,8 @@
   font-family: 'Arial', sans-serif;
   color: #333;
   padding: 20px;
-  padding-top: 100px;
-  /* background-color: #000; */
+  padding-top: 140px;
+  background-color: #f5f5f5;
 }
 
 /* En-tête */
@@ -32,7 +32,7 @@
 
 .search-filters input {
   padding: 12px;
-  border: 1px solid #333; /* Bordure gris foncé */
+  border: 1px solid #333; 
   border-radius: 4px;
   width: 300px;
   font-size: 1rem;
@@ -40,7 +40,7 @@
 
 .search-button {
   padding: 12px 24px;
-  background-color: #000; /* Rouge */
+  background-color: #000;
   color: white;
   border: none;
   border-radius: 4px;
@@ -50,7 +50,7 @@
 }
 
 .search-button:hover {
-  background-color: #cc0000; /* Rouge plus foncé */
+  background-color: #cc0000; 
 }
 
 /* Liste des annonces */
@@ -63,7 +63,7 @@
 
 /* Élément d'annonce */
 .annonce-item {
-  background-color: #fff; /* Fond blanc pour les annonces */
+  background-color: #fff; 
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -73,42 +73,44 @@
 }
 
 .annonce-item:hover {
-  transform: translateY(-5px); /* Légère élévation au survol */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Ombre plus marquée */
+  transform: translateY(-5px); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .annonce-item img {
   width: 100%;
-  height: auto;
+  height: 200px; 
+  object-fit: cover; 
   border-radius: 8px;
 }
 
 .annonce-item h2 {
-  font-size: 1.5rem; /* Taille du titre augmentée pour une meilleure visibilité */
+  font-size: 1.25rem; 
   margin: 15px 0;
-  color: #000; /* Texte noir pour les titres */
+  color: #000; 
+  line-height: 1.4;
+  height: 3.6em; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
 }
 
-/* src/assets/Css/pagesCss/AnnoncePage.css */
-
+/* Styles pour le texte */
 .annonce-item p {
   font-size: 1rem;
-  color: #666; /* Gris pour le texte */
-  overflow: hidden; /* Cache le débordement */
-  white-space: nowrap; /* Empêche le texte de passer à la ligne suivante */
-  text-overflow: ellipsis; /* Ajoute des points de suspension (...) */
-  max-height: 3.6em; /* Hauteur maximale pour trois lignes (optionnel si vous ne voulez qu'une seule ligne) */
+  color: #666;
+  overflow: hidden; 
+  white-space: nowrap; 
+  text-overflow: ellipsis; 
+  max-height: 3.6em;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Limite le texte à 3 lignes (optionnel) */
+  -webkit-line-clamp: 3; 
   -webkit-box-orient: vertical;
 }
-
-
 
 /* Bouton de détails */
 .view-details-button {
   padding: 10px 20px;
-  background-color: #ff0000; /* Rouge */
+  background-color: #ff0000;
   color: white;
   border: none;
   border-radius: 4px;
@@ -119,7 +121,7 @@
 }
 
 .view-details-button:hover {
-  background-color: #cc0000; /* Rouge plus foncé */
+  background-color: #cc0000;
 }
 
 /* Appel à l'action (CTA) */
@@ -131,16 +133,16 @@
 .cta-button {
   display: inline-block;
   padding: 12px 24px;
-  background-color: #ff0000; /* Rouge */
+  background-color: #ff0000;
   color: white;
   text-decoration: none;
   border-radius: 4px;
-  font-size: 1.125rem; /* Taille du texte légèrement augmentée pour les CTA */
+  font-size: 1.125rem; 
   transition: background-color 0.3s ease;
 }
 
 .cta-button:hover {
-  background-color: #cc0000; /* Rouge plus foncé */
+  background-color: #cc0000; 
 }
 
 /* Responsive */

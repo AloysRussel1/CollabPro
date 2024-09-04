@@ -9,20 +9,18 @@ const AboutPage = () => {
     <div className="about-page">
       <header className="about-header">
         <h1>À Propos de Nous</h1>
-        <p>Découvrez notre histoire et ce qui nous rend uniques.</p>
+        <p>Découvrez notre histoire et nos valeurs.</p>
       </header>
 
       <section className="about-story">
-        <div className="about-story-content">
-          <div className="about-story-text">
-            <h2>Notre Histoire</h2>
-            <p>
-              Depuis notre création en 2020, nous nous engageons à fournir des solutions innovantes
-              pour améliorer la vie de nos clients. Notre parcours est marqué par des défis passionnants
-              et des réussites qui témoignent de notre dévouement et de notre expertise.
-            </p>
-          </div>
-          <img src={historyImage} alt="Notre Histoire" className="about-story-image" />
+        <img src={historyImage} alt="Notre Histoire" className="about-story-image" />
+        <div className="about-story-text">
+          <h2>Notre Histoire</h2>
+          <p>
+            Depuis notre création en 2020, nous avons consacré notre énergie à offrir des solutions innovantes
+            pour améliorer la vie de nos clients. Nous sommes fiers de notre parcours, des défis relevés et des
+            réussites obtenues grâce à notre passion et notre expertise.
+          </p>
         </div>
       </section>
 
@@ -39,28 +37,21 @@ const AboutPage = () => {
             <h3>Jane Smith</h3>
             <p>Directrice Marketing</p>
           </div>
-          {/* Ajoutez plus de membres de l'équipe si nécessaire */}
         </div>
       </section>
 
-      <section className="testimonials">
-        <h2>Avis Clients</h2>
-        <div className="testimonials-content">
-          <blockquote>
-            <p>"Un service impeccable! Leur engagement et leur professionnalisme sont inégalés."</p>
-            <footer>- Client Heureux</footer>
-          </blockquote>
-          <blockquote>
-            <p>"Nous avons été impressionnés par la qualité et la rapidité de leur travail."</p>
-            <footer>- Partenaire Satisfait</footer>
-          </blockquote>
-        </div>
+      <section className="mission">
+        <h2>Notre Mission</h2>
+        <p>
+          Notre mission est de transformer les défis en opportunités, en offrant des solutions sur mesure qui répondent
+          aux besoins de nos clients tout en favorisant l'innovation et la durabilité.
+        </p>
       </section>
 
       <section className="cta">
         <h2>Rejoignez-Nous</h2>
-        <p>Envie de travailler avec nous ou d'en savoir plus? Contactez-nous dès aujourd'hui!</p>
-        <a href="/contact" className="cta-button">Contactez-Nous</a>
+        <p>Nous sommes toujours à la recherche de talents passionnés. Contactez-nous pour en savoir plus sur les opportunités.</p>
+        <a href="/contact" className="cta-button">Nous Contacter</a>
       </section>
     </div>
   );

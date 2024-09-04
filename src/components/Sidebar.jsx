@@ -36,6 +36,7 @@ const Sidebar = () => {
           <ul className="sidebar-submenu">
             <li><Link to="/services/tasks/mytasks" className="sidebar-link">Mes Tâches</Link></li>
             <li><Link to="/services/tasks/add-task" className="sidebar-link">Ajouter une Tâche</Link></li>
+            <li><Link to="/services/documents" className="sidebar-link">Documents Partagés</Link></li>
           </ul>
         </div>
 
@@ -47,8 +48,6 @@ const Sidebar = () => {
           </div>
           <ul className="sidebar-submenu">
             <li><Link to="/services/inbox" className="sidebar-link">Boîte de Réception</Link></li>
-            <li><Link to="/services/chat" className="sidebar-link">Chat en Temps Réel</Link></li>
-            <li><Link to="/services/documents" className="sidebar-link">Documents Partagés</Link></li>
           </ul>
         </div>
 
