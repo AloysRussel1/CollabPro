@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './../assets/Css/pagesCss/AddProjectPage.css';
 
-const AddProjectPage = ({ onSave }) => {
+const AddProjectPage = ({ onSave, initialData }) => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     id: '',
@@ -12,6 +12,15 @@ const AddProjectPage = ({ onSave }) => {
     priorite: '',
     membres: [],
   });
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        ...initialData,
+        membres: initialData.membres || [], // Assurez-vous que membres est défini comme un tableau
+      });
+    }
+  }, [initialData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,7 +62,7 @@ const AddProjectPage = ({ onSave }) => {
   return (
     <div className="add-project-page">
       <div className="page-content">
-        <h2>Ajouter un Projet</h2>
+        <h2>{initialData ? 'Modifier le Projet' : 'Ajouter un Projet'}</h2>
         <form onSubmit={handleSubmit}>
           {step === 1 && (
             <>
@@ -196,7 +205,7 @@ const AddProjectPage = ({ onSave }) => {
               </button>
             ) : (
               <button type="submit" className="btn-save">
-                Enregistrer
+                {initialData ? 'Modifier' : 'Enregistrer'}
               </button>
             )}
           </div>

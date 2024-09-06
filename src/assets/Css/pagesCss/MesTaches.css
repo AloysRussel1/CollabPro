@@ -27,10 +27,11 @@
   font-size: 1em;
   margin: 0 5px;
   transition: background-color 0.3s, color 0.3s;
+  border-radius: 5px;
 }
 
 .view-selector button.active {
-  background-color: #d32f2f; 
+  background-color: #d32f2f;
   color: #ffffff;
 }
 
@@ -44,10 +45,11 @@
 }
 
 .task-section {
-  border: 1px solid #d32f2f; 
-  border-radius: 5px;
+  border: 1px solid #d32f2f;
+  border-radius: 8px;
   margin-bottom: 20px;
-  background-color: #fafafa; 
+  background-color: #f0f0f0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .section-header {
@@ -55,10 +57,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background-color: #f5f5f5; 
+  background-color: #f5f5f5;
   color: #000000;
   cursor: pointer;
-  border-radius: 5px 5px 0 0;
+  border-radius: 8px 8px 0 0;
 }
 
 .section-header h2 {
@@ -81,9 +83,9 @@ ul {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid #e0e0e0; 
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #ffffff;
   color: #000000;
-  background-color: #ffffff; 
 }
 
 .task-item:last-child {
@@ -97,12 +99,12 @@ ul {
 
 .task-actions .fa-edit, .task-actions .fa-trash {
   cursor: pointer;
-  color: #000000; 
+  color: #000000;
   transition: color 0.3s;
 }
 
 .task-actions .fa-edit:hover, .task-actions .fa-trash:hover {
-  color: #d32f2f; 
+  color: #d32f2f;
 }
 
 .add-task-item {
@@ -112,12 +114,14 @@ ul {
   color: #d32f2f;
   cursor: pointer;
   background-color: #fafafa;
+  border: 1px solid #d32f2f;
+  border-radius: 5px;
   transition: background-color 0.3s, color 0.3s;
 }
 
 .add-task-item:hover {
   background-color: #f5f5f5;
-  color: #d32f2f; 
+  color: #d32f2f;
 }
 
 .add-section {
@@ -133,34 +137,34 @@ ul {
 }
 
 .add-section:hover {
-  background-color: #d32f2f; 
+  background-color: #d32f2f;
 }
-
-
-
-/* Styles existants... */
 
 .task-tableau-view {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-wrap: wrap; /* Permet aux sections de passer à la ligne suivante */
+  gap: 20px; /* Espacement entre les sections */
   margin-top: 20px;
+  padding: 10px;
+  overflow-x: hidden; /* Évite le défilement horizontal */
 }
 
 .task-section-tableau {
   border: 1px solid #d32f2f;
-  border-radius: 5px;
+  border-radius: 8px;
   padding: 10px;
-  background-color: #fafafa;
-  flex: 1;
-  min-width: 300px; 
+  background-color: #f0f0f0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1 1 calc(33.333% - 20px); /* Trois sections par ligne avec espace entre elles */
+  min-width: 300px;
+  box-sizing: border-box;
 }
 
 .section-header-tableau {
   background-color: #f5f5f5;
   color: #000000;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 8px;
   margin-bottom: 10px;
 }
 
@@ -172,7 +176,7 @@ ul {
 
 .task-card {
   border: 1px solid #d32f2f;
-  border-radius: 5px;
+  border-radius: 8px;
   background-color: #ffffff;
   padding: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -192,52 +196,48 @@ ul {
   gap: 10px;
 }
 
-.add-task-item {
+.add-task-card {
   display: flex;
   align-items: center;
   padding: 10px;
   color: #d32f2f;
   cursor: pointer;
   background-color: #fafafa;
-  transition: background-color 0.3s, color 0.3s;
-  border: 1px solid #d32f2f; 
+  border: 1px solid #d32f2f;
   border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.add-task-item:hover {
+.add-task-card:hover {
   background-color: #f5f5f5;
   color: #d32f2f;
 }
 
-
-/* Conteneur de la navigation du calendrier */
 .react-calendar__navigation {
   display: flex;
-  justify-content: space-between; 
-  align-items: center; 
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 10px;
 }
 
-/* Boutons de navigation du calendrier */
 .react-calendar__navigation button {
   background-color: #ffffff;
   border: 1px solid #cccccc;
-  color: #333333; 
+  color: #333333;
   padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s, border-color 0.3s; 
+  transition: background-color 0.3s, border-color 0.3s;
   width: 40px;
-  height: 40px; 
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Cases des jours du calendrier */
 .react-calendar__month-view__days__day {
-  background-color: #ffffff; 
-  border: 1px solid #eeeeee; 
+  background-color: #ffffff;
+  border: 1px solid #eeeeee;
   color: #333333;
   padding: 10px;
   border-radius: 5px;
@@ -249,45 +249,16 @@ ul {
 }
 
 .react-calendar__navigation button:hover {
-  background-color: #f0f0f0; 
-  border-color: #bbbbbb; 
+  background-color: #f0f0f0;
+  border-color: #bbbbbb;
 }
 
-/* Boutons pour changer le mois ou l'année */
 .react-calendar__navigation button.react-calendar__navigation__prev-button,
 .react-calendar__navigation button.react-calendar__navigation__next-button {
-  color: #ff4c4c; 
+  color: #ff4c4c;
 }
 
 .react-calendar__navigation button.react-calendar__navigation__prev-button:hover,
 .react-calendar__navigation button.react-calendar__navigation__next-button:hover {
-  color: #e03b3b; 
+  color: #e03b3b;
 }
-
-.task-card {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.task-card-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.task-actions {
-  display: flex;
-  gap: 8px;
-  cursor: pointer;
-}
-
-
-
-
-
-
-

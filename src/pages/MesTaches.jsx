@@ -214,7 +214,9 @@ const MesTaches = () => {
                     )}
                   </Droppable>
                 ))}
-                {provided.placeholder}
+                <div className="add-section" onClick={addSection}>
+                  <FontAwesomeIcon icon={faPlus} /> Ajouter une section
+                </div>
               </div>
             )}
           </Droppable>
@@ -222,21 +224,32 @@ const MesTaches = () => {
       )}
 
       {selectedView === 'calendrier' && (
-        <div className="calendar-view">
+        <div className="calendrier-view">
           <Calendar
             onChange={handleDateChange}
             value={selectedDates}
           />
-          <button className="add-task-calendar" onClick={addTaskToDate}>
-            <FontAwesomeIcon icon={faPlus} /> Ajouter une tâche à cette date
+          <button className="add-task-date" onClick={addTaskToDate}>
+            <FontAwesomeIcon icon={faPlus} /> Ajouter une tâche pour cette date
           </button>
           <div className="tasks-by-date">
             {Object.keys(tasksByDate).map(date => (
-              <div key={date} className="date-tasks">
-                <h3>{date}</h3>
+              <div key={date} className="tasks-date">
+                <h3>{new Date(date).toLocaleDateString()}</h3>
                 <ul>
                   {tasksByDate[date].map((task, index) => (
-                    <li key={index}>{task}</li>
+                    <li key={index} className="task-item">
+                      {task}
+                      <div className="task-actions">
+                        <FontAwesomeIcon icon={faEdit} onClick={() => openModal(task)} />
+                        <FontAwesomeIcon icon={faTrash} onClick={() => {
+                          setTasksByDate(prevTasks => ({
+                            ...prevTasks,
+                            [date]: prevTasks[date].filter((_, i) => i !== index)
+                          }));
+                        }} />
+                      </div>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -245,9 +258,14 @@ const MesTaches = () => {
         </div>
       )}
 
-      {/* Modale pour les détails de la tâche */}
-      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} contentLabel="Détails de la tâche">
-        <h2>Détails de la Tâche</h2>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Détails de la tâche"
+        className="modal"
+        overlayClassName="modal-overlay"
+      >
+        <h2>Détails de la tâche</h2>
         <p>{selectedTaskDetails}</p>
         <button onClick={closeModal}>Fermer</button>
       </Modal>

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importez useNavigate
+import { useNavigate } from 'react-router-dom';
 import './../assets/Css/pagesCss/MesProjets.css';
-import { FaSearch, FaEdit, FaTrash, FaInfoCircle } from 'react-icons/fa';
+import { FaSearch, FaEdit, FaTrash, FaInfoCircle, FaPlus } from 'react-icons/fa';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField, Select, MenuItem, LinearProgress } from '@mui/material';
+import AddProjectPage from './AddProjectPage'; 
 
 const projects = [
   { id: '1', name: 'Projet Alpha', status: 'En cours', progress: 70, startDate: '2024-08-01', endDate: '2024-08-30' },
@@ -14,7 +15,9 @@ const projects = [
 const MesProjets = () => {
   const [filter, setFilter] = useState('Tous');
   const [searchTerm, setSearchTerm] = useState('');
-  const navigate = useNavigate(); // Utilisez useNavigate
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate();
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
@@ -25,7 +28,28 @@ const MesProjets = () => {
   };
 
   const handleViewDetails = (projectId) => {
-    navigate(`/services/projects/${projectId}`); // Naviguer vers la page des détails
+    navigate(`/services/projects/${projectId}`);
+  };
+
+  const handleEditClick = (project) => {
+    setSelectedProject(project);
+    setIsEditing(true);
+  };
+
+  const handleDeleteClick = (projectId) => {
+    // Implémentez la logique de suppression ici
+    console.log(`Supprimer le projet avec l'ID: ${projectId}`);
+  };
+
+  const handleSave = (projectData) => {
+    console.log('Données du projet sauvegardées:', projectData);
+    setIsEditing(false);
+    setSelectedProject(null);
+  };
+
+  const handleAddProject = () => {
+    setSelectedProject(null);
+    setIsEditing(true);
   };
 
   const filteredProjects = projects.filter(project => {
@@ -37,6 +61,15 @@ const MesProjets = () => {
     <div className="mes-projets">
       <header className="mes-projets-header">
         <h1>Mes Projets</h1>
+        <Button 
+          variant="contained" 
+          color="primary"
+          startIcon={<FaPlus />}
+          style={{ backgroundColor: '#000000', color: '#ffffff', marginBottom: '20px' }}
+          onClick={handleAddProject}
+        >
+          Ajouter un projet
+        </Button>
       </header>
 
       <section className="mes-projets-filters">
@@ -102,7 +135,7 @@ const MesProjets = () => {
                       color="info"
                       startIcon={<FaInfoCircle />}
                       style={{ backgroundColor: '#000000', color: '#ffffff', width: '100%' }}
-                      onClick={() => handleViewDetails(project.id)} // Appel de la fonction handleViewDetails
+                      onClick={() => handleViewDetails(project.id)}
                     >
                       Détails
                     </Button>
@@ -113,6 +146,7 @@ const MesProjets = () => {
                       color="primary"
                       startIcon={<FaEdit />}
                       style={{ backgroundColor: '#000000', color: '#ffffff', width: '100%' }}
+                      onClick={() => handleEditClick(project)}
                     >
                       Modifier
                     </Button>
@@ -122,7 +156,8 @@ const MesProjets = () => {
                       variant="contained" 
                       color="secondary"
                       startIcon={<FaTrash />}
-                      style={{  backgroundColor: '#cc0000', color: '#ffffff', width: '100%' }}
+                      style={{ backgroundColor: '#cc0000', color: '#ffffff', width: '100%' }}
+                      onClick={() => handleDeleteClick(project.id)}
                     >
                       Supprimer
                     </Button>
@@ -133,6 +168,8 @@ const MesProjets = () => {
           </Table>
         </TableContainer>
       </section>
+
+      {isEditing && <AddProjectPage onSave={handleSave} initialData={selectedProject} />}
     </div>
   );
 };

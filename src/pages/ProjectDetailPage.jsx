@@ -4,34 +4,33 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEdit, faTrash, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import './../assets/Css/pagesCss/ProjectDetailPage.css';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import Modal from 'react-modal';
 
-// Dummy project details data (replace with actual data from API or props)
-const projectDetails = {
-  id: '1',
-  name: 'Projet Alpha',
-  description: 'Ceci est une description du projet Alpha.',
-  startDate: '2024-08-01',
-  endDate: '2024-12-31',
-  status: 'En cours',
-  progress: 70
-};
-
-const tasks = [
-  { id: '1', name: 'Task Alpha', progress: 60, deadline: '2024-08-25', responsible: 'Alice Johnson' },
-  { id: '2', name: 'Task Beta', progress: 100, deadline: '2024-08-20', responsible: 'Bob Smith' },
-  { id: '3', name: 'Task Gamma', progress: 30, deadline: '2024-09-10', responsible: 'Charlie Brown' },
-];
+// Initialiser la modale
+Modal.setAppElement('#root');
 
 const ProjectDetailPage = () => {
   const [sections, setSections] = useState([
-    { id: '1', name: 'Récemment attribué', tasks: ['Task Alpha', 'Task Beta'], isOpen: false },
-    { id: '2', name: 'À faire aujourd\'hui', tasks: ['Task Gamma'], isOpen: false },
-    { id: '3', name: 'À faire demain', tasks: [], isOpen: false }
+    { id: '1', name: 'Récemment attribué', tasks: ['Tâche 1', 'Tâche 2'], isOpen: false },
+    { id: '2', name: 'À faire aujourd\'hui', tasks: ['Tâche 3'], isOpen: false },
+    { id: '3', name: 'À faire demain', tasks: ['Tâche 4', 'Tâche 5'], isOpen: false }
   ]);
   const [selectedView, setSelectedView] = useState('liste');
   const [selectedDates, setSelectedDates] = useState([]);
   const [tasksByDate, setTasksByDate] = useState({});
-  const [taskDetails, setTaskDetails] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [selectedTaskDetails, setSelectedTaskDetails] = useState('');
+
+  // Ouvrir la modale avec les détails de la tâche
+  const openModal = (taskDetails) => {
+    setSelectedTaskDetails(taskDetails);
+    setModalIsOpen(true);
+  };
+
+  // Fermer la modale
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
   const addSection = () => {
     const sectionName = prompt('Entrez le nom de la nouvelle section:');
@@ -123,25 +122,9 @@ const ProjectDetailPage = () => {
     setSections(updatedSections);
   };
 
-  const openTaskDetails = (task) => {
-    setTaskDetails(task);
-  };
-
-  const closeTaskDetails = () => {
-    setTaskDetails(null);
-  };
-
   return (
     <div className="mes-taches-container">
-      <h1 className="mes-taches-title">Détails du Projet</h1>
-      <div className="project-details">
-        <h2>{projectDetails.name}</h2>
-        <p><strong>Description:</strong> {projectDetails.description}</p>
-        <p><strong>Date de début:</strong> {projectDetails.startDate}</p>
-        <p><strong>Date de fin:</strong> {projectDetails.endDate}</p>
-        <p><strong>Statut:</strong> {projectDetails.status}</p>
-        <p><strong>Avancement:</strong> {projectDetails.progress}%</p>
-      </div>
+      <h1 className="mes-taches-title">Mes Tâches</h1>
       <div className="view-selector">
         <button className={selectedView === 'liste' ? 'active' : ''} onClick={() => setSelectedView('liste')}>Liste</button>
         <button className={selectedView === 'tableau' ? 'active' : ''} onClick={() => setSelectedView('tableau')}>Tableau</button>
@@ -162,7 +145,7 @@ const ProjectDetailPage = () => {
                     <li key={index} className="task-item">
                       {task}
                       <div className="task-actions">
-                        <FontAwesomeIcon icon={faEdit} onClick={() => openTaskDetails(task)} />
+                        <FontAwesomeIcon icon={faEdit} onClick={() => renameTask(section.id, index)} />
                         <FontAwesomeIcon icon={faTrash} onClick={() => deleteTask(section.id, index)} />
                       </div>
                     </li>
@@ -198,38 +181,42 @@ const ProjectDetailPage = () => {
                         {...provided.droppableProps}
                       >
                         <div className="section-header-tableau">
-                        <h2>{section.name}</h2>
+                          <h2>{section.name}</h2>
                         </div>
                         <div className="task-cards">
                           {section.tasks.map((task, taskIndex) => (
-                            <Draggable key={task} draggableId={task} index={taskIndex}>
+                            <Draggable key={taskIndex} draggableId={`${section.id}-${taskIndex}`} index={taskIndex}>
                               {(provided) => (
                                 <div
                                   className="task-card"
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
+                                  onClick={() => openModal(task)}
                                 >
                                   <div className="task-card-content">
                                     {task}
-                                    <div className="task-actions">
-                                      <FontAwesomeIcon icon={faEdit} onClick={() => openTaskDetails(task)} />
-                                      <FontAwesomeIcon icon={faTrash} onClick={() => deleteTask(section.id, taskIndex)} />
-                                    </div>
+                                  </div>
+                                  <div className="task-actions">
+                                    <FontAwesomeIcon icon={faEdit} onClick={() => renameTask(section.id, taskIndex)} />
+                                    <FontAwesomeIcon icon={faTrash} onClick={() => deleteTask(section.id, taskIndex)} />
                                   </div>
                                 </div>
                               )}
                             </Draggable>
                           ))}
-                          <div className="add-task-item" onClick={() => addTask(section.id)}>
-                            <FontAwesomeIcon icon={faPlus} /> Ajouter une tâche
-                          </div>
+                          {provided.placeholder}
+                        </div>
+                        <div className="add-task-card" onClick={() => addTask(section.id)}>
+                          <FontAwesomeIcon icon={faPlus} /> Ajouter une tâche
                         </div>
                       </div>
                     )}
                   </Droppable>
                 ))}
-                {provided.placeholder}
+                <div className="add-section" onClick={addSection}>
+                  <FontAwesomeIcon icon={faPlus} /> Ajouter une section
+                </div>
               </div>
             )}
           </Droppable>
@@ -237,28 +224,30 @@ const ProjectDetailPage = () => {
       )}
 
       {selectedView === 'calendrier' && (
-        <div className="calendar-view">
+        <div className="calendrier-view">
           <Calendar
             onChange={handleDateChange}
             value={selectedDates}
           />
-          <div className="add-task-item" onClick={addTaskToDate}>
-            <FontAwesomeIcon icon={faPlus} /> Ajouter une tâche pour la date sélectionnée
-          </div>
+          <button className="add-task-date" onClick={addTaskToDate}>
+            <FontAwesomeIcon icon={faPlus} /> Ajouter une tâche pour cette date
+          </button>
           <div className="tasks-by-date">
             {Object.keys(tasksByDate).map(date => (
               <div key={date} className="tasks-date">
-                <h3>{date}</h3>
+                <h3>{new Date(date).toLocaleDateString()}</h3>
                 <ul>
                   {tasksByDate[date].map((task, index) => (
                     <li key={index} className="task-item">
                       {task}
                       <div className="task-actions">
-                        <FontAwesomeIcon icon={faEdit} onClick={() => openTaskDetails(task)} />
-                        <FontAwesomeIcon icon={faTrash} onClick={() => setTasksByDate(prevTasks => ({
-                          ...prevTasks,
-                          [date]: prevTasks[date].filter((_, i) => i !== index)
-                        }))} />
+                        <FontAwesomeIcon icon={faEdit} onClick={() => openModal(task)} />
+                        <FontAwesomeIcon icon={faTrash} onClick={() => {
+                          setTasksByDate(prevTasks => ({
+                            ...prevTasks,
+                            [date]: prevTasks[date].filter((_, i) => i !== index)
+                          }));
+                        }} />
                       </div>
                     </li>
                   ))}
@@ -269,15 +258,17 @@ const ProjectDetailPage = () => {
         </div>
       )}
 
-      {taskDetails && (
-        <div className="task-details-overlay">
-          <div className="task-details-container">
-            <h3>Détails de la tâche</h3>
-            <p><strong>Tâche:</strong> {taskDetails}</p>
-            <button onClick={closeTaskDetails}>Fermer</button>
-          </div>
-        </div>
-      )}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Détails de la tâche"
+        className="modal"
+        overlayClassName="modal-overlay"
+      >
+        <h2>Détails de la tâche</h2>
+        <p>{selectedTaskDetails}</p>
+        <button onClick={closeModal}>Fermer</button>
+      </Modal>
     </div>
   );
 };
