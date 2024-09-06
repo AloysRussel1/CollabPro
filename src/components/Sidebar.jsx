@@ -58,7 +58,6 @@ const Sidebar = () => {
             Suivi et Reporting
           </div>
           <ul className="sidebar-submenu">
-            <li><Link to="/services/reports/overview" className="sidebar-link">Vue d'Ensemble</Link></li>
             <li><Link to="/services/reports/performance" className="sidebar-link">Rapports de Performance</Link></li>
             <li><Link to="/services/reports/users" className="sidebar-link">Statistiques des Utilisateurs</Link></li>
           </ul>

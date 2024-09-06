@@ -1,0 +1,62 @@
+.user-statistics {
+    padding: 20px;
+    background-color: #ffffff; /* Fond blanc */
+    color: #000000; /* Texte noir */
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #ff0000; /* Rouge pour le titre principal */
+    font-size: 2.5rem;
+}
+
+.kpi-section {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.kpi-card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 250px;
+    margin: 10px;
+    border: 2px solid #ff0000; /* Contour rouge */
+}
+
+.kpi-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #000000;
+}
+
+.kpi-card p {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.chart-container {
+    margin: 20px 0;
+    background-color: #f0f0f0; /* Fond gris clair pour les graphiques */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #000000;
+    font-size: 1.8rem;
+}
+
+.chartjs-render-monitor {
+    max-width: 100%;
+    height: auto;
+}

@@ -1,0 +1,60 @@
+.performance-reports {
+    padding: 20px;
+    background-color: #f0f0f0; /* Fond clair */
+    color: #000000; /* Texte noir */
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #ff0000; /* Rouge pour le titre principal */
+}
+
+.kpi-section {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; /* Pour éviter la barre de défilement horizontale */
+    margin-bottom: 40px;
+}
+
+.kpi-card {
+    background-color: #ffffff; /* Fond blanc */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 220px; /* Taille fixe pour s'adapter dans un petit écran */
+    margin: 10px; /* Espacement pour s'adapter à différentes résolutions */
+}
+
+.kpi-card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #000000; /* Noir pour le titre des KPI */
+}
+
+.kpi-card p {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ff0000; /* Rouge pour les chiffres */
+}
+
+.chart-container {
+    margin: 20px 0;
+    background-color: #ffffff; /* Fond blanc pour les graphiques */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.chart-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #000000; /* Noir pour les titres des sections graphiques */
+}
+
+/* Les graphiques restent responsive sans barre horizontale */
+.chartjs-render-monitor {
+    max-width: 100%;
+    height: auto;
+}
