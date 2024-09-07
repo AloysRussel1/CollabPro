@@ -13,6 +13,8 @@ import TaskDetailPage from './TaskDetailPage';
 import BoiteDeReception from './BoiteDeReception';
 import PerformanceReports from './PerformanceReports';
 import UserStatistics from './UserStatistics';
+import Configuration from './Configuration';
+import SupportPage from './SupportPage';
 
 const ServicesPage = () => {
   return (
@@ -31,6 +33,8 @@ const ServicesPage = () => {
         <Route path="/inbox" element={<BoiteDeReception />} />
         <Route path="/reports/performance" element={<PerformanceReports />} />
         <Route path="/reports/users" element={<UserStatistics />} />
+        <Route path="/settings/configuration" element={<Configuration />} />
+        <Route path="/help" element={<SupportPage />} />
         
 
         </Routes>

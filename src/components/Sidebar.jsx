@@ -70,9 +70,7 @@ const Sidebar = () => {
             Paramètres
           </div>
           <ul className="sidebar-submenu">
-            <li><Link to="/services/settings/configuration" className="sidebar-link">Configuration</Link></li>
-            <li><Link to="/services/settings/preferences" className="sidebar-link">Préférences</Link></li>
-            <li><Link to="/services/settings/integrations" className="sidebar-link">Intégrations</Link></li>
+            <li><Link to="/services/settings/configuration" className="sidebar-link">Preference</Link></li>
           </ul>
         </div>
 

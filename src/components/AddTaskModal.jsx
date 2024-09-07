@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import './../assets/Css/pagesCss/AddTaskPage.css'; // Assurez-vous que le chemin du fichier CSS est correct
+import Modal from 'react-modal';
+import './../assets/Css/componentsCss/AddTaskModal.css'; 
 
-const AddTaskPage = ({ onSave }) => {
-  // États pour les données du formulaire et l'étape actuelle
+Modal.setAppElement('#root');
+
+const AddTaskModal = ({ isOpen, onRequestClose, onSave }) => {
   const [formData, setFormData] = useState({
     titre: '',
     description: '',
@@ -45,11 +47,17 @@ const AddTaskPage = ({ onSave }) => {
     e.preventDefault();
     if (validateStep()) {
       onSave(formData); // Appel de la fonction de sauvegarde passée en prop
+      onRequestClose(); // Fermer la modale après la soumission
     }
   };
 
   return (
-    <div className="add-task-page">
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      className="add-task-modal"
+      overlayClassName="add-task-overlay"
+    >
       <div className="page-content">
         <h2>Ajouter une Tâche</h2>
         <form onSubmit={handleSubmit}>
@@ -136,8 +144,8 @@ const AddTaskPage = ({ onSave }) => {
           )}
         </form>
       </div>
-    </div>
+    </Modal>
   );
 };
 
-export default AddTaskPage;
+export default AddTaskModal;

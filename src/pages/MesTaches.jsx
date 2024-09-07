@@ -5,6 +5,7 @@ import { faPlus, faEdit, faTrash, faChevronDown, faChevronUp } from '@fortawesom
 import './../assets/Css/pagesCss/MesTaches.css';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Modal from 'react-modal';
+import AddTaskModal from '../components/AddTaskModal';
 
 // Initialiser la modale
 Modal.setAppElement('#root');
@@ -39,7 +40,7 @@ const MesTaches = () => {
     }
   };
 
-  const addTask = (sectionId) => {
+ const addTask = (sectionId) => {
     const taskName = prompt('Entrez le nom de la nouvelle tâche:');
     if (taskName) {
       setSections(sections.map(section =>
@@ -173,7 +174,7 @@ const MesTaches = () => {
                 {...provided.droppableProps}
               >
                 {sections.map((section, sectionIndex) => (
-                  <Droppable key={section.id} droppableId={section.id}>
+                  <Droppable key={section.id} droppableId={section.id} type="TASK">
                     {(provided) => (
                       <div
                         className="task-section-tableau"
@@ -261,7 +262,6 @@ const MesTaches = () => {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        contentLabel="Détails de la tâche"
         className="modal"
         overlayClassName="modal-overlay"
       >

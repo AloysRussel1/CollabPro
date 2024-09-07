@@ -1,8 +1,8 @@
 .add-task-page {
   padding: 2rem;
-  max-width: 650px;
-  margin: 2rem auto; /* Ajout d'une marge en haut */
-  background-color: #ffffff; /* Fond blanc pour plus de clarté */
+  max-width: 750px;
+  margin: 2rem auto;
+  background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -15,9 +15,15 @@
 
 .page-content h2 {
   margin-top: 0;
-  font-size: 1.8rem;
-  color: #333; /* Couleur sombre pour le texte */
+  font-size: 2rem;
+  color: #ff0000;
   text-align: center;
+}
+
+.form-step {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .form-group {
@@ -28,7 +34,7 @@
   display: block;
   margin-bottom: 0.5rem;
   font-weight: bold;
-  color: #222; /* Couleur noire pour les labels */
+  color: #333;
 }
 
 .form-group input,
@@ -36,26 +42,24 @@
 .form-group select {
   width: 100%;
   padding: 0.75rem;
-  border: 1px solid #ccc; /* Bord gris clair */
+  border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 1rem;
-  color: #222; /* Couleur noire pour le texte des champs */
+  color: #333;
 }
 
 .form-group textarea {
   resize: vertical;
 }
 
-.page-actions {
+.form-actions {
   display: flex;
-  justify-content: center;
-  margin-top: 2rem;
+  justify-content: space-between;
 }
 
+.btn-previous,
+.btn-next,
 .btn-save {
-  background-color: #ff0000; /* Rouge vif */
-  color: white;
-  border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 6px;
   font-size: 1rem;
@@ -63,6 +67,32 @@
   transition: background-color 0.3s ease;
 }
 
+.btn-previous {
+  background-color: #ccc;
+  color: #333;
+  border: none;
+}
+
+.btn-previous:hover {
+  background-color: #aaa;
+}
+
+.btn-next {
+  background-color: #ff0000;
+  color: white;
+  border: none;
+}
+
+.btn-next:hover {
+  background-color: #cc0000;
+}
+
+.btn-save {
+  background-color: #000000;
+  color: white;
+  border: none;
+}
+
 .btn-save:hover {
-  background-color: #cc0000; /* Rouge plus sombre au survol */
+  background-color: #333333;
 }

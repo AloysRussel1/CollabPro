@@ -1,0 +1,103 @@
+.add-task-modal {
+    max-width: 750px;
+    margin: auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-task-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .page-content {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 10px;
+  }
+  
+  .page-content h2 {
+    margin-top: 0;
+    font-size: 2rem;
+    color: #ff0000;
+    text-align: center;
+  }
+  
+  .form-step {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .form-group textarea {
+    resize: vertical;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .btn-previous,
+  .btn-next,
+  .btn-save {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-previous {
+    background-color: #ccc;
+    color: #333;
+    border: none;
+  }
+  
+  .btn-previous:hover {
+    background-color: #aaa;
+  }
+  
+  .btn-next {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+  }
+  
+  .btn-next:hover {
+    background-color: #cc0000;
+  }
+  
+  .btn-save {
+    background-color: #000000;
+    color: white;
+    border: none;
+  }
+  
+  .btn-save:hover {
+    background-color: #333333;
+  }
+  
