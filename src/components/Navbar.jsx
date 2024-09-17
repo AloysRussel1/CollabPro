@@ -5,7 +5,7 @@ import {
 } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import logo from './../assets/images/logo.png'; // Remplacez par le chemin correct de votre logo
+import logo from './../assets/images/logo1.png'; 
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);

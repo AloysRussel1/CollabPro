@@ -50,6 +50,8 @@
   margin-bottom: 20px;
   background-color: #f0f0f0;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: max-height 0.3s ease-in-out;
+  overflow: hidden;
 }
 
 .section-header {
@@ -86,10 +88,15 @@ ul {
   border-bottom: 1px solid #e0e0e0;
   background-color: #ffffff;
   color: #000000;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .task-item:last-child {
   border-bottom: none;
+}
+
+.task-item:hover {
+  background-color: #ececec;
 }
 
 .task-actions {
@@ -139,6 +146,10 @@ ul {
 .add-section:hover {
   background-color: #d32f2f;
 }
+.add-task-button {
+  margin-top: 20px;
+  background-color: #000000;
+}
 
 .task-tableau-view {
   display: flex;
@@ -158,6 +169,18 @@ ul {
   flex: 1 1 calc(33.333% - 20px); /* Trois sections par ligne avec espace entre elles */
   min-width: 300px;
   box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .task-section-tableau {
+    flex: 1 1 calc(50% - 10px); /* Deux sections par ligne */
+  }
+}
+
+@media (max-width: 480px) {
+  .task-section-tableau {
+    flex: 1 1 100%; /* Une section par ligne */
+  }
 }
 
 .section-header-tableau {
@@ -181,6 +204,12 @@ ul {
   padding: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.task-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .task-card-content {
@@ -261,4 +290,102 @@ ul {
 .react-calendar__navigation button.react-calendar__navigation__prev-button:hover,
 .react-calendar__navigation button.react-calendar__navigation__next-button:hover {
   color: #e03b3b;
+}
+
+/* Styles pour le mode sombre */
+.dark-mode .mes-taches-container {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.dark-mode .task-section {
+  background-color: #1e1e1e;
+}
+
+.dark-mode .section-header {
+  background-color: #2a2a2a;
+}
+
+.dark-mode .task-item {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.dark-mode .add-task-item {
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+.dark-mode .add-section {
+  background-color: #333333;
+}
+
+.dark-mode .task-card {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.dark-mode .react-calendar__navigation button {
+  background-color: #2a2a2a;
+  color: #ffffff;
+}
+
+.dark-mode .react-calendar__month-view__days__day {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+
+.dark-mode .react-calendar__navigation button.react-calendar__navigation__prev-button,
+.dark-mode .react-calendar__navigation button.react-calendar__navigation__next-button {
+  color: #ff4c4c;
+}
+
+.dark-mode .react-calendar__navigation button.react-calendar__navigation__prev-button:hover,
+.dark-mode .react-calendar__navigation button.react-calendar__navigation__next-button:hover {
+  color: #e03b3b;
+}
+
+/* Bouton flottant pour ajouter une tâche */
+.add-task-floating {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #d32f2f;
+  color: #ffffff;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.add-task-floating:hover {
+  background-color: #b71c1c;
+}
+
+.add-task-floating i {
+  font-size: 1.5em;
+}
+
+/* Animations */
+.task-section {
+  transition: max-height 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.task-item {
+  transition: background-color 0.3s ease-in-out;
+}
+
+.task-card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.task-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }

@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './../assets/Css/pagesCss/AddTaskPage.css'; // Assurez-vous que le chemin du fichier CSS est correct
 
-const AddTaskPage = ({ onSave }) => {
-  // États pour les données du formulaire et l'étape actuelle
+const AddTaskPage = ({ onSave, task }) => {
   const [formData, setFormData] = useState({
     titre: '',
     description: '',
@@ -12,13 +11,23 @@ const AddTaskPage = ({ onSave }) => {
   });
   const [currentStep, setCurrentStep] = useState(1);
 
-  // Gestion du changement de valeur des inputs
+  useEffect(() => {
+    if (task) {
+      setFormData({
+        titre: task.name,
+        description: task.description,
+        dateDebut: task.assignedDate,
+        dateEcheance: task.deadline,
+        priorite: task.priority
+      });
+    }
+  }, [task]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Gestion de la navigation entre les étapes
   const handleNextStep = () => {
     if (validateStep()) {
       setCurrentStep(currentStep + 1);
@@ -29,7 +38,6 @@ const AddTaskPage = ({ onSave }) => {
     setCurrentStep(currentStep - 1);
   };
 
-  // Validation des données en fonction de l'étape
   const validateStep = () => {
     if (currentStep === 1) {
       return formData.titre && formData.description;
@@ -40,18 +48,24 @@ const AddTaskPage = ({ onSave }) => {
     return true;
   };
 
-  // Gestion de la soumission du formulaire
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateStep()) {
-      onSave(formData); // Appel de la fonction de sauvegarde passée en prop
+      onSave({
+        ...task,
+        name: formData.titre,
+        description: formData.description,
+        assignedDate: formData.dateDebut,
+        deadline: formData.dateEcheance,
+        priority: formData.priorite
+      });
     }
   };
 
   return (
     <div className="add-task-page">
       <div className="page-content">
-        <h2>Ajouter une Tâche</h2>
+        <h2>{task ? 'Modifier la Tâche' : 'Ajouter une Tâche'}</h2>
         <form onSubmit={handleSubmit}>
           {currentStep === 1 && (
             <div className="form-step">

@@ -1,10 +1,10 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { Typography, Button, Paper, Box } from '@mui/material';
+import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Typography, Button, Box } from '@mui/material';
 import { LinearProgress } from '@mui/material';
 import './../assets/Css/pagesCss/TaskDetailPage.css';
+import AddTaskPage from './AddTaskPage'; // Assurez-vous que le chemin du fichier est correct
 
-// Simuler des données de tâches
 const simulatedTasks = [
     {
         id: '1',
@@ -43,64 +43,82 @@ const simulatedTasks = [
 
 const TaskDetailPage = () => {
     const { taskId } = useParams();
+    const navigate = useNavigate();
+    const [showForm, setShowForm] = useState(false);
+    const [task, setTask] = useState(simulatedTasks.find(t => t.id === taskId) || simulatedTasks[0]);
 
-    // Trouver la tâche correspondant à taskId ou utiliser une tâche par défaut
-    const task = simulatedTasks.find(t => t.id === taskId) || simulatedTasks[0];
+    const handleModify = () => {
+        setShowForm(true);
+    };
+
+    const handleDelete = () => {
+        // Logique pour supprimer la tâche (peut être un appel API ou autre)
+        console.log(`Deleting task with id: ${task.id}`);
+        // Après suppression, naviguer vers une autre page ou mettre à jour l'état
+        navigate('/tasks'); // Par exemple, revenir à la liste des tâches
+    };
+
+    const handleSave = (updatedTask) => {
+        // Logique pour mettre à jour la tâche (peut être un appel API ou autre)
+        setTask(updatedTask);
+        setShowForm(false);
+    };
 
     return (
         <div className="task-detail-page">
-            <Paper elevation={3} className="task-detail-paper">
-                <Typography variant="h4" component="h1" className="task-title">{task.name}</Typography>
-                <Typography variant="body1" className="task-responsible">Responsable: {task.responsible}</Typography>
-                <Typography variant="body2" className="task-assigned-date">Date d'attribution: {task.assignedDate}</Typography>
-                <Typography variant="body2" className="task-deadline">Échéance: {task.deadline}</Typography>
-                <Typography variant="body2" className="task-priority">Priorité: {task.priority}</Typography>
-                <Typography variant="body2" className="task-status">Statut: {task.status}</Typography>
-                <Typography variant="body2" className="task-description">Description: {task.description}</Typography>
-                <div className="task-progress">
-                    <Typography variant="body2">Progression: {task.progress}%</Typography>
-                    <LinearProgress
-                        variant="determinate"
-                        value={task.progress}
-                        sx={{
-                            height: 10,
-                            borderRadius: 5,
-                            backgroundColor: '#e0e0e0',
-                            '& .MuiLinearProgress-bar': {
-                                backgroundColor: task.progress === 100 ? '#4caf50' : '#000',
-                            },
-                        }}
-                    />
-                </div>
-                <Box mt={2} className="button-container">
-                    <Button 
-                        variant="contained" 
-                        className="modify-button"
-                        sx={{
-                            backgroundColor: '#000', // Bouton noir
-                            color: '#fff',
-                            '&:hover': {
-                                backgroundColor: '#333',
-                            },
-                        }}
-                    >
-                        Modifier
-                    </Button>
-                    <Button 
-                        variant="contained" 
-                        className="delete-button"
-                        sx={{
-                            backgroundColor: '#d32f2f', // Bouton rouge
-                            color: '#fff',
-                            '&:hover': {
-                                backgroundColor: '#b71c1c',
-                            },
-                        }}
-                    >
-                        Supprimer
-                    </Button>
-                </Box>
-            </Paper>
+            <div className="task-detail-container">
+                {showForm ? (
+                    <AddTaskPage onSave={handleSave} task={task} />
+                ) : (
+                    <>
+                        <div className="task-header">
+                            <Typography variant="h1" component="h1" className="task-title">{task.name}</Typography>
+                            <Typography variant="body1" className="task-status">{task.status}</Typography>
+                        </div>
+                        <div className="task-detail">
+                            <div className="task-detail-item">
+                                <label>Responsable:</label>
+                                <span>{task.responsible}</span>
+                            </div>
+                            <div className="task-detail-item">
+                                <label>Date d'attribution:</label>
+                                <span>{task.assignedDate}</span>
+                            </div>
+                            <div className="task-detail-item">
+                                <label>Échéance:</label>
+                                <span>{task.deadline}</span>
+                            </div>
+                            <div className="task-detail-item">
+                                <label>Priorité:</label>
+                                <span>{task.priority}</span>
+                            </div>
+                            <div className="task-detail-item">
+                                <label>Description:</label>
+                                <span>{task.description}</span>
+                            </div>
+                        </div>
+                        <Box className="task-progress">
+                            <LinearProgress variant="determinate" value={task.progress} />
+                        </Box>
+                        <Box className="button-container">
+                            <Button 
+                                variant="contained" 
+                                className="modify-button"
+                                onClick={handleModify}
+                            >
+                                Modifier
+                            </Button>
+                            <Button 
+                                variant="contained" 
+                                className="delete-button"
+                                onClick={handleDelete}
+                            >
+                                Supprimer
+                            </Button>
+                        </Box>
+                    </>
+                )}
+            </div>
         </div>
     );
 };

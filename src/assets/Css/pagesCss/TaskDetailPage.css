@@ -1,104 +1,154 @@
-/* BoiteDeReception.css */
-.boite-de-reception {
+
+
+.task-detail-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+  background: #f5f5f5;
+  font-family: 'Roboto', sans-serif;
+  overflow: hidden;
+}
+
+.task-detail-container {
+  width: 100%;
+  max-width: 900px;
+  padding: 40px;
+  background: #fff;
+  border-radius: 0;
+  box-shadow: none;
+  position: relative;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  background-color: #f5f5f5;
+  gap: 20px;
 }
 
-.boite-header {
+.task-detail-container::before,
+.task-detail-container::after {
+  content: "";
+  position: absolute;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.1), transparent);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.task-detail-container::before {
+  width: 300px;
+  height: 300px;
+  top: -50px;
+  left: -50px;
+}
+
+.task-detail-container::after {
+  width: 300px;
+  height: 300px;
+  bottom: -50px;
+  right: -50px;
+}
+
+.task-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #000;
+  margin: 0;
+  border-bottom: 4px solid #d32f2f;
+  padding-bottom: 10px;
+}
+
+.task-status {
+  font-size: 1.5rem;
+  color: #d32f2f;
+  text-transform: uppercase;
+  font-weight: 600;
+  border-radius: 5px;
+  padding: 5px 10px;
+  background-color: rgba(211, 47, 47, 0.1);
+}
+
+.task-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.task-detail-item {
   display: flex;
   align-items: center;
-  padding: 1rem;
-  background-color: #ffffff;
-  border-bottom: 1px solid #ddd;
+  gap: 15px;
+  padding: 10px;
+  background-color: #e0e0e0;
+  border-left: 5px solid #d32f2f;
+  border-radius: 5px;
 }
 
-.boite-header h1 {
-  margin: 0;
-  font-size: 1.5rem;
+.task-detail-item label {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #000;
+  flex: 1;
+}
+
+.task-detail-item span {
+  font-size: 1.25rem;
   color: #333;
 }
 
-.boite-header .MuiButton-root {
-  margin-left: auto;
-  border: 1px solid #000; /* Pas de fond */
-  color: #000;
-  padding: 4px 8px;
+.task-progress {
+  margin-top: 20px;
+  position: relative;
+}
+
+.task-progress .MuiLinearProgress-root {
+  height: 15px;
+  border-radius: 8px;
+  background-color: #eee;
+}
+
+.task-progress .MuiLinearProgress-bar {
+  background-color: #d32f2f;
+}
+
+.button-container {
+  display: flex;
+  gap: 20px;
+}
+
+.modify-button,
+.delete-button {
   text-transform: none;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  transition: all 0.3s;
 }
 
-.boite-content {
-  display: flex;
-  height: calc(100vh - 60px); /* Ajustez en fonction de la hauteur de l'en-tête */
+.button-container .modify-button {
+  background-color: #000;
+  color: #fff;
+  border: 2px solid #d32f2f;
 }
 
-.discussions-list {
-  width: 300px;
-  border-right: 1px solid #ddd;
-  overflow-y: auto;
-  background-color: #ffffff; /* Couleur de fond des discussions */
+.button-container .modify-button:hover {
+  background-color: #333;
+  transform: scale(1.1);
 }
 
-.discussion-item {
-  padding: 1rem;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Légère ombre */
+.button-container .delete-button {
+  background-color: #d32f2f;
+  color: #fff;
+  border: 2px solid #000;
 }
 
-.discussion-item.active {
-  background-color: #e0e0e0; /* Couleur de fond pour la discussion active */
+.button-container.delete-button:hover {
+  background-color: #b71c1c;
+  transform: scale(1.1);
 }
 
-.discussion-detail {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  background-color: #ffffff; /* Couleur de fond de la zone de discussion */
-}
-
-.messages {
-  flex: 1;
-  overflow-y: auto;
-  margin-bottom: 1rem;
-}
-
-.message {
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-  border-radius: 4px;
-  max-width: 60%;
-  clear: both;
-}
-
-.message.received {
-  background-color: #f1f1f1; /* Couleur de fond des messages reçus */
-  margin-right: auto;
-}
-
-.message.sent {
-  background-color: #ffebeb; /* Couleur de fond des messages envoyés */
-  margin-left: auto;
-  text-align: right;
-}
-
-.message-input {
-  display: flex;
-  align-items: center;
-}
-
-.message-input .file-upload {
-  margin-right: 8px;
-}
-
-.message-input .MuiTextField-root {
-  flex: 1;
-  margin-right: 8px;
-}
-
-.no-discussion {
-  text-align: center;
-  padding: 2rem;
-  color: #888;
-}

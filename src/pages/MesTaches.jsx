@@ -4,11 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEdit, faTrash, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import './../assets/Css/pagesCss/MesTaches.css';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import Modal from 'react-modal';
+import TaskDetailPage from './TaskDetailPage';
 import AddTaskModal from '../components/AddTaskModal';
-
-// Initialiser la modale
-Modal.setAppElement('#root');
 
 const MesTaches = () => {
   const [sections, setSections] = useState([
@@ -19,18 +16,10 @@ const MesTaches = () => {
   const [selectedView, setSelectedView] = useState('liste');
   const [selectedDates, setSelectedDates] = useState([]);
   const [tasksByDate, setTasksByDate] = useState({});
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [selectedTaskDetails, setSelectedTaskDetails] = useState('');
+  const [selectedTaskDetails, setSelectedTaskDetails] = useState(null);
 
-  // Ouvrir la modale avec les détails de la tâche
-  const openModal = (taskDetails) => {
+  const openTaskDetailPage = (taskDetails) => {
     setSelectedTaskDetails(taskDetails);
-    setModalIsOpen(true);
-  };
-
-  // Fermer la modale
-  const closeModal = () => {
-    setModalIsOpen(false);
   };
 
   const addSection = () => {
@@ -40,7 +29,7 @@ const MesTaches = () => {
     }
   };
 
- const addTask = (sectionId) => {
+  const addTask = (sectionId) => {
     const taskName = prompt('Entrez le nom de la nouvelle tâche:');
     if (taskName) {
       setSections(sections.map(section =>
@@ -123,6 +112,10 @@ const MesTaches = () => {
     setSections(updatedSections);
   };
 
+  if (selectedTaskDetails) {
+    return <TaskDetailPage taskDetails={selectedTaskDetails} onClose={() => setSelectedTaskDetails(null)} />;
+  }
+
   return (
     <div className="mes-taches-container">
       <h1 className="mes-taches-title">Mes Tâches</h1>
@@ -143,7 +136,11 @@ const MesTaches = () => {
               {section.isOpen && (
                 <ul>
                   {section.tasks.map((task, index) => (
-                    <li key={index} className="task-item">
+                    <li
+                      key={index}
+                      className="task-item"
+                      onClick={() => openTaskDetailPage(task)} // Ouvrir les détails au clic sur la tâche
+                    >
                       {task}
                       <div className="task-actions">
                         <FontAwesomeIcon icon={faEdit} onClick={() => renameTask(section.id, index)} />
@@ -193,7 +190,7 @@ const MesTaches = () => {
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}
                                   {...provided.dragHandleProps}
-                                  onClick={() => openModal(task)}
+                                  onClick={() => openTaskDetailPage(task)}
                                 >
                                   <div className="task-card-content">
                                     {task}
@@ -208,16 +205,13 @@ const MesTaches = () => {
                           ))}
                           {provided.placeholder}
                         </div>
-                        <div className="add-task-card" onClick={() => addTask(section.id)}>
+                        <button className="add-task-button" onClick={() => addTask(section.id)}>
                           <FontAwesomeIcon icon={faPlus} /> Ajouter une tâche
-                        </div>
+                        </button>
                       </div>
                     )}
                   </Droppable>
                 ))}
-                <div className="add-section" onClick={addSection}>
-                  <FontAwesomeIcon icon={faPlus} /> Ajouter une section
-                </div>
               </div>
             )}
           </Droppable>
@@ -225,50 +219,18 @@ const MesTaches = () => {
       )}
 
       {selectedView === 'calendrier' && (
-        <div className="calendrier-view">
+        <div className="calendar-view">
           <Calendar
             onChange={handleDateChange}
             value={selectedDates}
           />
-          <button className="add-task-date" onClick={addTaskToDate}>
-            <FontAwesomeIcon icon={faPlus} /> Ajouter une tâche pour cette date
+          <button className="add-task-to-date-button" onClick={addTaskToDate}>
+            Ajouter une tâche à la date sélectionnée
           </button>
-          <div className="tasks-by-date">
-            {Object.keys(tasksByDate).map(date => (
-              <div key={date} className="tasks-date">
-                <h3>{new Date(date).toLocaleDateString()}</h3>
-                <ul>
-                  {tasksByDate[date].map((task, index) => (
-                    <li key={index} className="task-item">
-                      {task}
-                      <div className="task-actions">
-                        <FontAwesomeIcon icon={faEdit} onClick={() => openModal(task)} />
-                        <FontAwesomeIcon icon={faTrash} onClick={() => {
-                          setTasksByDate(prevTasks => ({
-                            ...prevTasks,
-                            [date]: prevTasks[date].filter((_, i) => i !== index)
-                          }));
-                        }} />
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
         </div>
       )}
 
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        className="modal"
-        overlayClassName="modal-overlay"
-      >
-        <h2>Détails de la tâche</h2>
-        <p>{selectedTaskDetails}</p>
-        <button onClick={closeModal}>Fermer</button>
-      </Modal>
+      <AddTaskModal />
     </div>
   );
 };

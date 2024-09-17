@@ -89,3 +89,23 @@
   background-color: #ff9800;
 }
 
+.edit-project-form button {
+  font-size: 14px; /* Taille de police réduite */
+  padding: 8px 16px; /* Moins d'espace intérieur */
+  border-radius: 4px; /* Coins arrondis */
+  margin-right: 10px; /* Espacement entre les boutons */
+}
+
+/* Couleur des boutons du formulaire de modification */
+.edit-project-form button {
+  width: 200px;
+  align-content: center;
+  background-color: #000000; 
+  color: #ffffff;
+  border: none; 
+  cursor: pointer; 
+}
+
+.edit-project-form button:hover {
+  background-color: #333333; /* Couleur de fond au survol */
+}

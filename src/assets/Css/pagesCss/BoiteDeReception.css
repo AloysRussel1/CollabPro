@@ -1,110 +1,106 @@
 /* BoiteDeReception.css */
-
 .boite-de-reception {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background-color: #f9f9f9;
-  }
-  
-  .boite-header {
-    background-color: #ffffff;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-  }
-  
-  .boite-header h1 {
-    margin: 0;
-    font-size: 1.25rem;
-    flex: 1;
-  }
-  
-  .discussions-list {
-    width: 100%;
-    max-width: 300px;
-    border-right: 1px solid #ddd;
-  }
-  
-  .search-bar {
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
-    background-color: #ffffff;
-  }
-  
-  .search-bar .MuiInputBase-root {
-    display: flex;
-    align-items: center;
-  }
-  
-  .discussion-item {
-    cursor: pointer;
-  }
-  
-  .discussion-item.active {
-    background-color: #e0e0e0;
-  }
-  
-  .discussion-detail {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow: hidden;
-  }
-  
-  .messages {
-    flex: 1;
-    padding: 16px;
-    overflow-y: auto;
-    background-color: #ffffff;
-  }
-  
-  .message {
-    margin-bottom: 8px;
-    padding: 8px;
-    border-radius: 4px;
-    max-width: 70%;
-    word-wrap: break-word;
-  }
-  
-  .message.received {
-    background-color: #f1f1f1;
-    align-self: flex-start;
-  }
-  
-  .message.sent {
-    background-color: #e0e0e0;
-    align-self: flex-end;
-  }
-  .discussion-detail .message-input {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    background-color: #f5f5f5;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
-    top: -100px;
-  }
-  
-  .message-input .message-text-field {
-    flex: 1;
-    margin-right: 10px;
-    width:  800px;
-  }
-  
-  .message-input .send-button {
-    color: #c42626;
-  }
-  
-  .send-button:hover {
-    color: #b71c1c;
-  }
-  
-  .no-discussion {
-    text-align: center;
-    padding: 16px;
-    color: #777;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.boite-header {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+}
+
+.boite-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.boite-header .MuiButton-root {
+  margin-left: auto;
+  border: 1px solid #000; /* Pas de fond */
+  color: #000;
+  padding: 4px 8px;
+  text-transform: none;
+}
+
+.boite-content {
+  display: flex;
+  height: calc(100vh - 60px); /* Ajustez en fonction de la hauteur de l'en-tête */
+}
+
+.discussions-list {
+  width: 300px;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+  background-color: #ffffff; /* Couleur de fond des discussions */
+}
+
+.discussion-item {
+  padding: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Légère ombre */
+}
+
+.discussion-item.active {
+  background-color: #e0e0e0; /* Couleur de fond pour la discussion active */
+}
+
+.discussion-detail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background-color: #ffffff; /* Couleur de fond de la zone de discussion */
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.message {
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 4px;
+  max-width: 60%;
+  clear: both;
+}
+
+.message.received {
+  background-color: #f1f1f1; /* Couleur de fond des messages reçus */
+  margin-right: auto;
+}
+
+.message.sent {
+  background-color: #ffebeb; /* Couleur de fond des messages envoyés */
+  margin-left: auto;
+  text-align: right;
+}
+
+.message-input {
+  display: flex;
+  align-items: center;
+  position: relative;
+  top :-100px
+}
+
+.message-input .file-upload {
+  margin-right: 8px;
+}
+
+.message-input .MuiTextField-root {
+  flex: 1;
+  margin-right: 8px;
+}
+
+.no-discussion {
+  text-align: center;
+  padding: 2rem;
+  color: #888;
+}
