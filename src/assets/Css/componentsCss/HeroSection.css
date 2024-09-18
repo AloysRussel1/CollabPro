@@ -110,6 +110,7 @@
     opacity: 0.85;
     mix-blend-mode: multiply;
     animation: float 3s ease-in-out infinite;
+    margin-bottom: 20px;
 }
 
 .scroll-down {
@@ -136,17 +137,19 @@
 
 @keyframes float {
     0% {
-        transform: translateY(0px);
+        transform: translateY(0);
     }
     50% {
         transform: translateY(-10px);
+    }
     100% {
-        transform: translateY(0px);
+        transform: translateY(0);
     }
 }
 
 @media (max-width: 768px) {
     .hero-content {
+        margin-top: 100px;
         flex-direction: column;
         text-align: center;
     }
@@ -160,4 +163,24 @@
         max-width: 100%;
         align-items: center;
     }
+
+    .hero {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 120vh;
+        background: linear-gradient(to right, #1a1a1a 50%, #ff4b2b 100%);
+        position: relative;
+        overflow: hidden;
+        color: #fff;
+        background-blend-mode: multiply;
+    }
+
+    .scroll-down{
+        display: none;
+    }
+
+    .
+
+
 }

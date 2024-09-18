@@ -15,6 +15,7 @@ import PerformanceReports from './PerformanceReports';
 import UserStatistics from './UserStatistics';
 import Configuration from './Configuration';
 import SupportPage from './SupportPage';
+import TeamsPage from './TeamsPage';
 
 const ServicesPage = () => {
   return (
@@ -28,6 +29,7 @@ const ServicesPage = () => {
         <Route path="/projects/add-project" element={<AddProjectPage/>} />
         <Route path="/tasks/add-task" element={<AddTaskPage/>} />
         <Route path="/projects/:projectId" element={<ProjectDetailPage />} />
+        <Route path="/projects/equipes" element={<TeamsPage />} />
         <Route path="/tasks/mytasks" element={<MesTaches />} />
         <Route path="/tasks/:taskId" element={<TaskDetailPage/>} />
         <Route path="/inbox" element={<BoiteDeReception />} />

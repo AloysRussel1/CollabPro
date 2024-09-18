@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './../assets/Css/pagesCss/AddProjectPage.css';
 
+// Simuler les données des membres enregistrés (exemple)
+const membersData = [
+  { id: 1, name: 'Alice Smith' },
+  { id: 2, name: 'Bob Johnson' },
+  { id: 3, name: 'Charlie Brown' },
+  { id: 4, name: 'David Wilson' },
+  { id: 5, name: 'Eve Davis' },
+];
+
 const AddProjectPage = ({ onSave, initialData }) => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -32,14 +41,15 @@ const AddProjectPage = ({ onSave, initialData }) => {
       ...formData,
       membres: [
         ...formData.membres,
-        { nom: '', tache: '', dateEcheanceTache: '', descriptionTache: '' },
+        { membreId: '', tache: '', dateEcheanceTache: '', descriptionTache: '' },
       ],
     });
   };
 
   const handleMembreChange = (index, e) => {
+    const { name, value } = e.target;
     const updatedMembres = formData.membres.map((membre, i) =>
-      i === index ? { ...membre, [e.target.name]: e.target.value } : membre
+      i === index ? { ...membre, [name]: value } : membre
     );
     setFormData({ ...formData, membres: updatedMembres });
   };
@@ -63,6 +73,12 @@ const AddProjectPage = ({ onSave, initialData }) => {
     <div className="add-project-page">
       <div className="page-content">
         <h2>{initialData ? 'Modifier le Projet' : 'Ajouter un Projet'}</h2>
+
+        {/* Barre de progression */}
+        <div className="progress-bar">
+          <div className="progress-step" style={{ width: `${(step / 3) * 100}%` }}></div>
+        </div>
+
         <form onSubmit={handleSubmit}>
           {step === 1 && (
             <>
@@ -139,15 +155,21 @@ const AddProjectPage = ({ onSave, initialData }) => {
               {formData.membres.map((membre, index) => (
                 <div key={index} className="membre-section">
                   <div className="form-group">
-                    <label htmlFor={`nom-${index}`}>Nom du membre</label>
-                    <input
-                      type="text"
-                      id={`nom-${index}`}
-                      name="nom"
-                      value={membre.nom}
+                    <label htmlFor={`membreId-${index}`}>Sélectionner le membre</label>
+                    <select
+                      id={`membreId-${index}`}
+                      name="membreId"
+                      value={membre.membreId}
                       onChange={(e) => handleMembreChange(index, e)}
                       required
-                    />
+                    >
+                      <option value="">Choisir un membre</option>
+                      {membersData.map((user) => (
+                        <option key={user.id} value={user.id}>
+                          {user.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className="form-group">
                     <label htmlFor={`tache-${index}`}>Titre de la tâche</label>

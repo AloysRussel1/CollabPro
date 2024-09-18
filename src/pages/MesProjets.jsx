@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './../assets/Css/pagesCss/MesProjets.css';
 import { FaSearch, FaEdit, FaTrash, FaInfoCircle, FaPlus } from 'react-icons/fa';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField, Select, MenuItem, LinearProgress } from '@mui/material';
-import { useNavigate } from 'react-router-dom';  // Importez useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const projects = [
   { id: '1', name: 'Projet Alpha', status: 'En cours', progress: 70, startDate: '2024-08-01', endDate: '2024-08-30' },
@@ -16,7 +16,7 @@ const MesProjets = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [currentProject, setCurrentProject] = useState(null);
-  const navigate = useNavigate();  // Utilisez useNavigate
+  const navigate = useNavigate();
 
   const handleFilterChange = (event) => setFilter(event.target.value);
   const handleSearchChange = (event) => setSearchTerm(event.target.value);
@@ -31,7 +31,6 @@ const MesProjets = () => {
   };
 
   const handleDeleteClick = (projectId) => {
-    // Implémentez la logique de suppression ici
     console.log(`Supprimer le projet avec l'ID: ${projectId}`);
   };
 
@@ -42,7 +41,6 @@ const MesProjets = () => {
 
   const handleModify = (event) => {
     event.preventDefault();
-    // Implémentez la logique pour enregistrer les modifications ici
     console.log('Données du projet modifiées:', currentProject);
     setShowForm(false);
   };
@@ -166,61 +164,66 @@ const MesProjets = () => {
           <h2>Modifier le Projet</h2>
           <form onSubmit={handleModify}>
             <div className="form-group">
-              <label htmlFor="name">Nom du Projet</label>
-              <input
-                type="text"
+              <TextField
                 id="name"
-                name="name"
+                label="Nom du Projet"
+                variant="outlined"
+                fullWidth
                 value={currentProject.name}
                 onChange={(e) => setCurrentProject({ ...currentProject, name: e.target.value })}
                 required
               />
             </div>
             <div className="form-group">
-              <label htmlFor="status">Statut</label>
-              <select
+              <Select
                 id="status"
-                name="status"
+                label="Statut"
                 value={currentProject.status}
                 onChange={(e) => setCurrentProject({ ...currentProject, status: e.target.value })}
+                fullWidth
+                variant="outlined"
                 required
               >
-                <option value="En cours">En cours</option>
-                <option value="Terminé">Terminé</option>
-              </select>
+                <MenuItem value="En cours">En cours</MenuItem>
+                <MenuItem value="Terminé">Terminé</MenuItem>
+              </Select>
             </div>
             <div className="form-group">
-              <label htmlFor="progress">État d'avancement</label>
-              <input
-                type="number"
+              <TextField
                 id="progress"
-                name="progress"
+                label="État d'avancement"
+                type="number"
+                variant="outlined"
+                fullWidth
                 value={currentProject.progress}
                 onChange={(e) => setCurrentProject({ ...currentProject, progress: Number(e.target.value) })}
-                min="0"
-                max="100"
+                InputProps={{ inputProps: { min: 0, max: 100 } }}
                 required
               />
             </div>
             <div className="form-group">
-              <label htmlFor="startDate">Date de Début</label>
-              <input
-                type="date"
+              <TextField
                 id="startDate"
-                name="startDate"
+                label="Date de Début"
+                type="date"
+                variant="outlined"
+                fullWidth
                 value={currentProject.startDate}
                 onChange={(e) => setCurrentProject({ ...currentProject, startDate: e.target.value })}
+                InputLabelProps={{ shrink: true }}
                 required
               />
             </div>
             <div className="form-group">
-              <label htmlFor="endDate">Date de Fin</label>
-              <input
-                type="date"
+              <TextField
                 id="endDate"
-                name="endDate"
+                label="Date de Fin"
+                type="date"
+                variant="outlined"
+                fullWidth
                 value={currentProject.endDate}
                 onChange={(e) => setCurrentProject({ ...currentProject, endDate: e.target.value })}
+                InputLabelProps={{ shrink: true }}
                 required
               />
             </div>

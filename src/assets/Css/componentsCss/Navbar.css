@@ -148,6 +148,43 @@ nav {
 .nav-links.open {
     transform: translateX(0);
 }
+@media (max-width: 1200px) {
+    .nav-links {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+        width: 70px;
+        font-size: 1.5rem;
+        color: #ffffff; /* Icône du burger en blanc */
+        position: absolute;
+        top: 1rem;
+        right: 5rem;
+        cursor: pointer;
+        z-index: 2000;
+    }
+}
+
+@media (max-width: 1024px) {
+    .nav-links {
+        display: none;
+    }
+
+    .menu-toggle {
+        display: block;
+        width: 70px;
+        font-size: 1.5rem;
+        color: #ffffff; /* Icône du burger en blanc */
+        position: absolute;
+        top: 1rem;
+        right: 5rem;
+        cursor: pointer;
+        z-index: 2000;
+    }
+
+}   
+
 
 @media (max-width: 768px) {
     .nav-links {
@@ -165,7 +202,21 @@ nav {
         cursor: pointer;
         z-index: 2000;
     }
+
+    .logo-image {
+        height: 60px; 
+        margin-right: 0px;
+    }
+    .logo{
+        font-size: 1.30rem;
+        font-weight: bold;
+        font-family: 'Montserrat', sans-serif;
+        color: #ffffff; /* Couleur du logo en blanc */
+
+    }
 }
+
+
 
 
 

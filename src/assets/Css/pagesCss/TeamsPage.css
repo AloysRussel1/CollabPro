@@ -1,0 +1,133 @@
+/* Styles généraux */
+.projects-page {
+  padding: 20px;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.projects-page-title {
+  text-align: center;
+  color: #d00;
+  margin-bottom: 20px;
+}
+
+.projects-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.project-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.project-name {
+  font-size: 24px;
+  color: #000;
+}
+
+.project-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.add-member-btn,
+.team-meetings-btn,
+.assign-task-btn {
+  background-color: #d00;
+  color: white;
+  padding: 8px 12px; /* Réduit la taille des boutons */
+  border-radius: 5px;
+  cursor: pointer;
+}
+.assign-task-btn {
+  background-color:#333;
+  color: white;
+  padding: 8px 12px; /* Réduit la taille des boutons */
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-member-form {
+  margin-top: 15px;
+}
+
+.add-member-form input {
+  margin: 5px 0;
+  padding: 8px;
+  width: calc(100% - 20px);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submit-member-btn {
+  background-color: #555;
+  color: white;
+  padding: 8px 12px; /* Réduit la taille du bouton */
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.team-members-table {
+  width: 100%;
+  margin-top: 15px;
+  border-collapse: collapse;
+}
+
+.team-members-table th,
+.team-members-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.team-members-table th {
+  background-color: #f4f4f4;
+}
+
+.assign-task-form {
+  margin-top: 15px;
+}
+
+.assign-task-form input,
+.assign-task-form textarea {
+  margin: 5px 0;
+  padding: 8px;
+  width: calc(100% - 20px);
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submit-task-btn {
+  background-color: #555;
+  color: white;
+  padding: 8px 12px; /* Réduit la taille du bouton */
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Styles pour les icônes d'action */
+.action-icons {
+  display: flex;
+  gap: 20px;
+}
+
+.action-icon {
+  font-size: 25px; 
+  color: #333;
+  cursor: pointer;
+}
+
+.action-icon:hover {
+  color: #d00; /* Changement de couleur au survol */
+}
+
