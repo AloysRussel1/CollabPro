@@ -13,7 +13,7 @@ const Navbar = () => {
   const location = useLocation();
 
   // Déterminer si nous sommes sur les pages de connexion ou d'inscription
-  const isAuthPage = location.pathname === '/signin' || location.pathname === '/register';
+  // const isAuthPage = location.pathname === '/signin' || location.pathname === '/register';
 
   useEffect(() => {
     // Vérifier si l'utilisateur est connecté (vérification du token, par exemple)
@@ -23,9 +23,9 @@ const Navbar = () => {
     }
   }, []);
 
-  if (isAuthPage) {
-    return null;
-  }
+  // if (isAuthPage) {
+  //   return null;
+  // }
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);

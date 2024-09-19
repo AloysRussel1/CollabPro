@@ -8,11 +8,11 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, LineEleme
 const PerformanceReports = () => {
   // Exemple de données pour les graphiques
   const taskCompletionData = {
-    labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin'], // Mois de l'année
+    labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin'],
     datasets: [
       {
         label: 'Tâches complétées',
-        data: [50, 100, 80, 120, 150, 130], 
+        data: [50, 100, 80, 120, 150, 130],
         backgroundColor: 'rgba(255, 0, 0, 0.6)', // Rouge
         borderColor: 'rgba(255, 0, 0, 1)', // Rouge foncé
         borderWidth: 1,
@@ -25,7 +25,7 @@ const PerformanceReports = () => {
     datasets: [
       {
         label: 'Progression (%)',
-        data: [85, 70, 95, 50, 80], // Progression en pourcentage
+        data: [85, 70, 95, 50, 80],
         backgroundColor: 'rgba(0, 0, 0, 0.6)', // Noir
         borderColor: 'rgba(0, 0, 0, 1)', // Noir foncé
         borderWidth: 1,
@@ -34,7 +34,7 @@ const PerformanceReports = () => {
   };
 
   const overdueTasksData = {
-    labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin'], 
+    labels: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin'],
     datasets: [
       {
         label: 'Tâches en retard',
@@ -47,45 +47,45 @@ const PerformanceReports = () => {
   };
 
   return (
-    <div className="performance-reports">
+    <div className="performance-reports-wrapper">
       <h1>Rapports de Performance</h1>
 
       {/* Section des Indicateurs Clés de Performance */}
-      <div className="kpi-section">
-        <div className="kpi-card">
+      <div className="kpi-wrapper">
+        <div className="kpi-item">
           <h2>Total des Tâches</h2>
           <p>320</p>
         </div>
-        <div className="kpi-card">
+        <div className="kpi-item">
           <h2>Tâches Terminées</h2>
           <p>280</p>
         </div>
-        <div className="kpi-card">
+        <div className="kpi-item">
           <h2>Tâches en Retard</h2>
           <p>12</p>
         </div>
-        <div className="kpi-card">
+        <div className="kpi-item">
           <h2>Projets en Cours</h2>
           <p>5</p>
         </div>
       </div>
 
       {/* Graphique des Tâches Complétées */}
-      <div className="chart-container">
+      <div className="chart-wrapper">
         <h2>Tâches Complétées par Mois</h2>
-        <Bar data={taskCompletionData} options={{ responsive: true }} />
+        <Bar data={taskCompletionData} options={{ responsive: true, maintainAspectRatio: false }} />
       </div>
 
       {/* Graphique de la Progression des Projets */}
-      <div className="chart-container">
+      <div className="chart-wrapper">
         <h2>Progression des Projets</h2>
-        <Bar data={projectProgressData} options={{ responsive: true }} />
+        <Bar data={projectProgressData} options={{ responsive: true, maintainAspectRatio: false }} />
       </div>
 
       {/* Graphique des Tâches en Retard */}
-      <div className="chart-container">
+      <div className="chart-wrapper">
         <h2>Tâches en Retard</h2>
-        <Line data={overdueTasksData} options={{ responsive: true }} />
+        <Line data={overdueTasksData} options={{ responsive: true, maintainAspectRatio: false }} />
       </div>
     </div>
   );

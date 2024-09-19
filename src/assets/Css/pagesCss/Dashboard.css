@@ -1,5 +1,3 @@
-/* src/assets/Css/componentsCss/Dashboard.css */
-
 .dashboard {
   padding: 20px;
   background-color: #f9f9f9; /* Fond clair */
@@ -50,56 +48,33 @@
   margin-bottom: 10px;
 }
 
-.dashboard-projects, .dashboard-shortcuts {
+.dashboard-charts {
   margin-bottom: 20px;
 }
 
-.dashboard-projects ul, .dashboard-shortcuts div {
-  list-style: none;
-  padding: 0;
-}
-
-.dashboard-projects li, .dashboard-shortcuts .shortcut-item {
-  background-color: #ffffff; /* Fond blanc pour les projets et raccourcis */
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  color: #333333; /* Texte en gris foncé */
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Légère ombre */
+.chart-container {
   display: flex;
-  align-items: center;
-  border-left: 5px solid #ff0000; /* Bordure gauche rouge */
+  justify-content: space-between;
+  gap: 10px; /* Espacement entre les graphiques */
+  overflow: hidden; /* Assure qu'il n'y ait pas de barre de défilement horizontale */
 }
 
-.shortcut-icon {
-  font-size: 20px;
-  color: #ff0000; /* Rouge pour les icônes de raccourci */
-  margin-right: 10px;
+.chart-item {
+  background-color: #ffffff; /* Fond blanc pour les éléments de graphique */
+  padding: 10px; /* Réduit l'espace intérieur */
+  border-radius: 8px;
+  flex: 1;
+  min-width: 0; /* Permet aux éléments flexibles de réduire leur largeur si nécessaire */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Légère ombre */
+  height: 250px; /* Hauteur des graphiques */
+  width: calc(50% - 5px); /* Largeur ajustée pour deux graphiques côte à côte */
+  position: relative; /* Pour que le titre soit correctement positionné */
+  overflow: hidden; /* Cache les débordements */
 }
 
-.shortcut-item a {
-  text-decoration: none;
+.chart-item h3 {
+  margin-bottom: 10px; /* Réduit l'espace sous le titre */
   color: #333333; /* Texte en gris foncé */
-}
-
-.shortcut-item a:hover {
-  color: #ff0000; /* Rouge vif au hover */
-}
-
-/* Style des boutons interactifs */
-.button-primary {
-  background-color: #ff0000; /* Bouton rouge */
-  color: #ffffff; /* Texte en blanc */
-  padding: 10px 15px;
-  border-radius: 5px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  transition: background-color 0.3s ease;
-}
-
-.button-primary:hover {
-  background-color: #cc0000; /* Rouge plus sombre au hover */
 }
 
 /* Ajustements pour les appareils mobiles */
@@ -115,5 +90,15 @@
 
   .dashboard-header {
     text-align: center;
+  }
+
+  .chart-container {
+    flex-direction: column;
+  }
+
+  .chart-item {
+    margin-bottom: 10px;
+    height: 180px; /* Réduit la hauteur des graphiques sur les petits écrans */
+    width: 100%; /* Occupe toute la largeur disponible sur petits écrans */
   }
 }

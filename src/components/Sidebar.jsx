@@ -25,7 +25,6 @@ const Sidebar = () => {
             <li><Link to="/services/projects/myprojects" className="sidebar-link">Mes Projets</Link></li>
             <li><Link to="/services/projects/add-project" className="sidebar-link">Ajouter un Projet</Link></li>
             <li><Link to="/services/projects/equipes" className="sidebar-link">Mes Equipes</Link></li>
-            <li><Link to="/services/documents" className="sidebar-link">Documents Partagés</Link></li>
           </ul>
         </div>
 

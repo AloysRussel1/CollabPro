@@ -13,6 +13,7 @@ const projectsData = [
       { id: 2, name: 'Bob', role: 'Collaborateur', email: 'bob@example.com', tasks: [] },
       { id: 3, name: 'Charlie', role: 'Collaborateur', email: 'charlie@example.com', tasks: [] },
     ],
+    files: [] // Liste des fichiers du projet
   },
   {
     id: 2,
@@ -21,6 +22,7 @@ const projectsData = [
       { id: 4, name: 'Grace', role: 'Collaborateur', email: 'grace@example.com', tasks: [] },
       { id: 5, name: 'Hank', role: 'Collaborateur', email: 'hank@example.com', tasks: [] },
     ],
+    files: [] // Liste des fichiers du projet
   },
 ];
 
@@ -31,6 +33,7 @@ const TeamsPage = () => {
   const [newMember, setNewMember] = useState({ name: '', email: '' });
   const [newTask, setNewTask] = useState({ title: '', description: '', dueDate: '' });
   const [selectedMember, setSelectedMember] = useState(null);
+  const [file, setFile] = useState(null); // État pour le fichier sélectionné
 
   const handleAddMember = (projectId) => {
     if (newMember.name && newMember.email) {
@@ -78,6 +81,25 @@ const TeamsPage = () => {
     // Logique pour supprimer le membre (par exemple, confirmation et suppression)
   };
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleUploadFile = (projectId) => {
+    if (file) {
+      const projectIndex = projectsData.findIndex((p) => p.id === projectId);
+      const newFileId = projectsData[projectIndex].files.length + 1;
+      projectsData[projectIndex].files.push({
+        id: newFileId,
+        name: file.name,
+        url: URL.createObjectURL(file) // Créer une URL temporaire pour le fichier
+      });
+
+      // Réinitialiser les champs
+      setFile(null);
+    }
+  };
+
   return (
     <div className="projects-page">
       <h1 className="projects-page-title">Gestion des équipes de projet</h1>
@@ -90,7 +112,12 @@ const TeamsPage = () => {
                 <button onClick={() => setShowAddMember(!showAddMember)} className="add-member-btn">
                   Ajouter un membre
                 </button>
-                <button className="team-meetings-btn">Organiser une réunion</button>
+                <button onClick={() => setActiveProject(project.id)} className="upload-file-btn">
+                  Ajouter des fichiers
+                </button>
+                <button className="team-meetings-btn">
+                  Organiser une réunion
+                </button>
               </div>
             </div>
 
@@ -139,6 +166,18 @@ const TeamsPage = () => {
               </div>
             )}
 
+            {activeProject === project.id && (
+              <div className="upload-file-form">
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                />
+                <button onClick={() => handleUploadFile(project.id)}>
+                  Upload File
+                </button>
+              </div>
+            )}
+
             <table className="team-members-table">
               <thead>
                 <tr>
@@ -178,6 +217,19 @@ const TeamsPage = () => {
                 ))}
               </tbody>
             </table>
+
+            {project.files.length > 0 && (
+              <div className="project-files">
+                <h3>Fichiers du Projet</h3>
+                <ul>
+                  {project.files.map((file) => (
+                    <li key={file.id}>
+                      <a href={file.url} download>{file.name}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         ))}
       </div>

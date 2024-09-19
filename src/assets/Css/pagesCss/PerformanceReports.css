@@ -1,4 +1,4 @@
-.performance-reports {
+.performance-reports-wrapper {
     padding: 20px;
     background-color: #f0f0f0; /* Fond clair */
     color: #000000; /* Texte noir */
@@ -10,44 +10,47 @@ h1 {
     color: #ff0000; /* Rouge pour le titre principal */
 }
 
-.kpi-section {
+.kpi-wrapper {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap; /* Pour éviter la barre de défilement horizontale */
     margin-bottom: 40px;
 }
 
-.kpi-card {
+.kpi-item {
     background-color: #ffffff; /* Fond blanc */
-    padding: 20px;
-    border-radius: 10px;
+    padding: 15px;
+    border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    width: 220px; /* Taille fixe pour s'adapter dans un petit écran */
+    width: 200px; /* Taille fixe pour s'adapter dans un petit écran */
     margin: 10px; /* Espacement pour s'adapter à différentes résolutions */
 }
 
-.kpi-card h2 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+.kpi-item h2 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
     color: #000000; /* Noir pour le titre des KPI */
 }
 
-.kpi-card p {
-    font-size: 2rem;
+.kpi-item p {
+    font-size: 1.8rem;
     font-weight: bold;
     color: #ff0000; /* Rouge pour les chiffres */
 }
 
-.chart-container {
-    margin: 20px 0;
+.chart-wrapper {
+    margin: 20px auto;
     background-color: #ffffff; /* Fond blanc pour les graphiques */
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 900px; /* Largeur fixe pour les graphiques */
+    height: 500px; /* Hauteur fixe pour les graphiques */
+    margin-bottom: 100px;
 }
 
-.chart-container h2 {
+.chart-wrapper h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #000000; /* Noir pour les titres des sections graphiques */

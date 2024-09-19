@@ -1,14 +1,33 @@
 import React from 'react';
 import './../assets/Css/pagesCss/Dashboard.css';
 import { FaProjectDiagram, FaTasks, FaBell } from 'react-icons/fa';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, LinearProgress } from '@mui/material';
+import { Bar, Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { useNavigate } from 'react-router-dom';
 
-const projects = [
-  { id: '1', name: 'Projet Alpha', progress: 70, deadline: '2024-08-30' },
-  { id: '2', name: 'Projet Beta', progress: 50, deadline: '2024-09-15' },
-  { id: '3', name: 'Projet Gamma', progress: 90, deadline: '2024-10-05' },
-];
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
+
+// Données pour les graphiques
+const barData = {
+  labels: ['Projet Alpha', 'Projet Beta', 'Projet Gamma'],
+  datasets: [
+    {
+      label: 'Progression',
+      data: [70, 50, 90],
+      backgroundColor: '#ff0000',
+    },
+  ],
+};
+
+const pieData = {
+  labels: ['Projets Alpha', 'Projets Beta', 'Projets Gamma'],
+  datasets: [
+    {
+      data: [70, 50, 90],
+      backgroundColor: ['#ff0000', '#00ff00', '#0000ff'],
+    },
+  ],
+};
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -44,57 +63,18 @@ const Dashboard = () => {
         </div>
       </section>
 
-      <section className="dashboard-projects">
-        <h2>Projets Récents</h2>
-        <TableContainer component={Paper} style={{ backgroundColor: '#ffffff' }}>
-          <Table aria-label="recent projects">
-            <TableHead>
-              <TableRow>
-                <TableCell style={{ color: '#ff0000', fontWeight: 'bold' }}>Projets</TableCell>
-                <TableCell style={{ color: '#ff0000', fontWeight: 'bold' }}>État d'avancement</TableCell>
-                <TableCell style={{ color: '#ff0000', fontWeight: 'bold' }}>Échéance</TableCell>
-                <TableCell align="right" style={{ color: '#ff0000', fontWeight: 'bold' }}>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {projects.map((project) => (
-                <TableRow key={project.id}>
-                  <TableCell>{project.name}</TableCell>
-                  <TableCell>
-                    <LinearProgress
-                      variant="determinate"
-                      value={project.progress}
-                      sx={{
-                        height: 10,
-                        borderRadius: 5,
-                        backgroundColor: '#e0e0e0', // Fond clair pour la progression
-                        '& .MuiLinearProgress-bar': {
-                          backgroundColor: project.progress === 100 ? '#6a0dad' : '#ff0000' // Violet pour 100% ou rouge pour les autres
-                        }
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell>{project.deadline}</TableCell>
-                  <TableCell align="right">
-                    <Button
-                      variant="contained"
-                      style={{
-                        backgroundColor: buttonColor,
-                        color: '#ffffff',
-                        '&:hover': {
-                          backgroundColor: '#000000', // Rouge plus foncé au survol
-                        },
-                      }}
-                      onClick={() => navigate(`/services/projects/${project.id}`)}
-                    >
-                      Détails
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+      <section className="dashboard-charts">
+        <h2>Statistiques des Projets</h2>
+        <div className="chart-container">
+          <div className="chart-item">
+            <h3>Progression des Projets</h3>
+            <Bar data={barData} options={{ responsive: true, maintainAspectRatio: false }} />
+          </div>
+          <div className="chart-item">
+            <h3>Répartition des Projets</h3>
+            <Pie data={pieData} options={{ responsive: true, maintainAspectRatio: false }} />
+          </div>
+        </div>
       </section>
     </div>
   );

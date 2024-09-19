@@ -1,8 +1,5 @@
 /* Conteneur de formulaire avec image de fond */
 .container{
-    background-image: url(./../../images/AuthBg.png);
-    background-size: cover;
-    background-position: center;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -10,8 +7,7 @@
 }
 
 .form-container {
-    max-width: 800px;
-    margin: 150px auto;
+    margin: 150px;
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 

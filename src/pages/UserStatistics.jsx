@@ -47,43 +47,43 @@ const UserStatistics = () => {
   };
 
   return (
-    <div className="user-statistics">
+    <div className="user-statistics-wrapper">
       <h1>Statistiques Utilisateur</h1>
 
       {/* Section des Indicateurs Clés de Performance */}
-      <div className="kpi-section">
-        <div className="kpi-card">
+      <div className="kpi-wrapper">
+        <div className="kpi-item">
           <h2>Total des Tâches</h2>
           <p>320</p>
         </div>
-        <div className="kpi-card">
+        <div className="kpi-item">
           <h2>Tâches Terminées</h2>
           <p>280</p>
         </div>
-        <div className="kpi-card">
+        <div className="kpi-item">
           <h2>Tâches en Retard</h2>
           <p>12</p>
         </div>
-        <div className="kpi-card">
+        <div className="kpi-item">
           <h2>Projets en Cours</h2>
           <p>5</p>
         </div>
       </div>
 
       {/* Graphique d'Activité */}
-      <div className="chart-container">
+      <div className="chart-wrapper">
         <h2>Activité Mensuelle</h2>
         <Bar data={activityData} options={{ responsive: true }} />
       </div>
 
       {/* Graphique de Progression des Tâches */}
-      <div className="chart-container">
+      <div className="chart-wrapper">
         <h2>Statut des Tâches</h2>
         <Bar data={taskCompletionData} options={{ responsive: true }} />
       </div>
 
       {/* Graphique de Progression des Projets */}
-      <div className="chart-container">
+      <div className="chart-wrapper">
         <h2>Progression des Projets</h2>
         <Line data={projectProgressData} options={{ responsive: true }} />
       </div>
