@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './../assets/Css/pagesCss/TeamsPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTasks, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+// import MeetingButton from '../components/MeetingButton';
 
 // Simuler les données des projets et des membres
 const projectsData = [
@@ -73,6 +74,15 @@ const TeamsPage = () => {
     }
   };
 
+ 
+
+  const startMeeting = () => {
+    window.open('https://meet.jit.si/NomDeVotreReunion', '_blank');
+  };
+
+
+  
+
   const handleEditMember = (memberId) => {
     // Logique pour éditer le membre (par exemple, ouvrir un formulaire d'édition)
   };
@@ -115,7 +125,7 @@ const TeamsPage = () => {
                 <button onClick={() => setActiveProject(project.id)} className="upload-file-btn">
                   Ajouter des fichiers
                 </button>
-                <button className="team-meetings-btn">
+                <button onClick={startMeeting} className="team-meetings-btn" >
                   Organiser une réunion
                 </button>
               </div>

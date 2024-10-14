@@ -68,6 +68,7 @@
     outline: none;
     font-size: 1rem;
     border-radius: 50px 0 0 50px;
+
 }
 
 .search-button {
@@ -179,8 +180,6 @@
     .scroll-down{
         display: none;
     }
-
-    .
 
 
 }

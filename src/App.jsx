@@ -9,6 +9,7 @@ import ContactPage from './pages/ContactPage';
 import AboutPage from './pages/AboutPage';
 import AnnoncePage from './pages/AnnoncePage';
 import ServicesPage from './pages/ServicesPage';
+import AnnonceDetailPage from './pages/AnnonceDetailPage';
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
       <Route path="/about" element={<AboutPage />} />
       <Route path="/announcements" element={<AnnoncePage />} />
       <Route path="/services/*" element={<ServicesPage />} />
-      
+      <Route path="/annonce/:id" element={<AnnonceDetailPage />} />
     </Routes>
     <Footer />
   </Router>

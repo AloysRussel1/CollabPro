@@ -37,8 +37,6 @@ const ServicesPage = () => {
         <Route path="/reports/users" element={<UserStatistics />} />
         <Route path="/settings/configuration" element={<Configuration />} />
         <Route path="/help" element={<SupportPage />} />
-        
-
         </Routes>
       </div>
     </div>
