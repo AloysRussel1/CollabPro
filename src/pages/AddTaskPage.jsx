@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import './../assets/Css/pagesCss/AddTaskPage.css'; // Assurez-vous que le chemin du fichier CSS est correct
+import api from './../api/api'; // Importez l'instance Axios
+import './../assets/Css/pagesCss/AddTaskPage.css';
 
-const AddTaskPage = ({ onSave, task }) => {
+const AddTaskPage = ({ task }) => {
   const [formData, setFormData] = useState({
     titre: '',
     description: '',
     dateDebut: '',
-    dateEcheance: '',
-    priorite: ''
+    dateEcheance: ''
   });
   const [currentStep, setCurrentStep] = useState(1);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     if (task) {
       setFormData({
-        titre: task.name,
+        titre: task.titre,
         description: task.description,
-        dateDebut: task.assignedDate,
-        dateEcheance: task.deadline,
-        priorite: task.priority
+        dateDebut: task.date_debut,
+        dateEcheance: task.date_fin
       });
     }
   }, [task]);
@@ -43,22 +44,47 @@ const AddTaskPage = ({ onSave, task }) => {
       return formData.titre && formData.description;
     }
     if (currentStep === 2) {
-      return formData.dateDebut && formData.dateEcheance && formData.priorite;
+      return formData.dateDebut && formData.dateEcheance;
     }
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateStep()) {
-      onSave({
+      const taskData = {
         ...task,
-        name: formData.titre,
+        titre: formData.titre,
         description: formData.description,
-        assignedDate: formData.dateDebut,
-        deadline: formData.dateEcheance,
-        priority: formData.priorite
-      });
+        date_debut: formData.dateDebut,
+        date_fin: formData.dateEcheance,
+        statut: 'Non commencé',
+        projet: null,
+        collaborateur: null,
+        priorite: null
+      };
+
+      try {
+        // Envoi des données au backend
+        const response = await api.post('/taches/', taskData);
+
+        // Message de succès
+        setSuccessMessage('Tâche enregistrée avec succès.');
+        setErrorMessage(''); // Effacer le message d'erreur
+
+        // Réinitialiser le formulaire
+        setFormData({
+          titre: '',
+          description: '',
+          dateDebut: '',
+          dateEcheance: ''
+        });
+        setCurrentStep(1); // Retour à la première étape
+      } catch (error) {
+        // En cas d'erreur
+        setErrorMessage("Erreur lors de l'enregistrement de la tâche : " + (error.response ? error.response.data : error.message));
+        setSuccessMessage(''); // Effacer le message de succès
+      }
     }
   };
 
@@ -66,6 +92,11 @@ const AddTaskPage = ({ onSave, task }) => {
     <div className="add-task-page">
       <div className="page-content">
         <h2>{task ? 'Modifier la Tâche' : 'Ajouter une Tâche'}</h2>
+
+        {/* Affichage des messages */}
+        {successMessage && <div className="message success-message">{successMessage}</div>}
+        {errorMessage && <div className="message error-message">{errorMessage}</div>}
+
         <form onSubmit={handleSubmit}>
           {currentStep === 1 && (
             <div className="form-step">
@@ -124,22 +155,6 @@ const AddTaskPage = ({ onSave, task }) => {
                   onChange={handleChange}
                   required
                 />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="priorite">Priorité</label>
-                <select
-                  id="priorite"
-                  name="priorite"
-                  value={formData.priorite}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Sélectionner une priorité</option>
-                  <option value="basse">Basse</option>
-                  <option value="moyenne">Moyenne</option>
-                  <option value="haute">Haute</option>
-                </select>
               </div>
 
               <div className="form-actions">

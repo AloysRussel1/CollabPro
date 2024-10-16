@@ -16,11 +16,13 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@mui/icons-material": "^6.0.1",
-    "@mui/material": "^6.0.1",
+    "@mui/material": "^6.1.4",
+    "@mui/x-data-grid": "^7.20.0",
     "@videosdk.live/react-sdk": "^0.1.101",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.4",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-beautiful-dnd": "^13.1.1",
     "react-bootstrap": "^2.10.4",
@@ -47,5 +49,6 @@
     "eslint-plugin-react-refresh": "^0.4.9",
     "globals": "^15.9.0",
     "vite": "^5.4.1"
-  }
+  },
+  "proxy": "http://127.0.0.1:8000"
 }

@@ -1,237 +1,209 @@
 import React, { useState } from 'react';
-import Calendar from 'react-calendar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faEdit, faTrash, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import './../assets/Css/pagesCss/MesTaches.css';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import TaskDetailPage from './TaskDetailPage';
-import AddTaskModal from '../components/AddTaskModal';
+import {
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Paper, IconButton, TextField, Button
+} from '@mui/material';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 const MesTaches = () => {
-  const [sections, setSections] = useState([
-    { id: '1', name: 'Récemment attribué', tasks: ['Tâche 1', 'Tâche 2'], isOpen: false },
-    { id: '2', name: 'À faire aujourd\'hui', tasks: ['Tâche 3'], isOpen: false },
-    { id: '3', name: 'À faire demain', tasks: ['Tâche 4', 'Tâche 5'], isOpen: false }
+  const [expandedTasks, setExpandedTasks] = useState([]);
+  const [formData, setFormData] = useState({
+    titre: '',
+    description: '',
+    dateDebut: '',
+    dateEcheance: ''
+  });
+  const [taches, setTaches] = useState([
+    {
+      id: 1,
+      titre: 'Remplir le formulaire',
+      description: 'Compléter toutes les sections du formulaire',
+      dateDebut: '2023-01-10',
+      dateEcheance: '2023-01-25',
+      statut: 'En pause',
+      progression: 50,
+      sousTaches: [
+        { id: 1, titre: 'Récupérer le formulaire', statut: 'Terminé' },
+        { id: 2, titre: 'L\'envoyer', statut: 'À commencer' }
+      ]
+    },
+    {
+      id: 2,
+      titre: 'Changer le fournisseur internet',
+      description: 'Rechercher et choisir un nouveau fournisseur',
+      dateDebut: '2023-01-20',
+      dateEcheance: '2023-01-28',
+      statut: 'En progression',
+      progression: 66.7,
+      sousTaches: []
+    }
   ]);
-  const [selectedView, setSelectedView] = useState('liste');
-  const [selectedDates, setSelectedDates] = useState([]);
-  const [tasksByDate, setTasksByDate] = useState({});
-  const [selectedTaskDetails, setSelectedTaskDetails] = useState(null);
 
-  const openTaskDetailPage = (taskDetails) => {
-    setSelectedTaskDetails(taskDetails);
+  const toggleExpand = (id) => {
+    setExpandedTasks((prev) =>
+      prev.includes(id) ? prev.filter((taskId) => taskId !== id) : [...prev, id]
+    );
   };
 
-  const addSection = () => {
-    const sectionName = prompt('Entrez le nom de la nouvelle section:');
-    if (sectionName) {
-      setSections([...sections, { id: (sections.length + 1).toString(), name: sectionName, tasks: [], isOpen: false }]);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newTask = {
+      id: taches.length + 1,
+      titre: formData.titre,
+      description: formData.description,
+      dateDebut: formData.dateDebut,
+      dateEcheance: formData.dateEcheance,
+      statut: 'À commencer',
+      progression: 0,
+      sousTaches: []
+    };
+    setTaches([...taches, newTask]);
+    setFormData({ titre: '', description: '', dateDebut: '', dateEcheance: '' });
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Terminé':
+        return '#4CAF50'; // Green
+      case 'En progression':
+        return '#FFC107'; // Amber
+      case 'À commencer':
+        return '#D32F2F'; // Red
+      default:
+        return '#9E9E9E'; // Grey
     }
   };
-
-  const addTask = (sectionId) => {
-    const taskName = prompt('Entrez le nom de la nouvelle tâche:');
-    if (taskName) {
-      setSections(sections.map(section =>
-        section.id === sectionId ? { ...section, tasks: [...section.tasks, taskName] } : section
-      ));
-    }
-  };
-
-  const renameTask = (sectionId, taskIndex) => {
-    const taskName = prompt('Renommez la tâche:');
-    if (taskName) {
-      setSections(sections.map(section =>
-        section.id === sectionId ? {
-          ...section,
-          tasks: section.tasks.map((task, index) => index === taskIndex ? taskName : task)
-        } : section
-      ));
-    }
-  };
-
-  const deleteTask = (sectionId, taskIndex) => {
-    setSections(sections.map(section =>
-      section.id === sectionId ? {
-        ...section,
-        tasks: section.tasks.filter((_, index) => index !== taskIndex)
-      } : section
-    ));
-  };
-
-  const toggleSection = (sectionId) => {
-    setSections(sections.map(section =>
-      section.id === sectionId ? { ...section, isOpen: !section.isOpen } : section
-    ));
-  };
-
-  const handleDateChange = (date) => {
-    setSelectedDates(date);
-  };
-
-  const addTaskToDate = () => {
-    const taskName = prompt('Entrez le nom de la nouvelle tâche pour cette date:');
-    if (taskName && selectedDates.length > 0) {
-      const dateKey = selectedDates[0].toDateString();
-      setTasksByDate(prevTasks => ({
-        ...prevTasks,
-        [dateKey]: [...(prevTasks[dateKey] || []), taskName]
-      }));
-    } else {
-      alert('Veuillez sélectionner une date pour ajouter une tâche.');
-    }
-  };
-
-  const onDragEnd = (result) => {
-    const { source, destination } = result;
-
-    if (!destination) {
-      return;
-    }
-
-    if (source.index === destination.index && source.droppableId === destination.droppableId) {
-      return;
-    }
-
-    const sourceSectionIndex = sections.findIndex(section => section.id === source.droppableId);
-    const destinationSectionIndex = sections.findIndex(section => section.id === destination.droppableId);
-
-    const sourceSection = sections[sourceSectionIndex];
-    const destinationSection = sections[destinationSectionIndex];
-
-    const sourceTasks = Array.from(sourceSection.tasks);
-    const [movedTask] = sourceTasks.splice(source.index, 1);
-
-    const destinationTasks = Array.from(destinationSection.tasks);
-    destinationTasks.splice(destination.index, 0, movedTask);
-
-    const updatedSections = [...sections];
-    updatedSections[sourceSectionIndex] = { ...sourceSection, tasks: sourceTasks };
-    updatedSections[destinationSectionIndex] = { ...destinationSection, tasks: destinationTasks };
-
-    setSections(updatedSections);
-  };
-
-  if (selectedTaskDetails) {
-    return <TaskDetailPage taskDetails={selectedTaskDetails} onClose={() => setSelectedTaskDetails(null)} />;
-  }
 
   return (
-    <div className="mes-taches-container">
-      <h1 className="mes-taches-title">Mes Tâches</h1>
-      <div className="view-selector">
-        <button className={selectedView === 'liste' ? 'active' : ''} onClick={() => setSelectedView('liste')}>Liste</button>
-        <button className={selectedView === 'tableau' ? 'active' : ''} onClick={() => setSelectedView('tableau')}>Tableau</button>
-        <button className={selectedView === 'calendrier' ? 'active' : ''} onClick={() => setSelectedView('calendrier')}>Calendrier</button>
-      </div>
+    <TableContainer
+      component={Paper}
+      sx={{
+        width: '90%',
+        margin: '20px auto',
+        backgroundColor: '#f9f9f9',
+        boxShadow: '0px 3px 6px rgba(0,0,0,0.16)',
+      }}
+    >
+      <h2 style={{
+        paddingLeft: '16px',
+        color: '#D32F2F',
+        borderBottom: '2px solid #D32F2F',
+        marginBottom: '10px',
+      }}>Ma liste de tâches</h2>
 
-      {selectedView === 'liste' && (
-        <div className="task-list-view">
-          {sections.map(section => (
-            <div key={section.id} className="task-section">
-              <div className="section-header" onClick={() => toggleSection(section.id)}>
-                <h2>{section.name}</h2>
-                <FontAwesomeIcon icon={section.isOpen ? faChevronUp : faChevronDown} />
-              </div>
-              {section.isOpen && (
-                <ul>
-                  {section.tasks.map((task, index) => (
-                    <li
-                      key={index}
-                      className="task-item"
-                      onClick={() => openTaskDetailPage(task)} // Ouvrir les détails au clic sur la tâche
-                    >
-                      {task}
-                      <div className="task-actions">
-                        <FontAwesomeIcon icon={faEdit} onClick={() => renameTask(section.id, index)} />
-                        <FontAwesomeIcon icon={faTrash} onClick={() => deleteTask(section.id, index)} />
-                      </div>
-                    </li>
-                  ))}
-                  <li className="add-task-item" onClick={() => addTask(section.id)}>
-                    <FontAwesomeIcon icon={faPlus} /> Ajouter une tâche
-                  </li>
-                </ul>
-              )}
-            </div>
-          ))}
-          <div className="add-section" onClick={addSection}>
-            <FontAwesomeIcon icon={faPlus} /> Ajouter une section
-          </div>
-        </div>
-      )}
-
-      {selectedView === 'tableau' && (
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="droppable-sections" direction="horizontal">
-            {(provided) => (
-              <div
-                className="task-tableau-view"
-                ref={provided.innerRef}
-                {...provided.droppableProps}
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell sx={{ color: '#000', fontWeight: 'bold', borderBottom: '2px solid #D32F2F' }}>Tâche</TableCell>
+            <TableCell sx={{ color: '#000', fontWeight: 'bold', borderBottom: '2px solid #D32F2F' }}>Description</TableCell>
+            <TableCell sx={{ color: '#000', fontWeight: 'bold', borderBottom: '2px solid #D32F2F' }}>Date de début</TableCell>
+            <TableCell sx={{ color: '#000', fontWeight: 'bold', borderBottom: '2px solid #D32F2F' }}>Date d'échéance</TableCell>
+            <TableCell sx={{ color: '#000', fontWeight: 'bold', borderBottom: '2px solid #D32F2F' }}>Statut</TableCell>
+            <TableCell sx={{ color: '#000', fontWeight: 'bold', borderBottom: '2px solid #D32F2F' }}>Progression</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {taches.map((tache) => (
+            <React.Fragment key={tache.id}>
+              <TableRow
+                sx={{
+                  backgroundColor: '#fff',
+                  '&:hover': { backgroundColor: '#F5F5F5' },
+                  transition: 'background-color 0.3s ease',
+                }}
               >
-                {sections.map((section, sectionIndex) => (
-                  <Droppable key={section.id} droppableId={section.id} type="TASK">
-                    {(provided) => (
-                      <div
-                        className="task-section-tableau"
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                      >
-                        <div className="section-header-tableau">
-                          <h2>{section.name}</h2>
-                        </div>
-                        <div className="task-cards">
-                          {section.tasks.map((task, taskIndex) => (
-                            <Draggable key={taskIndex} draggableId={`${section.id}-${taskIndex}`} index={taskIndex}>
-                              {(provided) => (
-                                <div
-                                  className="task-card"
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  onClick={() => openTaskDetailPage(task)}
-                                >
-                                  <div className="task-card-content">
-                                    {task}
-                                  </div>
-                                  <div className="task-actions">
-                                    <FontAwesomeIcon icon={faEdit} onClick={() => renameTask(section.id, taskIndex)} />
-                                    <FontAwesomeIcon icon={faTrash} onClick={() => deleteTask(section.id, taskIndex)} />
-                                  </div>
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                          {provided.placeholder}
-                        </div>
-                        <button className="add-task-button" onClick={() => addTask(section.id)}>
-                          <FontAwesomeIcon icon={faPlus} /> Ajouter une tâche
-                        </button>
-                      </div>
-                    )}
-                  </Droppable>
+                <TableCell>
+                  <IconButton onClick={() => toggleExpand(tache.id)}>
+                    {expandedTasks.includes(tache.id) ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                  </IconButton>
+                  {tache.titre}
+                </TableCell>
+                <TableCell>{tache.description}</TableCell>
+                <TableCell>{tache.dateDebut}</TableCell>
+                <TableCell>{tache.dateEcheance}</TableCell>
+                <TableCell style={{ color: getStatusColor(tache.statut) }}>
+                  <strong>{tache.statut}</strong>
+                </TableCell>
+                <TableCell>
+                  <div style={{ width: '100px', backgroundColor: '#f0f0f0', borderRadius: '5px', overflow: 'hidden' }}>
+                    <div
+                      style={{
+                        width: `${tache.progression}%`,
+                        backgroundColor: tache.progression < 50 ? '#D32F2F' : '#1976d2',
+                        height: '10px',
+                      }}
+                    ></div>
+                  </div>
+                  {tache.progression}%
+                </TableCell>
+              </TableRow>
+
+              {expandedTasks.includes(tache.id) &&
+                tache.sousTaches.map((sousTache) => (
+                  <TableRow key={sousTache.id}>
+                    <TableCell colSpan={6} style={{ paddingLeft: '40px', backgroundColor: '#f9f9f9', borderLeft: '5px solid #D32F2F' }}>
+                      ↳ <strong>{sousTache.titre}</strong> - <span style={{ color: getStatusColor(sousTache.statut) }}><strong>{sousTache.statut}</strong></span>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-      )}
-
-      {selectedView === 'calendrier' && (
-        <div className="calendar-view">
-          <Calendar
-            onChange={handleDateChange}
-            value={selectedDates}
-          />
-          <button className="add-task-to-date-button" onClick={addTaskToDate}>
-            Ajouter une tâche à la date sélectionnée
-          </button>
-        </div>
-      )}
-
-      <AddTaskModal />
-    </div>
+            </React.Fragment>
+          ))}
+          <TableRow>
+            <TableCell colSpan={6}>
+              <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', padding: '20px 0' }}>
+                <TextField
+                  label="Nouvelle tâche"
+                  name="titre"
+                  value={formData.titre}
+                  onChange={handleInputChange}
+                  required
+                />
+                <TextField
+                  label="Description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  required
+                />
+                <TextField
+                  type="date"
+                  name="dateDebut"
+                  value={formData.dateDebut}
+                  onChange={handleInputChange}
+                  required
+                />
+                <TextField
+                  type="date"
+                  name="dateEcheance"
+                  value={formData.dateEcheance}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{
+                    backgroundColor: '#D32F2F',
+                    color: '#fff',
+                    '&:hover': { backgroundColor: '#A00000' },
+                    transition: 'background-color 0.3s ease',
+                  }}
+                >
+                  Ajouter
+                </Button>
+              </form>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
