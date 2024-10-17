@@ -1,244 +1,264 @@
-import React, { useState } from 'react';
-import Calendar from 'react-calendar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faEdit, faTrash, faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import './../assets/Css/pagesCss/ProjectDetailPage.css';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import Modal from 'react-modal';
-import TaskDetailPage from './TaskDetailPage';
-import AddTaskModal from '../components/AddTaskModal';
-
-// Initialiser la modale
-Modal.setAppElement('#root');
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Paper, IconButton, TextField, Button, MenuItem, Select, Dialog,
+  DialogActions, DialogContent, DialogContentText, DialogTitle
+} from '@mui/material';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import './../assets/Css/pagesCss/MesTaches.css'; // Import du fichier CSS
+import api from '../api/api';  // Import de votre fichier API
 
 const ProjectDetailPage = () => {
-  const [sections, setSections] = useState([
-    { id: '1', name: 'Récemment attribué', tasks: ['Tâche 1', 'Tâche 2'], isOpen: false },
-    { id: '2', name: 'À faire aujourd\'hui', tasks: ['Tâche 3'], isOpen: false },
-    { id: '3', name: 'À faire demain', tasks: ['Tâche 4', 'Tâche 5'], isOpen: false }
-  ]);
-  const [selectedView, setSelectedView] = useState('liste');
-  const [selectedDates, setSelectedDates] = useState([]);
-  const [tasksByDate, setTasksByDate] = useState({});
-  const [selectedTaskDetails, setSelectedTaskDetails] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatut, setFilterStatut] = useState('');
+  const [filterDateDebut, setFilterDateDebut] = useState('');
+  const [filterDateEcheance, setFilterDateEcheance] = useState('');
+  const [taches, setTaches] = useState([]); // Initialisé comme un tableau
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [progression, setProgression] = useState(0);
+  const [projectDetails, setProjectDetails] = useState({ titre: '', description: '' }); // Initialise avec des valeurs par défaut
 
-  const openTaskDetailPage = (taskDetails) => {
-    setSelectedTaskDetails(taskDetails);
+  const navigate = useNavigate();
+  const { projectId } = useParams(); // Récupérer l'ID du projet depuis les paramètres de l'URL
+
+  useEffect(() => {
+    const fetchProjectDetails = async () => {
+      try {
+        const response = await api.get(`/projets/${projectId}/`); // Remplacer avec votre endpoint pour récupérer le projet
+        setProjectDetails(response.data); // Stocker les détails du projet
+      } catch (error) {
+        console.error('Erreur lors du chargement des détails du projet:', error);
+      }
+    };
+
+    const fetchTaches = async () => {
+      try {
+        const response = await api.get(`/taches/?projet=${projectId}`); // Filtrer les tâches par l'ID du projet
+        setTaches(response.data); // On récupère les tâches depuis l'API
+      } catch (error) {
+        console.error('Erreur lors du chargement des tâches:', error);
+      }
+    };
+
+    fetchProjectDetails();
+    fetchTaches();
+  }, [projectId]); // Dépendance sur projectId
+
+  const handleAdd = () => {
+    navigate(`/services/tasks/add-task?projectId=${projectId}`); // Passer l'ID du projet pour l'ajout
   };
 
-  const addSection = () => {
-    const sectionName = prompt('Entrez le nom de la nouvelle section:');
-    if (sectionName) {
-      setSections([...sections, { id: (sections.length + 1).toString(), name: sectionName, tasks: [], isOpen: false }]);
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/taches/${id}/`);
+      setTaches(taches.filter((tache) => tache.id !== id));
+    } catch (error) {
+      console.error('Erreur lors de la suppression de la tâche:', error);
     }
   };
 
-  const addTask = (sectionId) => {
-    const taskName = prompt('Entrez le nom de la nouvelle tâche:');
-    if (taskName) {
-      setSections(sections.map(section =>
-        section.id === sectionId ? { ...section, tasks: [...section.tasks, taskName] } : section
+  const handleEdit = (tache) => {
+    navigate('/services/tasks/add-task', { state: { task: tache } });
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Terminé':
+        return '#4CAF50';
+      case 'En progression':
+        return '#FFC107';
+      case 'À commencer':
+        return '#D32F2F';
+      case 'En retard':
+        return '#FF5722'; // Couleur pour les tâches en retard
+      default:
+        return '#9E9E9E';
+    }
+  };
+
+  const handleProgressClick = (tache) => {
+    setSelectedTask(tache);
+    setProgression(tache.progression); // Mettre le pourcentage de progression actuel
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const getUpdatedStatus = (progression, dateFin) => {
+    const now = new Date();
+    if (progression === 100) {
+      return 'Terminé';
+    } else if (progression > 0) {
+      return 'En progression';
+    } else if (now > new Date(dateFin)) {
+      return 'En retard';
+    }
+    return 'À commencer';
+  };
+
+  const handleProgressionChange = async () => {
+    if (progression < 0 || progression > 100) {
+      alert("La progression doit être un nombre entre 0 et 100.");
+      return; // Ne pas continuer si la progression est invalide
+    }
+
+    try {
+      const newStatus = getUpdatedStatus(progression, selectedTask.dateFin);
+
+      // Effectuer la requête PUT ou PATCH pour mettre à jour la progression et le statut
+      await api.patch(`/taches/${selectedTask.id}/`, { progression, statut: newStatus });
+
+      // Mettre à jour l'état local
+      setTaches(taches.map(tache =>
+        tache.id === selectedTask.id ? { ...tache, progression, statut: newStatus } : tache
       ));
+      setOpenModal(false);
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour de la progression:', error);
     }
   };
 
-  const renameTask = (sectionId, taskIndex) => {
-    const taskName = prompt('Renommez la tâche:');
-    if (taskName) {
-      setSections(sections.map(section =>
-        section.id === sectionId ? {
-          ...section,
-          tasks: section.tasks.map((task, index) => index === taskIndex ? taskName : task)
-        } : section
-      ));
-    }
-  };
+  // Filtrage des tâches
+  const filteredTasks = taches.filter((tache) => {
+    const searchLower = searchTerm.toLowerCase();
+    const matchesSearch = tache.titre.toLowerCase().includes(searchLower) ||
+      tache.description.toLowerCase().includes(searchLower);
 
-  const deleteTask = (sectionId, taskIndex) => {
-    setSections(sections.map(section =>
-      section.id === sectionId ? {
-        ...section,
-        tasks: section.tasks.filter((_, index) => index !== taskIndex)
-      } : section
-    ));
-  };
+    const matchesStatus = !filterStatut || tache.statut === filterStatut;
+    const matchesDateDebut = !filterDateDebut || new Date(tache.dateDebut) >= new Date(filterDateDebut);
+    const matchesDateEcheance = !filterDateEcheance || new Date(tache.dateEcheance) <= new Date(filterDateEcheance);
 
-  const toggleSection = (sectionId) => {
-    setSections(sections.map(section =>
-      section.id === sectionId ? { ...section, isOpen: !section.isOpen } : section
-    ));
-  };
-
-  const handleDateChange = (date) => {
-    setSelectedDates(date);
-  };
-
-  const addTaskToDate = () => {
-    const taskName = prompt('Entrez le nom de la nouvelle tâche pour cette date:');
-    if (taskName && selectedDates.length > 0) {
-      const dateKey = selectedDates[0].toDateString();
-      setTasksByDate(prevTasks => ({
-        ...prevTasks,
-        [dateKey]: [...(prevTasks[dateKey] || []), taskName]
-      }));
-    } else {
-      alert('Veuillez sélectionner une date pour ajouter une tâche.');
-    }
-  };
-
-  const onDragEnd = (result) => {
-    const { source, destination } = result;
-
-    if (!destination) {
-      return;
-    }
-
-    if (source.index === destination.index && source.droppableId === destination.droppableId) {
-      return;
-    }
-
-    const sourceSectionIndex = sections.findIndex(section => section.id === source.droppableId);
-    const destinationSectionIndex = sections.findIndex(section => section.id === destination.droppableId);
-
-    const sourceSection = sections[sourceSectionIndex];
-    const destinationSection = sections[destinationSectionIndex];
-
-    const sourceTasks = Array.from(sourceSection.tasks);
-    const [movedTask] = sourceTasks.splice(source.index, 1);
-
-    const destinationTasks = Array.from(destinationSection.tasks);
-    destinationTasks.splice(destination.index, 0, movedTask);
-
-    const updatedSections = [...sections];
-    updatedSections[sourceSectionIndex] = { ...sourceSection, tasks: sourceTasks };
-    updatedSections[destinationSectionIndex] = { ...destinationSection, tasks: destinationTasks };
-
-    setSections(updatedSections);
-  };
-
-  if (selectedTaskDetails) {
-    return <TaskDetailPage taskDetails={selectedTaskDetails} onClose={() => setSelectedTaskDetails(null)} />;
-  }
+    return matchesSearch && matchesStatus && matchesDateDebut && matchesDateEcheance;
+  });
 
   return (
-    <div className="mes-taches-container">
-      <h1 className="mes-taches-title">Mes Tâches</h1>
-      <div className="view-selector">
-        <button className={selectedView === 'liste' ? 'active' : ''} onClick={() => setSelectedView('liste')}>Liste</button>
-        <button className={selectedView === 'tableau' ? 'active' : ''} onClick={() => setSelectedView('tableau')}>Tableau</button>
-        <button className={selectedView === 'calendrier' ? 'active' : ''} onClick={() => setSelectedView('calendrier')}>Calendrier</button>
+    <TableContainer component={Paper} className="table-container">
+      <h2 className="table-title">Détails du projet: {projectDetails.titre}</h2>
+      <p className="project-description">{projectDetails.description}</p>
+
+      <Button
+        variant="contained"
+        sx={{ backgroundColor: '#D32F2F', color: '#fff', margin: '20px' }} // Changement de couleur
+        startIcon={<AddCircleOutlineIcon />}
+        onClick={handleAdd}
+        className="add-task-button"
+        style={{ color: '#fff', padding: '10px 20px', fontWeight: 'bold' }} // Style modifié
+      >
+        Ajouter une tâche
+      </Button>
+
+      <div className="filter-container">
+        <TextField
+          label="Rechercher une tâche"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          variant="outlined"
+          className="search-bar"
+        />
+        <Select
+          value={filterStatut}
+          onChange={(e) => setFilterStatut(e.target.value)}
+          displayEmpty
+          className="filter-select"
+        >
+          <MenuItem value="">Tous les statuts</MenuItem>
+          <MenuItem value="À commencer">À commencer</MenuItem>
+          <MenuItem value="En progression">En progression</MenuItem>
+          <MenuItem value="Terminé">Terminé</MenuItem>
+          <MenuItem value="En retard">En retard</MenuItem>
+        </Select>
+        <TextField
+          type="date"
+          label="Date début"
+          value={filterDateDebut}
+          onChange={(e) => setFilterDateDebut(e.target.value)}
+          className="date-filter"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <TextField
+          type="date"
+          label="Date échéance"
+          value={filterDateEcheance}
+          onChange={(e) => setFilterDateEcheance(e.target.value)}
+          className="date-filter"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
       </div>
 
-      {selectedView === 'liste' && (
-        <div className="task-list-view">
-          {sections.map(section => (
-            <div key={section.id} className="task-section">
-              <div className="section-header" onClick={() => toggleSection(section.id)}>
-                <h2>{section.name}</h2>
-                <FontAwesomeIcon icon={section.isOpen ? faChevronUp : faChevronDown} />
-              </div>
-              {section.isOpen && (
-                <ul>
-                  {section.tasks.map((task, index) => (
-                    <li
-                      key={index}
-                      className="task-item"
-                      onClick={() => openTaskDetailPage(task)} // Ouvrir les détails au clic sur la tâche
-                    >
-                      {task}
-                      <div className="task-actions">
-                        <FontAwesomeIcon icon={faEdit} onClick={() => renameTask(section.id, index)} />
-                        <FontAwesomeIcon icon={faTrash} onClick={() => deleteTask(section.id, index)} />
-                      </div>
-                    </li>
-                  ))}
-                  <li className="add-task-item" onClick={() => addTask(section.id)}>
-                    <FontAwesomeIcon icon={faPlus} /> Ajouter une tâche
-                  </li>
-                </ul>
-              )}
-            </div>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Titre</TableCell>
+            <TableCell>Description</TableCell>
+            <TableCell>Statut</TableCell>
+            <TableCell>Date Début</TableCell>
+            <TableCell>Date Échéance</TableCell>
+            <TableCell>Progression (%)</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {filteredTasks.map((tache) => (
+            <TableRow key={tache.id} style={{ backgroundColor: getStatusColor(tache.statut) }}>
+              <TableCell>{tache.titre}</TableCell>
+              <TableCell>{tache.description}</TableCell>
+              <TableCell>{tache.statut}</TableCell>
+              <TableCell>{new Date(tache.dateDebut).toLocaleDateString()}</TableCell>
+              <TableCell>{new Date(tache.dateEcheance).toLocaleDateString()}</TableCell>
+              <TableCell>
+                <IconButton onClick={() => handleProgressClick(tache)}>
+                 
+                <EditIcon />
+                </IconButton>
+              </TableCell>
+              <TableCell>
+                <IconButton onClick={() => handleEdit(tache)}>
+                  <EditIcon />
+                </IconButton>
+                <IconButton onClick={() => handleDelete(tache.id)}>
+                  <DeleteIcon />
+                </IconButton>
+              </TableCell>
+            </TableRow>
           ))}
-          <div className="add-section" onClick={addSection}>
-            <FontAwesomeIcon icon={faPlus} /> Ajouter une section
-          </div>
-        </div>
-      )}
+        </TableBody>
+      </Table>
 
-      {selectedView === 'tableau' && (
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="droppable-sections" direction="horizontal">
-            {(provided) => (
-              <div
-                className="task-tableau-view"
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                {sections.map((section, sectionIndex) => (
-                  <Droppable key={section.id} droppableId={section.id} type="TASK">
-                    {(provided) => (
-                      <div
-                        className="task-section-tableau"
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                      >
-                        <div className="section-header-tableau">
-                          <h2>{section.name}</h2>
-                        </div>
-                        <div className="task-cards">
-                          {section.tasks.map((task, taskIndex) => (
-                            <Draggable key={taskIndex} draggableId={`${section.id}-${taskIndex}`} index={taskIndex}>
-                              {(provided) => (
-                                <div
-                                  className="task-card"
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  onClick={() => openTaskDetailPage(task)}
-                                >
-                                  <div className="task-card-content">
-                                    {task}
-                                  </div>
-                                  <div className="task-actions">
-                                    <FontAwesomeIcon icon={faEdit} onClick={() => renameTask(section.id, taskIndex)} />
-                                    <FontAwesomeIcon icon={faTrash} onClick={() => deleteTask(section.id, taskIndex)} />
-                                  </div>
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                          {provided.placeholder}
-                        </div>
-                        <button className="add-task-button" onClick={() => addTask(section.id)}>
-                          <FontAwesomeIcon icon={faPlus} /> Ajouter une tâche
-                        </button>
-                      </div>
-                    )}
-                  </Droppable>
-                ))}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
-      )}
-
-      {selectedView === 'calendrier' && (
-        <div className="calendar-view">
-          <Calendar
-            onChange={handleDateChange}
-            value={selectedDates}
+      {/* Modal for Progression Update */}
+      <Dialog open={openModal} onClose={handleCloseModal}>
+        <DialogTitle>Mettre à jour la progression</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Modifiez le pourcentage de progression pour la tâche: {selectedTask?.titre}
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Progression (%)"
+            type="number"
+            fullWidth
+            value={progression}
+            onChange={(e) => setProgression(Number(e.target.value))}
+            inputProps={{ min: 0, max: 100 }} // Restriction pour les valeurs entre 0 et 100
           />
-          <button className="add-task-to-date-button" onClick={addTaskToDate}>
-            Ajouter une tâche à la date sélectionnée
-          </button>
-        </div>
-      )}
-
-      <AddTaskModal />
-    </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseModal}>Annuler</Button>
+          <Button onClick={handleProgressionChange}>Mettre à jour</Button>
+        </DialogActions>
+      </Dialog>
+    </TableContainer>
   );
 };
 
-
 export default ProjectDetailPage;
-

@@ -1,22 +1,31 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './../assets/Css/pagesCss/MesProjets.css';
 import { FaSearch, FaEdit, FaTrash, FaInfoCircle, FaPlus } from 'react-icons/fa';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField, Select, MenuItem, LinearProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
-const projects = [
-  { id: '1', name: 'Projet Alpha', status: 'En cours', progress: 70, startDate: '2024-08-01', endDate: '2024-08-30' },
-  { id: '2', name: 'Projet Beta', status: 'Terminé', progress: 100, startDate: '2024-06-01', endDate: '2024-07-15' },
-  { id: '3', name: 'Projet Gamma', status: 'En cours', progress: 50, startDate: '2024-07-01', endDate: '2024-09-05' },
-  // Ajoutez plus de projets ici
-];
+import api from '../api/api'; // Importez votre instance Axios
 
 const MesProjets = () => {
   const [filter, setFilter] = useState('Tous');
   const [searchTerm, setSearchTerm] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [currentProject, setCurrentProject] = useState(null);
+  const [projects, setProjects] = useState([]); // État pour stocker les projets
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fonction pour récupérer les projets
+    const fetchProjects = async () => {
+      try {
+        const data = await api.get('projets/'); // Requête GET à l'API
+        setProjects(data); // Met à jour l'état avec les projets récupérés
+      } catch (error) {
+        console.error('Erreur lors de la récupération des projets:', error);
+      }
+    };
+
+    fetchProjects(); // Appel de la fonction pour récupérer les projets
+  }, []); // La dépendance vide signifie que cela ne s'exécute qu'une fois à l'initialisation
 
   const handleFilterChange = (event) => setFilter(event.target.value);
   const handleSearchChange = (event) => setSearchTerm(event.target.value);
@@ -54,7 +63,7 @@ const MesProjets = () => {
           color="primary"
           startIcon={<FaPlus />}
           style={{ backgroundColor: '#000000', color: '#ffffff', marginBottom: '20px' }}
-          onClick={() => navigate('/add-project')}
+          onClick={() => navigate('/services/projects/add-project')}
         >
           Ajouter un projet
         </Button>
@@ -101,12 +110,12 @@ const MesProjets = () => {
                 <TableBody>
                   {filteredProjects.map((project) => (
                     <TableRow key={project.id}>
-                      <TableCell>{project.name}</TableCell>
-                      <TableCell>{project.status}</TableCell>
+                      <TableCell>{project.titre}</TableCell>
+                      <TableCell>{project.statut}</TableCell>
                       <TableCell>
                         <LinearProgress
                           variant="determinate"
-                          value={project.progress}
+                          value={project.progression}
                           sx={{
                             height: 10,
                             borderRadius: 5,
@@ -117,8 +126,8 @@ const MesProjets = () => {
                           }}
                         />
                       </TableCell>
-                      <TableCell>{project.startDate}</TableCell>
-                      <TableCell>{project.endDate}</TableCell>
+                      <TableCell>{project.date_debut}</TableCell>
+                      <TableCell>{project.date_fin}</TableCell>
                       <TableCell align="center">
                         <Button
                           variant="contained"
@@ -224,24 +233,32 @@ const MesProjets = () => {
                 value={currentProject.endDate}
                 onChange={(e) => setCurrentProject({ ...currentProject, endDate: e.target.value })}
                 InputLabelProps={{ shrink: true }}
-                required
-              />
+                />
+                </div>
+                <div className="form-actions">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    style={{ backgroundColor: '#000000', color: '#ffffff', marginRight: '10px' }}
+                  >
+                    Enregistrer
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    onClick={() => setShowForm(false)}
+                    style={{ marginLeft: '10px' }}
+                  >
+                    Annuler
+                  </Button>
+                </div>
+              </form>
             </div>
-            <Button type="submit" variant="contained" color="primary">Enregistrer</Button>
-            <Button
-              type="button"
-              variant="outlined"
-              color="secondary"
-              onClick={() => setShowForm(false)}
-              style={{ marginLeft: '10px' }}
-            >
-              Annuler
-            </Button>
-          </form>
+          )}
         </div>
-      )}
-    </div>
-  );
-};
-
-export default MesProjets;
+      );
+    };
+    
+    export default MesProjets;
+    

@@ -21,20 +21,22 @@ const MesTaches = () => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [progression, setProgression] = useState(0);
 
-  const navigate = useNavigate(); // Correction : placer useNavigate dans le composant
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTaches = async () => {
       try {
         const response = await api.get('/taches/');
-        setTaches(response); // On récupère les tâches depuis l'API
+        // Filtrer les tâches pour exclure celles avec projet ou collaborateur
+        const filteredTaches = response.filter(tache => !tache.projet && !tache.collaborateur);
+        setTaches(filteredTaches);
       } catch (error) {
         console.error('Erreur lors du chargement des tâches:', error);
       }
     };
 
     fetchTaches();
-  }, []); // Ce useEffect sera exécuté au montage du composant
+  }, []);
 
   const handleAdd = () => {
     navigate('/services/tasks/add-task');
@@ -62,7 +64,7 @@ const MesTaches = () => {
       case 'À commencer':
         return '#D32F2F';
       case 'En retard':
-        return '#FF5722'; // Couleur pour les tâches en retard
+        return '#FF5722';
       default:
         return '#9E9E9E';
     }
@@ -70,7 +72,7 @@ const MesTaches = () => {
 
   const handleProgressClick = (tache) => {
     setSelectedTask(tache);
-    setProgression(tache.progression); // Mettre le pourcentage de progression actuel
+    setProgression(tache.progression); 
     setOpenModal(true);
   };
 
@@ -82,7 +84,7 @@ const MesTaches = () => {
     const now = new Date();
     if (progression === 100) {
       return 'Terminé';
-    } else if (progression > 0) {
+    } else if (progression > 0 ) {
       return 'En cours';
     } else if (now > new Date(dateFin)) {
       return 'En retard';
@@ -94,9 +96,9 @@ const MesTaches = () => {
     try {
       const newStatus = getUpdatedStatus(progression, selectedTask.dateFin);
       
-      // Effectuer la requête PUT ou PATCH pour mettre à jour la progression et le statut
+      // Effectuer la requête PATCH pour mettre à jour la progression et le statut
       await api.patch(`/taches/${selectedTask.id}/`, { progression, statut: newStatus });
-  
+
       // Mettre à jour l'état local
       setTaches(taches.map(tache => 
         tache.id === selectedTask.id ? { ...tache, progression, statut: newStatus } : tache
@@ -123,11 +125,11 @@ const MesTaches = () => {
 
       <Button
         variant="contained"
-        sx={{ backgroundColor: '#D32F2F', color: '#fff', margin: '20px' }} // Changement de couleur
+        sx={{ backgroundColor: '#D32F2F', color: '#fff', margin: '20px' }}
         startIcon={<AddCircleOutlineIcon />}
         onClick={handleAdd}
         className="add-task-button"
-        style={{ color: '#fff', padding: '10px 20px', fontWeight: 'bold' }} // Style modifié
+        style={{ color: '#fff', padding: '10px 20px', fontWeight: 'bold' }}
       >
         Ajouter une tâche
       </Button>
@@ -205,11 +207,10 @@ const MesTaches = () => {
               </TableCell>
               <TableCell className="table-cell">
                 <div className="action-buttons">
-                  <IconButton onClick={() => handleEdit(tache)} className="icon-button">
+                  <IconButton onClick={() => handleEdit(tache)}>
                     <EditIcon />
                   </IconButton>
-
-                  <IconButton onClick={() => handleDelete(tache.id)} className="icon-button">
+                  <IconButton onClick={() => handleDelete(tache.id)}>
                     <DeleteIcon />
                   </IconButton>
                 </div>
@@ -220,19 +221,19 @@ const MesTaches = () => {
       </Table>
 
       <Dialog open={openModal} onClose={handleCloseModal}>
-        <DialogTitle>Modifier la progression</DialogTitle>
+        <DialogTitle>Mise à jour de la progression</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Modifiez la progression de la tâche : {selectedTask ? selectedTask.titre : ''}
+            Mettez à jour la progression de la tâche.
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             label="Progression (%)"
             type="number"
-            fullWidth
             value={progression}
-            onChange={(e) => setProgression(Number(e.target.value))}
+            onChange={(e) => setProgression(e.target.value)}
+            fullWidth
             inputProps={{ min: 0, max: 100 }}
           />
         </DialogContent>
@@ -241,7 +242,7 @@ const MesTaches = () => {
             Annuler
           </Button>
           <Button onClick={handleProgressionChange} color="primary">
-            Sauvegarder
+            Enregistrer
           </Button>
         </DialogActions>
       </Dialog>
