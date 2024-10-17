@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom'; // Ajoutez useNavigate ici
 import api from './../api/api'; // Importez l'instance Axios
 import './../assets/Css/pagesCss/AddTaskPage.css';
 
-const AddTaskPage = ({ task }) => {
+const AddTaskPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate(); // Initialisation du hook useNavigate
+  const task = location.state?.task; // Accéder à l'objet de tâche si disponible
+
   const [formData, setFormData] = useState({
     titre: '',
     description: '',
@@ -80,6 +85,10 @@ const AddTaskPage = ({ task }) => {
           dateEcheance: ''
         });
         setCurrentStep(1); // Retour à la première étape
+
+        // Rediriger vers la page des tâches après un ajout réussi
+        navigate('/services/tasks/mytasks'); // Redirection vers la page mes tâches
+
       } catch (error) {
         // En cas d'erreur
         setErrorMessage("Erreur lors de l'enregistrement de la tâche : " + (error.response ? error.response.data : error.message));
@@ -159,7 +168,7 @@ const AddTaskPage = ({ task }) => {
 
               <div className="form-actions">
                 <button type="button" className="btn-previous" onClick={handlePreviousStep}>Précédent</button>
-                <button type="submit" className="btn-save">Enregistrer</button>
+                <button type="submit" className="btn-submit">Soumettre</button>
               </div>
             </div>
           )}

@@ -1,210 +1,253 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Paper, IconButton, TextField, Button
+  Paper, IconButton, TextField, Button, MenuItem, Select, Dialog,
+  DialogActions, DialogContent, DialogContentText, DialogTitle
 } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import './../assets/Css/pagesCss/MesTaches.css'; // Import du fichier CSS
+import api from '../api/api';  // Import de votre fichier API
 
 const MesTaches = () => {
-  const [expandedTasks, setExpandedTasks] = useState([]);
-  const [formData, setFormData] = useState({
-    titre: '',
-    description: '',
-    dateDebut: '',
-    dateEcheance: ''
-  });
-  const [taches, setTaches] = useState([
-    {
-      id: 1,
-      titre: 'Remplir le formulaire',
-      description: 'Compléter toutes les sections du formulaire',
-      dateDebut: '2023-01-10',
-      dateEcheance: '2023-01-25',
-      statut: 'En pause',
-      progression: 50,
-      sousTaches: [
-        { id: 1, titre: 'Récupérer le formulaire', statut: 'Terminé' },
-        { id: 2, titre: 'L\'envoyer', statut: 'À commencer' }
-      ]
-    },
-    {
-      id: 2,
-      titre: 'Changer le fournisseur internet',
-      description: 'Rechercher et choisir un nouveau fournisseur',
-      dateDebut: '2023-01-20',
-      dateEcheance: '2023-01-28',
-      statut: 'En progression',
-      progression: 66.7,
-      sousTaches: []
-    }
-  ]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatut, setFilterStatut] = useState('');
+  const [filterDateDebut, setFilterDateDebut] = useState('');
+  const [filterDateEcheance, setFilterDateEcheance] = useState('');
+  const [taches, setTaches] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [progression, setProgression] = useState(0);
 
-  const toggleExpand = (id) => {
-    setExpandedTasks((prev) =>
-      prev.includes(id) ? prev.filter((taskId) => taskId !== id) : [...prev, id]
-    );
-  };
+  const navigate = useNavigate(); // Correction : placer useNavigate dans le composant
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newTask = {
-      id: taches.length + 1,
-      titre: formData.titre,
-      description: formData.description,
-      dateDebut: formData.dateDebut,
-      dateEcheance: formData.dateEcheance,
-      statut: 'À commencer',
-      progression: 0,
-      sousTaches: []
+  useEffect(() => {
+    const fetchTaches = async () => {
+      try {
+        const response = await api.get('/taches/');
+        setTaches(response); // On récupère les tâches depuis l'API
+      } catch (error) {
+        console.error('Erreur lors du chargement des tâches:', error);
+      }
     };
-    setTaches([...taches, newTask]);
-    setFormData({ titre: '', description: '', dateDebut: '', dateEcheance: '' });
+
+    fetchTaches();
+  }, []); // Ce useEffect sera exécuté au montage du composant
+
+  const handleAdd = () => {
+    navigate('/services/tasks/add-task');
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/taches/${id}/`);
+      setTaches(taches.filter((tache) => tache.id !== id));
+    } catch (error) {
+      console.error('Erreur lors de la suppression de la tâche:', error);
+    }
+  };
+
+  const handleEdit = (tache) => {
+    navigate('/services/tasks/add-task', { state: { task: tache } });
   };
 
   const getStatusColor = (status) => {
     switch (status) {
       case 'Terminé':
-        return '#4CAF50'; // Green
+        return '#4CAF50';
       case 'En progression':
-        return '#FFC107'; // Amber
+        return '#FFC107';
       case 'À commencer':
-        return '#D32F2F'; // Red
+        return '#D32F2F';
+      case 'En retard':
+        return '#FF5722'; // Couleur pour les tâches en retard
       default:
-        return '#9E9E9E'; // Grey
+        return '#9E9E9E';
     }
   };
 
-  return (
-    <TableContainer
-      component={Paper}
-      sx={{
-        width: '90%',
-        margin: '20px auto',
-        backgroundColor: '#f9f9f9',
-        boxShadow: '0px 3px 6px rgba(0,0,0,0.16)',
-      }}
-    >
-      <h2 style={{
-        paddingLeft: '16px',
-        color: '#D32F2F',
-        borderBottom: '2px solid #D32F2F',
-        marginBottom: '10px',
-      }}>Ma liste de tâches</h2>
+  const handleProgressClick = (tache) => {
+    setSelectedTask(tache);
+    setProgression(tache.progression); // Mettre le pourcentage de progression actuel
+    setOpenModal(true);
+  };
 
-      <Table>
-        <TableHead>
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const getUpdatedStatus = (progression, dateFin) => {
+    const now = new Date();
+    if (progression === 100) {
+      return 'Terminé';
+    } else if (progression > 0) {
+      return 'En cours';
+    } else if (now > new Date(dateFin)) {
+      return 'En retard';
+    }
+    return 'À commencer';
+  };
+  
+  const handleProgressionChange = async () => {
+    try {
+      const newStatus = getUpdatedStatus(progression, selectedTask.dateFin);
+      
+      // Effectuer la requête PUT ou PATCH pour mettre à jour la progression et le statut
+      await api.patch(`/taches/${selectedTask.id}/`, { progression, statut: newStatus });
+  
+      // Mettre à jour l'état local
+      setTaches(taches.map(tache => 
+        tache.id === selectedTask.id ? { ...tache, progression, statut: newStatus } : tache
+      ));
+      setOpenModal(false);
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour de la progression:', error);
+    }
+  };
+  
+
+  const filteredTasks = taches.filter((tache) => {
+    const matchesSearch = tache.titre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      tache.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = filterStatut ? tache.statut === filterStatut : true;
+    const matchesDateDebut = filterDateDebut ? new Date(tache.dateDebut) >= new Date(filterDateDebut) : true;
+    const matchesDateEcheance = filterDateEcheance ? new Date(tache.dateEcheance) <= new Date(filterDateEcheance) : true;
+    return matchesSearch && matchesStatus && matchesDateDebut && matchesDateEcheance;
+  });
+
+  return (
+    <TableContainer component={Paper} className="table-container">
+      <h2 className="table-title">Ma liste de tâches</h2>
+
+      <Button
+        variant="contained"
+        sx={{ backgroundColor: '#D32F2F', color: '#fff', margin: '20px' }} // Changement de couleur
+        startIcon={<AddCircleOutlineIcon />}
+        onClick={handleAdd}
+        className="add-task-button"
+        style={{ color: '#fff', padding: '10px 20px', fontWeight: 'bold' }} // Style modifié
+      >
+        Ajouter une tâche
+      </Button>
+
+      <div className="filter-container">
+        <TextField
+          label="Rechercher une tâche"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          variant="outlined"
+          className="search-bar"
+        />
+        <Select
+          value={filterStatut}
+          onChange={(e) => setFilterStatut(e.target.value)}
+          displayEmpty
+          className="filter-select"
+        >
+          <MenuItem value="">Tous les statuts</MenuItem>
+          <MenuItem value="À commencer">À commencer</MenuItem>
+          <MenuItem value="En progression">En progression</MenuItem>
+          <MenuItem value="Terminé">Terminé</MenuItem>
+          <MenuItem value="En retard">En retard</MenuItem>
+        </Select>
+        <TextField
+          type="date"
+          label="Date début"
+          value={filterDateDebut}
+          onChange={(e) => setFilterDateDebut(e.target.value)}
+          className="date-filter"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <TextField
+          type="date"
+          label="Date échéance"
+          value={filterDateEcheance}
+          onChange={(e) => setFilterDateEcheance(e.target.value)}
+          className="date-filter"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+      </div>
+
+      <Table className="table">
+        <TableHead className="table-head">
           <TableRow>
-            <TableCell sx={{ color: '#000', fontWeight: 'bold', borderBottom: '2px solid #D32F2F' }}>Tâche</TableCell>
-            <TableCell sx={{ color: '#000', fontWeight: 'bold', borderBottom: '2px solid #D32F2F' }}>Description</TableCell>
-            <TableCell sx={{ color: '#000', fontWeight: 'bold', borderBottom: '2px solid #D32F2F' }}>Date de début</TableCell>
-            <TableCell sx={{ color: '#000', fontWeight: 'bold', borderBottom: '2px solid #D32F2F' }}>Date d'échéance</TableCell>
-            <TableCell sx={{ color: '#000', fontWeight: 'bold', borderBottom: '2px solid #D32F2F' }}>Statut</TableCell>
-            <TableCell sx={{ color: '#000', fontWeight: 'bold', borderBottom: '2px solid #D32F2F' }}>Progression</TableCell>
+            <TableCell className="table-head-cell">Tâche</TableCell>
+            <TableCell className="table-head-cell">Description</TableCell>
+            <TableCell className="table-head-cell">Date de début</TableCell>
+            <TableCell className="table-head-cell">Date d'échéance</TableCell>
+            <TableCell className="table-head-cell">Statut</TableCell>
+            <TableCell className="table-head-cell">Progression</TableCell>
+            <TableCell className="table-head-cell">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {taches.map((tache) => (
-            <React.Fragment key={tache.id}>
-              <TableRow
-                sx={{
-                  backgroundColor: '#fff',
-                  '&:hover': { backgroundColor: '#F5F5F5' },
-                  transition: 'background-color 0.3s ease',
-                }}
-              >
-                <TableCell>
-                  <IconButton onClick={() => toggleExpand(tache.id)}>
-                    {expandedTasks.includes(tache.id) ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                  </IconButton>
-                  {tache.titre}
-                </TableCell>
-                <TableCell>{tache.description}</TableCell>
-                <TableCell>{tache.dateDebut}</TableCell>
-                <TableCell>{tache.dateEcheance}</TableCell>
-                <TableCell style={{ color: getStatusColor(tache.statut) }}>
-                  <strong>{tache.statut}</strong>
-                </TableCell>
-                <TableCell>
-                  <div style={{ width: '100px', backgroundColor: '#f0f0f0', borderRadius: '5px', overflow: 'hidden' }}>
-                    <div
-                      style={{
-                        width: `${tache.progression}%`,
-                        backgroundColor: tache.progression < 50 ? '#D32F2F' : '#1976d2',
-                        height: '10px',
-                      }}
-                    ></div>
-                  </div>
-                  {tache.progression}%
-                </TableCell>
-              </TableRow>
+          {filteredTasks.map((tache) => (
+            <TableRow key={tache.id} className="table-row">
+              <TableCell className="table-cell" style={{ fontWeight: 'bold' }}>{tache.titre}</TableCell>
+              <TableCell className="table-cell">{tache.description}</TableCell>
+              <TableCell className="table-cell">{tache.date_debut}</TableCell>
+              <TableCell className="table-cell">{tache.date_fin}</TableCell>
 
-              {expandedTasks.includes(tache.id) &&
-                tache.sousTaches.map((sousTache) => (
-                  <TableRow key={sousTache.id}>
-                    <TableCell colSpan={6} style={{ paddingLeft: '40px', backgroundColor: '#f9f9f9', borderLeft: '5px solid #D32F2F' }}>
-                      ↳ <strong>{sousTache.titre}</strong> - <span style={{ color: getStatusColor(sousTache.statut) }}><strong>{sousTache.statut}</strong></span>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </React.Fragment>
+              <TableCell className="table-cell" style={{ color: getStatusColor(tache.statut) }}>
+                <strong>{tache.statut}</strong>
+              </TableCell>
+              <TableCell className="table-cell" onClick={() => handleProgressClick(tache)} style={{ cursor: 'pointer' }}>
+                <div className="progress-container">
+                  <div className="progress-bar" style={{ width: `${tache.progression}%` }}></div>
+                </div>
+                {tache.progression}%
+              </TableCell>
+              <TableCell className="table-cell">
+                <div className="action-buttons">
+                  <IconButton onClick={() => handleEdit(tache)} className="icon-button">
+                    <EditIcon />
+                  </IconButton>
+
+                  <IconButton onClick={() => handleDelete(tache.id)} className="icon-button">
+                    <DeleteIcon />
+                  </IconButton>
+                </div>
+              </TableCell>
+            </TableRow>
           ))}
-          <TableRow>
-            <TableCell colSpan={6}>
-              <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', padding: '20px 0' }}>
-                <TextField
-                  label="Nouvelle tâche"
-                  name="titre"
-                  value={formData.titre}
-                  onChange={handleInputChange}
-                  required
-                />
-                <TextField
-                  label="Description"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  required
-                />
-                <TextField
-                  type="date"
-                  name="dateDebut"
-                  value={formData.dateDebut}
-                  onChange={handleInputChange}
-                  required
-                />
-                <TextField
-                  type="date"
-                  name="dateEcheance"
-                  value={formData.dateEcheance}
-                  onChange={handleInputChange}
-                  required
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  sx={{
-                    backgroundColor: '#D32F2F',
-                    color: '#fff',
-                    '&:hover': { backgroundColor: '#A00000' },
-                    transition: 'background-color 0.3s ease',
-                  }}
-                >
-                  Ajouter
-                </Button>
-              </form>
-            </TableCell>
-          </TableRow>
         </TableBody>
       </Table>
+
+      <Dialog open={openModal} onClose={handleCloseModal}>
+        <DialogTitle>Modifier la progression</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Modifiez la progression de la tâche : {selectedTask ? selectedTask.titre : ''}
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Progression (%)"
+            type="number"
+            fullWidth
+            value={progression}
+            onChange={(e) => setProgression(Number(e.target.value))}
+            inputProps={{ min: 0, max: 100 }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseModal} color="primary">
+            Annuler
+          </Button>
+          <Button onClick={handleProgressionChange} color="primary">
+            Sauvegarder
+          </Button>
+        </DialogActions>
+      </Dialog>
     </TableContainer>
   );
 };
 
 export default MesTaches;
+
