@@ -25,12 +25,14 @@ const AddProjectPage = ({ initialData }) => {
         membres: initialData.membres || [],
         chef_equipe: initialData.chef_equipe || '',
       });
+      console.log("Initial data loaded:", initialData);
     }
   }, [initialData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    console.log("Field changed:", name, value);
   };
 
   const addMembre = () => {
@@ -38,6 +40,7 @@ const AddProjectPage = ({ initialData }) => {
       ...formData,
       membres: [...formData.membres, { email: '', roleProjet: '' }],
     });
+    console.log("Membre added:", formData.membres);
   };
 
   const handleMembreChange = (index, e) => {
@@ -46,29 +49,37 @@ const AddProjectPage = ({ initialData }) => {
       i === index ? { ...membre, [name]: value } : membre
     );
     setFormData({ ...formData, membres: updatedMembres });
+    console.log("Membre updated:", updatedMembres);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Form submitted, validating...");
+
     if (validateForm()) {
       try {
+        console.log("Form is valid, preparing data...");
+
         // Récupération des IDs des membres
         const membresWithIds = await Promise.all(
           formData.membres.map(async (membre) => {
+            console.log("Fetching user by email:", membre.email);
             const response = await api.get(`users?email=${membre.email}`);
-            if (response.length === 0) {
-              throw new Error(`L'utilisateur avec l'email ${membre.email} n'existe pas.`);
-            }
-            const userId = response[0].id; // Assurez-vous que la réponse contient l'ID
-            return {
-              userId: userId,
-              roleProjet: membre.roleProjet,
-            };
+            console.log("User fetch response:", response);
+
+            response.forEach(user => {
+              user.email === membre.email ? membre.id = user.id : null;
+            });
+            return membre; // Retourner le membre mis à jour
           })
         );
+        console.log("Membres with IDs:", membresWithIds);
 
         // Récupération de l'ID du chef d'équipe
+        console.log("Fetching chef d'équipe by email:", formData.chef_equipe);
         const chefEquipeResponse = await api.get(`users?email=${formData.chef_equipe}`);
+        console.log("Chef d'équipe fetch response:", chefEquipeResponse);
+
         if (chefEquipeResponse.length === 0) {
           throw new Error(`Le chef d'équipe avec l'email ${formData.chef_equipe} n'existe pas.`);
         }
@@ -84,15 +95,26 @@ const AddProjectPage = ({ initialData }) => {
           chef_equipe: chefEquipeId,
         };
 
+        console.log("Final project data:", projetData);
+
         // Envoi des données au serveur
         if (formData.id) {
-          await api.put(`projets/${formData.id}/`, projetData);
+          let containmembernull = false;
+          projetData.membres.forEach(membre => {
+            if (membre.id === null) {
+              containmembernull = true;
+            }
+          });
+          containmembernull ? alert("Veuillez renseigner tous les champs du membre") : await api.put(`projets/${formData.id}/`, projetData);
+          console.log("Projet mis à jour:", projetData);
         } else {
           await api.post('projets/', projetData);
+          console.log("Projet créé:", projetData);
         }
         onSave(); // Appel de la fonction pour indiquer que l'enregistrement est réussi
       } catch (error) {
         console.error('Erreur lors de la soumission du formulaire:', error.message);
+        console.error('Détails de l\'erreur:', error);
       }
     } else {
       console.error('Formulaire non valide.');
@@ -102,7 +124,9 @@ const AddProjectPage = ({ initialData }) => {
   const validateForm = () => {
     const { titre, description, date_debut, date_fin, chef_equipe, membres } = formData;
     const allRolesDefined = membres.every(membre => membre.roleProjet);
-    return titre && description && date_debut && date_fin && chef_equipe && allRolesDefined;
+    const isValid = titre && description && date_debut && date_fin && chef_equipe && allRolesDefined;
+    console.log("Form validation result:", isValid);
+    return isValid;
   };
 
   const nextStep = () => setStep(step + 1);
@@ -238,7 +262,7 @@ const AddProjectPage = ({ initialData }) => {
               </button>
             ) : (
               <button type="submit" className="btn-submit">
-                {initialData ? 'Mettre à jour le projet' : 'Créer le projet'}
+                {initialData ? 'Mettre à jour' : 'Ajouter'}
               </button>
             )}
           </div>

@@ -58,7 +58,6 @@ const AddTaskPage = () => {
     e.preventDefault();
     if (validateStep()) {
       const taskData = {
-        ...task,
         titre: formData.titre,
         description: formData.description,
         date_debut: formData.dateDebut,
@@ -70,11 +69,16 @@ const AddTaskPage = () => {
       };
 
       try {
-        // Envoi des données au backend
-        const response = await api.post('/taches/', taskData);
+        if (task?.id) {
+          // Si la tâche existe, mettre à jour la tâche
+          await api.put(`/taches/${task.id}/`, taskData);
+          setSuccessMessage('Tâche mise à jour avec succès.');
+        } else {
+          // Si la tâche n'existe pas, créer une nouvelle tâche
+          await api.post('/taches/', taskData);
+          setSuccessMessage('Tâche ajoutée avec succès.');
+        }
 
-        // Message de succès
-        setSuccessMessage('Tâche enregistrée avec succès.');
         setErrorMessage(''); // Effacer le message d'erreur
 
         // Réinitialiser le formulaire
@@ -86,7 +90,7 @@ const AddTaskPage = () => {
         });
         setCurrentStep(1); // Retour à la première étape
 
-        // Rediriger vers la page des tâches après un ajout réussi
+        // Rediriger vers la page des tâches après un ajout/mise à jour réussi(e)
         navigate('/services/tasks/mytasks'); // Redirection vers la page mes tâches
 
       } catch (error) {
