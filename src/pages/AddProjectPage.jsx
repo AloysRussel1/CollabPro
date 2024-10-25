@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from './../api/api.js'; 
+import api from './../api/api.js';
 import './../assets/Css/pagesCss/AddProjectPage.css';
 
 const AddProjectPage = ({ initialData }) => {
@@ -11,7 +11,7 @@ const AddProjectPage = ({ initialData }) => {
     date_debut: '',
     date_fin: '',
     membres: [],
-    chef_equipe: '', 
+    chef_equipe: '',
   });
 
   useEffect(() => {
@@ -77,11 +77,18 @@ const AddProjectPage = ({ initialData }) => {
         // Récupération de l'ID du chef d'équipe
         console.log("Fetching chef d'équipe by email:", formData.chef_equipe);
         const chefEquipeResponse = await api.get(`users?email=${formData.chef_equipe}`);
+        console.log("Chef d'équipe fetch response:", chefEquipeResponse);
+
+        chefEquipeResponse.forEach(user => {
+          user.email === formData.chef_equipe ? formData.chef_equipe = user.id : null;
+        });
+        const chefEquipeId = formData.chef_equipe;
 
         if (chefEquipeResponse.length === 0) {
           throw new Error(`Le chef d'équipe avec l'email ${formData.chef_equipe} n'existe pas.`);
         }
-        const chefEquipeId = chefEquipeResponse[0].id;
+
+
 
         // Création de l'objet projet
         const projetData = {
