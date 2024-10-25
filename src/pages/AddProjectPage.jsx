@@ -32,7 +32,6 @@ const AddProjectPage = ({ initialData }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    console.log("Field changed:", name, value);
   };
 
   const addMembre = () => {
@@ -78,7 +77,6 @@ const AddProjectPage = ({ initialData }) => {
         // Récupération de l'ID du chef d'équipe
         console.log("Fetching chef d'équipe by email:", formData.chef_equipe);
         const chefEquipeResponse = await api.get(`users?email=${formData.chef_equipe}`);
-        console.log("Chef d'équipe fetch response:", chefEquipeResponse);
 
         if (chefEquipeResponse.length === 0) {
           throw new Error(`Le chef d'équipe avec l'email ${formData.chef_equipe} n'existe pas.`);
