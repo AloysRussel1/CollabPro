@@ -1,0 +1,123 @@
+.table-container {
+    width: 90%;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+  }
+  
+  .table-title {
+    padding-left: 16px;
+    color: #D32F2F;
+    border-bottom: 2px solid #D32F2F;
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .table {
+    width: 100%;
+  }
+  
+  
+  .table-head .table-head-cell {
+    color: #000;
+    font-weight: bold;
+    border-bottom: 2px solid #D32F2F;
+    font-size: 16px;
+  }
+  
+  .table-row {
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+  }
+  
+  .table-row:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .table-cell {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .progress-container {
+    width: 100px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    background-color: #D32F2F;
+    height: 10px;
+  }
+  
+  .form-container {
+    display: flex;
+    gap: 10px;
+    padding: 20px 0;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .icon-button {
+    color: #000;
+    transition: color 0.3s ease;
+  }
+  
+  .table-row .add-button {
+    --background: #B71C1C;
+  }
+  
+  .icon-button:hover {
+    color: #D32F2F;
+  }
+  
+  /* Filtres et barre de recherche */
+  .filter-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 0 16px;
+  }
+  
+  .search-bar {
+    flex: 2;
+  }
+  
+  /* Ajustement des filtres pour éviter la superposition */
+  .filter-select {
+    flex: 1;
+    min-width: 150px; /* Ajout d'une largeur minimale */
+  }
+  
+  .date-filter {
+    flex: 1;
+    min-width: 150px; /* Ajout d'une largeur minimale */
+  }
+  
+  /* Changement de couleur des bordures des filtres et de la barre de recherche pendant la saisie */
+  .search-bar:focus {
+    border-color: #D32F2F; /* Couleur de la bordure pendant la saisie */
+  }
+  
+  .filter-select:focus {
+    border-color: #D32F2F; /* Couleur de la bordure pendant la saisie */
+  }
+  
+  .date-filter:focus {
+    border-color: #D32F2F; /* Couleur de la bordure pendant la saisie */
+  }
+  
+  
+  .MuiButton-containedPrimary {
+    --background: #D32F2F;
+  }
+  
+  .MuiButton-containedPrimary:hover {
+    background-color: #B71C1C;
+  }
+  

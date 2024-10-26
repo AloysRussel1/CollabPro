@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom'; // Import useParams pour récupérer l'ID du projet
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
   Paper, IconButton, TextField, Button, MenuItem, Select, Dialog,
@@ -8,49 +8,63 @@ import {
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import './../assets/Css/pagesCss/MesTaches.css'; // Import du fichier CSS
-import api from '../api/api';  // Import de votre fichier API
+import './../assets/Css/pagesCss/MesTaches.css';
+import api from '../api/api';
 
 const ProjectDetailPage = () => {
+  const { projectId } = useParams(); // Récupération de l'ID du projet à partir de l'URL
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatut, setFilterStatut] = useState('');
   const [filterDateDebut, setFilterDateDebut] = useState('');
   const [filterDateEcheance, setFilterDateEcheance] = useState('');
-  const [taches, setTaches] = useState([]); // Initialisé comme un tableau
+  const [taches, setTaches] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [progression, setProgression] = useState(0);
-  const [projectDetails, setProjectDetails] = useState({ titre: '', description: '' }); // Initialise avec des valeurs par défaut
+  const [projectTitle, setProjectTitle] = useState('');
 
   const navigate = useNavigate();
-  const { projectId } = useParams(); // Récupérer l'ID du projet depuis les paramètres de l'URL
 
+  // Fetch des tâches filtrées par projet
   useEffect(() => {
-    const fetchProjectDetails = async () => {
-      try {
-        const response = await api.get(`/projets/${projectId}/`); // Remplacer avec votre endpoint pour récupérer le projet
-        setProjectDetails(response.data); // Stocker les détails du projet
-      } catch (error) {
-        console.error('Erreur lors du chargement des détails du projet:', error);
-      }
-    };
-
     const fetchTaches = async () => {
       try {
-        const response = await api.get(`/taches/?projet=${projectId}`); // Filtrer les tâches par l'ID du projet
-        setTaches(response.data); // On récupère les tâches depuis l'API
+        const response = await api.get('/taches/');
+        if (Array.isArray(response.data)) {
+          // Filtrer les tâches en fonction de l'ID du projet
+          const filteredTaches = response.data.filter(tache => tache.projet === parseInt(projectId, 10));
+          setTaches(filteredTaches);
+        } else {
+          console.error('Erreur: La réponse n\'est pas un tableau', response.data);
+        }
       } catch (error) {
         console.error('Erreur lors du chargement des tâches:', error);
       }
     };
 
-    fetchProjectDetails();
-    fetchTaches();
-  }, [projectId]); // Dépendance sur projectId
+    const fetchProjectTitle = async () => {
+      try {
+        const response = await api.get(`/projets/${projectId}`);
+        setProjectTitle(response.data.titre); // Assurez-vous que la propriété du titre est correcte
+      } catch (error) {
+        console.error('Erreur lors du chargement du titre du projet:', error);
+      }
+    };
+
+    if (projectId) {
+      fetchTaches();
+      fetchProjectTitle();
+    }
+  }, [projectId]);
+
+  
 
   const handleAdd = () => {
-    navigate(`/services/tasks/add-task?projectId=${projectId}`); // Passer l'ID du projet pour l'ajout
+    navigate('/services/tasks/add-task', {
+      state: { projet: projectId }
+    });
   };
+  
 
   const handleDelete = async (id) => {
     try {
@@ -62,7 +76,22 @@ const ProjectDetailPage = () => {
   };
 
   const handleEdit = (tache) => {
-    navigate('/services/tasks/add-task', { state: { task: tache } });
+    // Vérifiez la tâche avant de naviguer
+    console.log('Tâche à modifier:', tache);
+
+    // Assurez-vous que projet et collaborateur ne sont pas null
+    const projet = tache.projet || null; // Remplacez null par une valeur par défaut si nécessaire
+    const collaborateur = tache.collaborateur || null; // Remplacez null par une valeur par défaut si nécessaire
+
+    navigate('/services/tasks/add-task', {
+      state: {
+        task: {
+          ...tache, // Inclure toutes les propriétés de tache
+          projet, // On garde la valeur du projet
+          collaborateur // On garde la valeur du collaborateur
+        }
+      }
+    });
   };
 
   const getStatusColor = (status) => {
@@ -74,7 +103,7 @@ const ProjectDetailPage = () => {
       case 'À commencer':
         return '#D32F2F';
       case 'En retard':
-        return '#FF5722'; // Couleur pour les tâches en retard
+        return '#FF5722';
       default:
         return '#9E9E9E';
     }
@@ -82,7 +111,7 @@ const ProjectDetailPage = () => {
 
   const handleProgressClick = (tache) => {
     setSelectedTask(tache);
-    setProgression(tache.progression); // Mettre le pourcentage de progression actuel
+    setProgression(tache.progression);
     setOpenModal(true);
   };
 
@@ -95,7 +124,7 @@ const ProjectDetailPage = () => {
     if (progression === 100) {
       return 'Terminé';
     } else if (progression > 0) {
-      return 'En progression';
+      return 'En cours';
     } else if (now > new Date(dateFin)) {
       return 'En retard';
     }
@@ -103,18 +132,11 @@ const ProjectDetailPage = () => {
   };
 
   const handleProgressionChange = async () => {
-    if (progression < 0 || progression > 100) {
-      alert("La progression doit être un nombre entre 0 et 100.");
-      return; // Ne pas continuer si la progression est invalide
-    }
-
     try {
       const newStatus = getUpdatedStatus(progression, selectedTask.dateFin);
 
-      // Effectuer la requête PUT ou PATCH pour mettre à jour la progression et le statut
       await api.patch(`/taches/${selectedTask.id}/`, { progression, statut: newStatus });
 
-      // Mettre à jour l'état local
       setTaches(taches.map(tache =>
         tache.id === selectedTask.id ? { ...tache, progression, statut: newStatus } : tache
       ));
@@ -124,35 +146,31 @@ const ProjectDetailPage = () => {
     }
   };
 
-  // Filtrage des tâches
   const filteredTasks = taches.filter((tache) => {
-    const searchLower = searchTerm.toLowerCase();
-    const matchesSearch = tache.titre.toLowerCase().includes(searchLower) ||
-      tache.description.toLowerCase().includes(searchLower);
-
-    const matchesStatus = !filterStatut || tache.statut === filterStatut;
-    const matchesDateDebut = !filterDateDebut || new Date(tache.dateDebut) >= new Date(filterDateDebut);
-    const matchesDateEcheance = !filterDateEcheance || new Date(tache.dateEcheance) <= new Date(filterDateEcheance);
-
+    const matchesSearch = tache.titre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    tache.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = filterStatut ? tache.statut === filterStatut : true;
+    const matchesDateDebut = filterDateDebut ? new Date(tache.dateDebut) >= new Date(filterDateDebut) : true;
+    const matchesDateEcheance = filterDateEcheance ? new Date(tache.dateEcheance) <= new Date(filterDateEcheance) : true;
     return matchesSearch && matchesStatus && matchesDateDebut && matchesDateEcheance;
   });
 
   return (
     <TableContainer component={Paper} className="table-container">
-      <h2 className="table-title">Détails du projet: {projectDetails.titre}</h2>
-      <p className="project-description">{projectDetails.description}</p>
+      <h2 className="table-title">{projectTitle || "Ma liste de tâches"}</h2>
 
       <Button
         variant="contained"
-        sx={{ backgroundColor: '#D32F2F', color: '#fff', margin: '20px' }} // Changement de couleur
+        sx={{ backgroundColor: '#D32F2F', color: '#fff', margin: '20px' }}
         startIcon={<AddCircleOutlineIcon />}
         onClick={handleAdd}
         className="add-task-button"
-        style={{ color: '#fff', padding: '10px 20px', fontWeight: 'bold' }} // Style modifié
+        style={{ color: '#fff', padding: '10px 20px', fontWeight: 'bold' }}
       >
         Ajouter une tâche
       </Button>
 
+      {/* Filtres */}
       <div className="filter-container">
         <TextField
           label="Rechercher une tâche"
@@ -195,33 +213,35 @@ const ProjectDetailPage = () => {
         />
       </div>
 
-      <Table>
-        <TableHead>
+      {/* Table des tâches */}
+      <Table className="table">
+        <TableHead className="table-head">
           <TableRow>
-            <TableCell>Titre</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Statut</TableCell>
-            <TableCell>Date Début</TableCell>
-            <TableCell>Date Échéance</TableCell>
-            <TableCell>Progression (%)</TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell className="table-head-cell">Tâche</TableCell>
+            <TableCell className="table-head-cell">Description</TableCell>
+            <TableCell className="table-head-cell">Date de début</TableCell>
+            <TableCell className="table-head-cell">Date d'échéance</TableCell>
+            <TableCell className="table-head-cell">Statut</TableCell>
+            <TableCell className="table-head-cell">Progression</TableCell>
+            <TableCell className="table-head-cell">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {filteredTasks.map((tache) => (
-            <TableRow key={tache.id} style={{ backgroundColor: getStatusColor(tache.statut) }}>
-              <TableCell>{tache.titre}</TableCell>
-              <TableCell>{tache.description}</TableCell>
-              <TableCell>{tache.statut}</TableCell>
-              <TableCell>{new Date(tache.dateDebut).toLocaleDateString()}</TableCell>
-              <TableCell>{new Date(tache.dateEcheance).toLocaleDateString()}</TableCell>
-              <TableCell>
-                <IconButton onClick={() => handleProgressClick(tache)}>
-                 
-                <EditIcon />
-                </IconButton>
+            <TableRow key={tache.id} className="table-row">
+              <TableCell className="table-cell" style={{ fontWeight: 'bold' }}>{tache.titre}</TableCell>
+              <TableCell className="table-cell">{tache.description}</TableCell>
+              <TableCell className="table-cell">{tache.date_debut}</TableCell>
+              <TableCell className="table-cell">{tache.date_fin}</TableCell>
+              <TableCell className="table-cell">
+                <span className="status-badge" style={{ backgroundColor: getStatusColor(tache.statut) }}>
+                  {tache.statut}
+                </span>
               </TableCell>
-              <TableCell>
+              <TableCell className="table-cell" onClick={() => handleProgressClick(tache)} style={{ cursor: 'pointer' }}>
+                <span>{tache.progression}%</span>
+              </TableCell>
+              <TableCell className="table-cell">
                 <IconButton onClick={() => handleEdit(tache)}>
                   <EditIcon />
                 </IconButton>
@@ -234,27 +254,32 @@ const ProjectDetailPage = () => {
         </TableBody>
       </Table>
 
-      {/* Modal for Progression Update */}
+      {/* Modal pour la progression */}
       <Dialog open={openModal} onClose={handleCloseModal}>
-        <DialogTitle>Mettre à jour la progression</DialogTitle>
+        <DialogTitle>Mise à jour de la progression</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Modifiez le pourcentage de progression pour la tâche: {selectedTask?.titre}
+            Modifiez le pourcentage de progression de la tâche.
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
-            label="Progression (%)"
+            label="Progression"
             type="number"
             fullWidth
+            variant="outlined"
             value={progression}
-            onChange={(e) => setProgression(Number(e.target.value))}
-            inputProps={{ min: 0, max: 100 }} // Restriction pour les valeurs entre 0 et 100
+            onChange={(e) => setProgression(e.target.value)}
+            inputProps={{ min: 0, max: 100 }}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseModal}>Annuler</Button>
-          <Button onClick={handleProgressionChange}>Mettre à jour</Button>
+          <Button onClick={handleCloseModal} color="primary">
+            Annuler
+          </Button>
+          <Button onClick={handleProgressionChange} color="primary">
+            Enregistrer
+          </Button>
         </DialogActions>
       </Dialog>
     </TableContainer>

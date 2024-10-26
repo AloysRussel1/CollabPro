@@ -7,12 +7,15 @@ const AddTaskPage = () => {
   const location = useLocation();
   const navigate = useNavigate(); // Initialisation du hook useNavigate
   const task = location.state?.task; // Accéder à l'objet de tâche si disponible
+  const projectId = location.state?.projet;
 
   const [formData, setFormData] = useState({
     titre: '',
     description: '',
     dateDebut: '',
-    dateEcheance: ''
+    dateEcheance: '',
+    projet: projectId || null,
+    collaborateur: null,
   });
   const [currentStep, setCurrentStep] = useState(1);
   const [successMessage, setSuccessMessage] = useState('');
@@ -24,7 +27,9 @@ const AddTaskPage = () => {
         titre: task.titre,
         description: task.description,
         dateDebut: task.date_debut,
-        dateEcheance: task.date_fin
+        dateEcheance: task.date_fin,
+        projet: task.projet, // Conservez la valeur du projet
+        collaborateur: task.collaborateur // Conservez la valeur du collaborateur
       });
     }
   }, [task]);
@@ -57,14 +62,15 @@ const AddTaskPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateStep()) {
+      // Inclure les valeurs du projet et du collaborateur lors de la soumission
       const taskData = {
         titre: formData.titre,
         description: formData.description,
         date_debut: formData.dateDebut,
         date_fin: formData.dateEcheance,
         statut: 'Non commencé',
-        projet: null,
-        collaborateur: null,
+        projet: projectId, // Conserver la valeur du projet
+        collaborateur: formData.collaborateur, // Conserver la valeur du collaborateur
         priorite: null
       };
 
@@ -81,17 +87,19 @@ const AddTaskPage = () => {
 
         setErrorMessage(''); // Effacer le message d'erreur
 
-        // Réinitialiser le formulaire
+        // Réinitialiser le formulaire (si nécessaire)
         setFormData({
           titre: '',
           description: '',
           dateDebut: '',
-          dateEcheance: ''
+          dateEcheance: '',
+          projet: null, // Réinitialiser si besoin
+          collaborateur: null, // Réinitialiser si besoin
         });
         setCurrentStep(1); // Retour à la première étape
 
         // Rediriger vers la page des tâches après un ajout/mise à jour réussi(e)
-        navigate('/services/tasks/mytasks'); // Redirection vers la page mes tâches
+        navigate('/services/'); // Redirection vers la page mes tâches
 
       } catch (error) {
         // En cas d'erreur

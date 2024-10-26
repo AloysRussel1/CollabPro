@@ -120,3 +120,30 @@
 .MuiButton-containedPrimary:hover {
   background-color: #B71C1C;
 }
+
+
+
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 15px;
+  color: white;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.status-commencer {
+  background-color: #D32F2F;
+}
+
+.status-progression {
+  background-color: #FFC107;
+}
+
+.status-termine {
+  background-color: #4CAF50;
+}
+
+.status-retard {
+  background-color: #FF5722;
+}
