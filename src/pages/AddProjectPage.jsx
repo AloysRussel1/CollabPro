@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from './../api/api.js';
 import './../assets/Css/pagesCss/AddProjectPage.css';
 
 const AddProjectPage = ({ initialData }) => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     id: '',
@@ -13,6 +15,8 @@ const AddProjectPage = ({ initialData }) => {
     membres: [],
     chef_equipe: '',
   });
+
+ 
 
   useEffect(() => {
     if (initialData) {
@@ -66,9 +70,16 @@ const AddProjectPage = ({ initialData }) => {
             const response = await api.get(`users?email=${membre.email}`);
             console.log("User fetch response:", response);
 
-            response.forEach(user => {
-              user.email === membre.email ? membre.id = user.id : null;
-            });
+            // Vérification si la réponse contient des données
+            if (Array.isArray(response.data)) {
+              response.data.forEach(user => {
+                if (user.email === membre.email) {
+                  membre.id = user.id;
+                }
+              });
+            } else {
+              console.error('Erreur: La réponse de l\'API ne contient pas de tableau.', response);
+            }
             return membre; // Retourner le membre mis à jour
           })
         );
@@ -79,16 +90,22 @@ const AddProjectPage = ({ initialData }) => {
         const chefEquipeResponse = await api.get(`users?email=${formData.chef_equipe}`);
         console.log("Chef d'équipe fetch response:", chefEquipeResponse);
 
-        chefEquipeResponse.forEach(user => {
-          user.email === formData.chef_equipe ? formData.chef_equipe = user.id : null;
-        });
-        const chefEquipeId = formData.chef_equipe;
-
-        if (chefEquipeResponse.length === 0) {
-          throw new Error(`Le chef d'équipe avec l'email ${formData.chef_equipe} n'existe pas.`);
+        // Vérification si la réponse du chef d'équipe est valide
+        if (Array.isArray(chefEquipeResponse.data)) {
+          chefEquipeResponse.data.forEach(user => {
+            if (user.email === formData.chef_equipe) {
+              formData.chef_equipe = user.id;
+            }
+          });
+        } else {
+          console.error('Erreur: La réponse de l\'API pour le chef d\'équipe ne contient pas de tableau.', chefEquipeResponse);
         }
 
+        const chefEquipeId = formData.chef_equipe;
 
+        if (!chefEquipeId) {
+          throw new Error(`Le chef d'équipe avec l'email ${formData.chef_equipe} n'existe pas.`);
+        }
 
         // Création de l'objet projet
         const projetData = {
@@ -139,6 +156,7 @@ const AddProjectPage = ({ initialData }) => {
 
   const onSave = () => {
     console.log('Projet sauvegardé avec succès!');
+    navigate('/services/projects/myprojects');
   };
 
   return (

@@ -26,13 +26,12 @@ const SignIn = () => {
       // Envoyer une requête POST pour obtenir le token JWT
       const response = await api.post('/token/', formData);
       const { access, refresh } = response.data;
-
       // Stocker le token JWT (access token)
       localStorage.setItem('accessToken', access);
       localStorage.setItem('refreshToken', refresh);
 
-      // Rediriger vers la page protégée (par exemple, le tableau de bord)
-      navigate('/dashboard');
+      console.log('Token JWT stocké:', access);
+      navigate('/services/dashboard');
     } catch (err) {
       setError('Identifiants invalides. Veuillez réessayer.');
     }

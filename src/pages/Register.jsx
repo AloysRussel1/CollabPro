@@ -10,7 +10,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     nom: '',
     email: '',
-    motDePasse: '',
+    password: '',
   });
 
   const [error, setError] = useState(null);
@@ -27,6 +27,7 @@ const Register = () => {
   };
 
   const validatePassword = (password) => {
+    // Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d!@#$%^&*()_+{}|:"<>?[\]\\;',./`~]{8,}$/;
     return passwordRegex.test(password);
   };
@@ -36,12 +37,13 @@ const Register = () => {
     setError(null);
     setSuccess(false);
 
+    // Validation des champs
     if (!validateEmail(formData.email)) {
       setError("L'adresse e-mail n'est pas valide.");
       return;
     }
 
-    if (!validatePassword(formData.motDePasse)) {
+    if (!validatePassword(formData.password)) {
       setError('Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, et un chiffre.');
       return;
     }
@@ -50,16 +52,17 @@ const Register = () => {
       const registrationData = {
         ...formData,
         role: 'user',
-        messages_envoyes: [],
-        messages_recus: [],
-        annonces: [],
+        // Suppression des champs non nécessaires lors de l'inscription
+        // messages_envoyes: [],
+        // messages_recus: [],
+        // annonces: [],
       };
 
       const response = await api.post('users/', registrationData);
       if (response) {
         setSuccess(true);
         alert('Inscription réussie ! Vous allez être redirigé vers la page de connexion.'); 
-        setFormData({ nom: '', email: '', motDePasse: '' });
+        setFormData({ nom: '', email: '', password: '' });
 
         // Rediriger vers la page de connexion après un court délai
         setTimeout(() => {
@@ -115,10 +118,10 @@ const Register = () => {
             />
             <input
               type="password"
-              name="motDePasse"
+              name="password"
               placeholder="Mot de passe"
               className="custom-input"
-              value={formData.motDePasse}
+              value={formData.password}
               onChange={handleChange}
               required
             />

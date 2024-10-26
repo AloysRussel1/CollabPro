@@ -17,8 +17,13 @@ const MesProjets = () => {
     // Fonction pour récupérer les projets
     const fetchProjects = async () => {
       try {
-        const data = await api.get('projets/'); // Requête GET à l'API
-        setProjects(data); // Met à jour l'état avec les projets récupérés
+        const response = await api.get('projets/'); // Requête GET à l'API
+        // Vérifiez si la réponse est un tableau
+        if (Array.isArray(response.data)) {
+          setProjects(response.data); // Met à jour l'état avec les projets récupérés
+        } else {
+          console.error('La réponse n\'est pas un tableau:', response.data);
+        }
       } catch (error) {
         console.error('Erreur lors de la récupération des projets:', error);
       }
@@ -121,7 +126,7 @@ const MesProjets = () => {
                             borderRadius: 5,
                             backgroundColor: '#e0e0e0',
                             '& .MuiLinearProgress-bar': {
-                              backgroundColor: project.progress === 100 ? '#4caf50' : '#cc0000'
+                              backgroundColor: project.progression === 100 ? '#4caf50' : '#cc0000'
                             }
                           }}
                         />
@@ -204,8 +209,8 @@ const MesProjets = () => {
                 type="number"
                 variant="outlined"
                 fullWidth
-                value={currentProject.progress}
-                onChange={(e) => setCurrentProject({ ...currentProject, progress: Number(e.target.value) })}
+                value={currentProject.progression}
+                onChange={(e) => setCurrentProject({ ...currentProject, progression: Number(e.target.value) })}
                 InputProps={{ inputProps: { min: 0, max: 100 } }}
                 required
               />
@@ -217,8 +222,8 @@ const MesProjets = () => {
                 type="date"
                 variant="outlined"
                 fullWidth
-                value={currentProject.startDate}
-                onChange={(e) => setCurrentProject({ ...currentProject, startDate: e.target.value })}
+                value={currentProject.date_debut}
+                onChange={(e) => setCurrentProject({ ...currentProject, date_debut: e.target.value })}
                 InputLabelProps={{ shrink: true }}
                 required
               />
@@ -230,35 +235,34 @@ const MesProjets = () => {
                 type="date"
                 variant="outlined"
                 fullWidth
-                value={currentProject.endDate}
-                onChange={(e) => setCurrentProject({ ...currentProject, endDate: e.target.value })}
+                value={currentProject.date_fin}
+                onChange={(e) => setCurrentProject({ ...currentProject, date_fin: e.target.value })}
                 InputLabelProps={{ shrink: true }}
-                />
-                </div>
-                <div className="form-actions">
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    style={{ backgroundColor: '#000000', color: '#ffffff', marginRight: '10px' }}
-                  >
-                    Enregistrer
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    onClick={() => setShowForm(false)}
-                    style={{ marginLeft: '10px' }}
-                  >
-                    Annuler
-                  </Button>
-                </div>
-              </form>
+              />
             </div>
-          )}
+            <div className="form-actions">
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                style={{ backgroundColor: '#000000', color: '#ffffff' }}
+              >
+                Enregistrer
+              </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => setShowForm(false)}
+                style={{ marginLeft: '10px' }}
+              >
+                Annuler
+              </Button>
+            </div>
+          </form>
         </div>
-      );
-    };
-    
-    export default MesProjets;
-    
+      )}
+    </div>
+  );
+};
+
+export default MesProjets;

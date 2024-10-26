@@ -27,9 +27,14 @@ const MesTaches = () => {
     const fetchTaches = async () => {
       try {
         const response = await api.get('/taches/');
-        // Filtrer les tâches pour exclure celles avec projet ou collaborateur
-        const filteredTaches = response.filter(tache => !tache.projet && !tache.collaborateur);
-        setTaches(filteredTaches);
+        // Vérifier que la réponse est un tableau
+        if (Array.isArray(response.data)) {
+          // Filtrer les tâches pour exclure celles avec projet ou collaborateur
+          const filteredTaches = response.data.filter(tache => !tache.projet && !tache.collaborateur);
+          setTaches(filteredTaches);
+        } else {
+          console.error('Erreur: La réponse n\'est pas un tableau', response.data);
+        }
       } catch (error) {
         console.error('Erreur lors du chargement des tâches:', error);
       }
@@ -109,7 +114,6 @@ const MesTaches = () => {
     }
   };
   
-
   const filteredTasks = taches.filter((tache) => {
     const matchesSearch = tache.titre.toLowerCase().includes(searchTerm.toLowerCase()) ||
       tache.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -208,10 +212,10 @@ const MesTaches = () => {
               <TableCell className="table-cell">
                 <div className="action-buttons">
                   <IconButton onClick={() => handleEdit(tache)}>
-                    <EditIcon />
+                    <EditIcon  />
                   </IconButton>
                   <IconButton onClick={() => handleDelete(tache.id)}>
-                    <DeleteIcon />
+                    <DeleteIcon  />
                   </IconButton>
                 </div>
               </TableCell>
@@ -221,19 +225,20 @@ const MesTaches = () => {
       </Table>
 
       <Dialog open={openModal} onClose={handleCloseModal}>
-        <DialogTitle>Mise à jour de la progression</DialogTitle>
+        <DialogTitle>Modifier la progression</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Mettez à jour la progression de la tâche.
+            Modifiez la progression de la tâche <strong>{selectedTask?.titre}</strong>.
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             label="Progression (%)"
             type="number"
+            fullWidth
+            variant="outlined"
             value={progression}
             onChange={(e) => setProgression(e.target.value)}
-            fullWidth
             inputProps={{ min: 0, max: 100 }}
           />
         </DialogContent>
@@ -242,7 +247,7 @@ const MesTaches = () => {
             Annuler
           </Button>
           <Button onClick={handleProgressionChange} color="primary">
-            Enregistrer
+            Valider
           </Button>
         </DialogActions>
       </Dialog>
@@ -251,4 +256,3 @@ const MesTaches = () => {
 };
 
 export default MesTaches;
-
