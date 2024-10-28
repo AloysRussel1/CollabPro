@@ -22,6 +22,7 @@ const ProjectDetailPage = () => {
   const [selectedTask, setSelectedTask] = useState(null);
   const [progression, setProgression] = useState(0);
   const [projectTitle, setProjectTitle] = useState('');
+  const [collaborateurs, setCollaborateurs] = useState([]);
 
   const navigate = useNavigate();
 
@@ -42,6 +43,15 @@ const ProjectDetailPage = () => {
       }
     };
 
+    const fetchCollaborateurs = async () => {
+      try {
+        const response = await api.get('/users/'); // Remplacez cette URL par la bonne
+        setCollaborateurs(response.data);
+      } catch (error) {
+        console.error('Erreur lors du chargement des collaborateurs:', error);
+      }
+    };
+
     const fetchProjectTitle = async () => {
       try {
         const response = await api.get(`/projets/${projectId}`);
@@ -54,9 +64,15 @@ const ProjectDetailPage = () => {
     if (projectId) {
       fetchTaches();
       fetchProjectTitle();
+      fetchCollaborateurs();
     }
   }, [projectId]);
 
+
+  const getCollaborateurNom = (id) => {
+    const collaborateur = collaborateurs.find(collab => collab.id === id);
+    return collaborateur ? collaborateur.nom : 'Non assigné';
+  };
   
 
   const handleAdd = () => {
@@ -81,7 +97,7 @@ const ProjectDetailPage = () => {
 
     // Assurez-vous que projet et collaborateur ne sont pas null
     const projet = tache.projet || null; // Remplacez null par une valeur par défaut si nécessaire
-    const collaborateur = tache.collaborateur || null; // Remplacez null par une valeur par défaut si nécessaire
+    const collaborateur = tache.collaborateur || 'Non assigné'; // Remplacez null par une valeur par défaut si nécessaire
 
     navigate('/services/tasks/add-task', {
       state: {
@@ -221,6 +237,7 @@ const ProjectDetailPage = () => {
             <TableCell className="table-head-cell">Description</TableCell>
             <TableCell className="table-head-cell">Date de début</TableCell>
             <TableCell className="table-head-cell">Date d'échéance</TableCell>
+            <TableCell className="table-head-cell">Responsable</TableCell> 
             <TableCell className="table-head-cell">Statut</TableCell>
             <TableCell className="table-head-cell">Progression</TableCell>
             <TableCell className="table-head-cell">Actions</TableCell>
@@ -233,6 +250,7 @@ const ProjectDetailPage = () => {
               <TableCell className="table-cell">{tache.description}</TableCell>
               <TableCell className="table-cell">{tache.date_debut}</TableCell>
               <TableCell className="table-cell">{tache.date_fin}</TableCell>
+              <TableCell className="table-cell">{getCollaborateurNom(tache.collaborateur)}</TableCell>
               <TableCell className="table-cell">
                 <span className="status-badge" style={{ backgroundColor: getStatusColor(tache.statut) }}>
                   {tache.statut}

@@ -3,8 +3,12 @@ import api from '../api/api';  // Votre fichier axios config
 import './../assets/Css/pagesCss/TeamsPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTasks, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
+import AddMemberModal from '../components/AddMemberModal';
+
 
 const TeamsPage = () => {
+  const navigate = useNavigate(); 
   const [projectsData, setProjectsData] = useState([]);
   const [activeProject, setActiveProject] = useState(null);
   const [showAddMember, setShowAddMember] = useState(false);
@@ -43,14 +47,8 @@ const TeamsPage = () => {
   }, []);
 
   const handleAddMember = async (projectId) => {
-    try {
-        console.log('Nouveau membre:', newMember); // Afficher l'objet pour le débogage
-        await api.post(`/projets/${projectId}/membres`, newMember);
-        setNewMember({ nom: '', email: '' }); // Réinitialiser le formulaire
-        fetchProjects(); // Rafraîchir la liste des projets
-    } catch (error) {
-        console.error('Erreur lors de l\'ajout du membre:', error);
-    }
+    navigate(`services/projects/${projectId}/ajouter-membre`);
+
 };
 
 
@@ -76,6 +74,31 @@ const TeamsPage = () => {
     }
   };
 
+// Fonction pour supprimer un membre d'un projet spécifique
+const handleDeleteMember = async (memberId, projectId) => {
+  try {
+    // Envoyer une requête DELETE à l'API pour supprimer le membre du projet spécifique
+    await api.delete(`/projets/${projectId}/membres/${memberId}/`);
+
+    // Mettre à jour l'état pour supprimer le membre de ce projet spécifique seulement
+    const updatedProjects = projectsData.map(project => {
+      if (project.id === projectId) {
+        return {
+          ...project,
+          membres: project.membres.filter(member => member.id !== memberId)
+        };
+      }
+      return project;
+    });
+
+    setProjectsData(updatedProjects);
+  } catch (error) {
+    console.error('Erreur lors de la suppression du membre:', error);
+  }
+};
+
+
+
   return (
     <div className="projects-page">
       <h1 className="projects-page-title">Gestion des équipes de projet</h1>
@@ -85,7 +108,7 @@ const TeamsPage = () => {
             <div className="project-header">
               <h2 className="project-name">{project.titre}</h2>
               <div className="project-actions">
-                <button onClick={() => setShowAddMember(!showAddMember)} className="add-member-btn">
+                <button onClick={() => handleAddMember(project.id)} className="add-member-btn">
                   Ajouter un membre
                 </button>
                 <button onClick={() => setActiveProject(project.id)} className="upload-file-btn">
@@ -126,7 +149,7 @@ const TeamsPage = () => {
                         />
                         <FontAwesomeIcon
                           icon={faTrashAlt}
-                          onClick={() => handleDeleteMember(member.id)}
+                          onClick={() => handleDeleteMember(member.id, project.id)}
                           className="action-icon"
                           title="Supprimer"
                         />
