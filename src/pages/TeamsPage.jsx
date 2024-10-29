@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import api from '../api/api';  // Votre fichier axios config
+import api from '../api/api'; // Votre fichier axios config
 import './../assets/Css/pagesCss/TeamsPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTasks, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import AddMemberModal from '../components/AddMemberModal';
-
 
 const TeamsPage = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [projectsData, setProjectsData] = useState([]);
   const [activeProject, setActiveProject] = useState(null);
-  const [showAddMember, setShowAddMember] = useState(false);
   const [showAssignTask, setShowAssignTask] = useState(false);
-  const [newMember, setNewMember] = useState({ nom: '', email: '' });
   const [newTask, setNewTask] = useState({ title: '', description: '', dueDate: '' });
   const [selectedMember, setSelectedMember] = useState(null);
   const [file, setFile] = useState(null); // État pour le fichier sélectionné
@@ -29,10 +25,10 @@ const TeamsPage = () => {
         const projectsWithMembers = await Promise.all(
           projects.map(async (project) => {
             const membersResponse = await api.get(`/projets/${project.id}/membres`);
-            console.log('Membres pour le projet', project.id, membersResponse.data); 
+            console.log('Membres pour le projet', project.id, membersResponse.data);
             return {
               ...project,
-              membres: membersResponse.data
+              membres: membersResponse.data,
             };
           })
         );
@@ -46,11 +42,13 @@ const TeamsPage = () => {
     fetchProjects();
   }, []);
 
-  const handleAddMember = async (projectId) => {
-    navigate(`services/projects/${projectId}/ajouter-membre`);
-
-};
-
+  // Naviguer vers la page pour ajouter un membre
+  const handleAddMember = (projectId) => {
+    navigate(`services/projects/${projectId}/ajouter_membre`); 
+    console.log('Naviguer vers la page pour ajouter un membre');
+  };
+  
+  
 
   const handleAssignTask = async (memberId, projectId) => {
     try {
@@ -58,7 +56,7 @@ const TeamsPage = () => {
       setNewTask({ title: '', description: '', dueDate: '' }); // Réinitialiser le formulaire
       setShowAssignTask(false); // Fermer le modal d'assignation de tâche
     } catch (error) {
-      console.error('Erreur lors de l\'assignation de la tâche:', error);
+      console.error("Erreur lors de l'assignation de la tâche:", error);
     }
   };
 
@@ -74,30 +72,25 @@ const TeamsPage = () => {
     }
   };
 
-// Fonction pour supprimer un membre d'un projet spécifique
-const handleDeleteMember = async (memberId, projectId) => {
-  try {
-    // Envoyer une requête DELETE à l'API pour supprimer le membre du projet spécifique
-    await api.delete(`/projets/${projectId}/membres/${memberId}/`);
+  const handleDeleteMember = async (memberId, projectId) => {
+    try {
+      await api.delete(`/projets/${projectId}/membres/${memberId}/`);
 
-    // Mettre à jour l'état pour supprimer le membre de ce projet spécifique seulement
-    const updatedProjects = projectsData.map(project => {
-      if (project.id === projectId) {
-        return {
-          ...project,
-          membres: project.membres.filter(member => member.id !== memberId)
-        };
-      }
-      return project;
-    });
+      const updatedProjects = projectsData.map((project) => {
+        if (project.id === projectId) {
+          return {
+            ...project,
+            membres: project.membres.filter((member) => member.id !== memberId),
+          };
+        }
+        return project;
+      });
 
-    setProjectsData(updatedProjects);
-  } catch (error) {
-    console.error('Erreur lors de la suppression du membre:', error);
-  }
-};
-
-
+      setProjectsData(updatedProjects);
+    } catch (error) {
+      console.error('Erreur lors de la suppression du membre:', error);
+    }
+  };
 
   return (
     <div className="projects-page">
@@ -137,7 +130,10 @@ const handleDeleteMember = async (memberId, projectId) => {
                       <td className="action-icons">
                         <FontAwesomeIcon
                           icon={faTasks}
-                          onClick={() => { setSelectedMember(member.id); setShowAssignTask(true); }}
+                          onClick={() => {
+                            setSelectedMember(member.id);
+                            setShowAssignTask(true);
+                          }}
                           className="action-icon"
                           title="Assigner une tâche"
                         />

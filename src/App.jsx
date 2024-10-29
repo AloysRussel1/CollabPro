@@ -15,21 +15,21 @@ import AnnonceDetailPage from './pages/AnnonceDetailPage';
 function App() {
   return (
     <Router>
-    <Navbar />
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/contact" element={<ContactPage />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/announcements" element={<AnnoncePage />} />
-      <Route path="/services/*" element={<ServicesPage />} />
-      <Route path="/annonce/:id" element={<AnnonceDetailPage />} />
-    </Routes>
-    <Footer />
-  </Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/announcements" element={<AnnoncePage />} />
+        <Route path="/services/*" element={<ServicesPage />} />
+        <Route path="/annonce/:id" element={<AnnonceDetailPage />} />
+      </Routes>
+      <Footer />
+    </Router>
 
-   
+
   )
 }
 

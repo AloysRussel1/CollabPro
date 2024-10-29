@@ -16,7 +16,7 @@ import UserStatistics from './UserStatistics';
 import Configuration from './Configuration';
 import SupportPage from './SupportPage';
 import TeamsPage from './TeamsPage';
-import AddMemberModal from '../components/AddMemberModal';
+import AddMemberPage from './AddMemberPage';
 
 const ServicesPage = () => {
   return (
@@ -38,7 +38,9 @@ const ServicesPage = () => {
           <Route path="/reports/users" element={<UserStatistics />} />
           <Route path="/settings/configuration" element={<Configuration />} />
           <Route path="/help" element={<SupportPage />} />
-          <Route path="/projects/:projectId/ajouter-membre" element={<AddMemberModal />} />
+          <Route path="/projects/:projectId/ajouter_membre" element={<AddMemberPage />} />
+
+
 
         </Routes>
       </div>

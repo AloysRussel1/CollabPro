@@ -4,6 +4,7 @@ import { FaSearch, FaEdit, FaTrash, FaInfoCircle, FaPlus } from 'react-icons/fa'
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField, Select, MenuItem, LinearProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/api'; // Importez votre instance Axios
+import dayjs from 'dayjs'; // Pour gérer les dates
 
 const MesProjets = () => {
   const [filter, setFilter] = useState('Tous');
@@ -17,20 +18,55 @@ const MesProjets = () => {
     // Fonction pour récupérer les projets
     const fetchProjects = async () => {
       try {
-        const response = await api.get('projets/'); // Requête GET à l'API
-        // Vérifiez si la réponse est un tableau
-        if (Array.isArray(response.data)) {
-          setProjects(response.data); // Met à jour l'état avec les projets récupérés
+        const projectsResponse = await api.get('projets/');
+        if (Array.isArray(projectsResponse.data)) {
+          const updatedProjects = await Promise.all(projectsResponse.data.map(async (project) => {
+            const tasksResponse = await api.get(`projets/${project.id}/taches`);
+            return {
+              ...project,
+              taches: tasksResponse.data || [], // Associe les tâches au projet
+              statut: getProjectStatus({ ...project, taches: tasksResponse.data }),
+              progression: getProjectProgress({ ...project, taches: tasksResponse.data })
+            };
+          }));
+          setProjects(updatedProjects); // Met à jour l'état avec les projets récupérés
         } else {
-          console.error('La réponse n\'est pas un tableau:', response.data);
+          console.error('La réponse n\'est pas un tableau:', projectsResponse.data);
         }
       } catch (error) {
         console.error('Erreur lors de la récupération des projets:', error);
       }
     };
+    
 
-    fetchProjects(); // Appel de la fonction pour récupérer les projets
-  }, []); // La dépendance vide signifie que cela ne s'exécute qu'une fois à l'initialisation
+    fetchProjects();
+  }, []);
+
+  const getProjectProgress = (project) => {
+    console.log('Project:', project);
+    if (!project.taches || project.taches.length === 0) return 0;
+    console.log('Taches:', project.taches);
+    const totalProgress = project.taches.reduce((sum, task) => {
+        return sum + (task.progression >= 0 ? task.progression : 0);
+    }, 0);
+    const progress = totalProgress / project.taches.length;
+    console.log(`Total Progress: ${totalProgress}, Progression: ${progress}`);
+    return progress;
+};
+
+const getProjectStatus = (project) => {
+    const progress = getProjectProgress(project);
+    console.log(`Progress for project ${project.id}: ${progress}`);
+    
+    const currentDate = dayjs();
+    const endDate = dayjs(project.date_fin);
+
+    if (progress === 100) return 'Terminé';
+    if (progress === 0) return 'Non commencé';
+    if (currentDate.isAfter(endDate)) return 'En retard';
+    return 'En cours';
+};
+
 
   const handleFilterChange = (event) => setFilter(event.target.value);
   const handleSearchChange = (event) => setSearchTerm(event.target.value);
@@ -49,8 +85,8 @@ const MesProjets = () => {
   };
 
   const filteredProjects = projects.filter(project => (
-    (filter === 'Tous' || project.status === filter) &&
-    (searchTerm === '' || project.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    (filter === 'Tous' || project.statut === filter) &&
+    (searchTerm === '' || project.titre.toLowerCase().includes(searchTerm.toLowerCase()))
   ));
 
   const handleModify = (event) => {
@@ -94,6 +130,8 @@ const MesProjets = () => {
               <MenuItem value="Tous">Tous</MenuItem>
               <MenuItem value="En cours">En cours</MenuItem>
               <MenuItem value="Terminé">Terminé</MenuItem>
+              <MenuItem value="En retard">En retard</MenuItem>
+              <MenuItem value="Non commencé">Non commencé</MenuItem>
             </Select>
           </section>
 
@@ -177,87 +215,57 @@ const MesProjets = () => {
         <div className="edit-project-form">
           <h2>Modifier le Projet</h2>
           <form onSubmit={handleModify}>
-            <div className="form-group">
-              <TextField
-                id="name"
-                label="Nom du Projet"
-                variant="outlined"
-                fullWidth
-                value={currentProject.name}
-                onChange={(e) => setCurrentProject({ ...currentProject, name: e.target.value })}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <Select
-                id="status"
-                label="Statut"
-                value={currentProject.status}
-                onChange={(e) => setCurrentProject({ ...currentProject, status: e.target.value })}
-                fullWidth
-                variant="outlined"
-                required
-              >
-                <MenuItem value="En cours">En cours</MenuItem>
-                <MenuItem value="Terminé">Terminé</MenuItem>
-              </Select>
-            </div>
-            <div className="form-group">
-              <TextField
-                id="progress"
-                label="État d'avancement"
-                type="number"
-                variant="outlined"
-                fullWidth
-                value={currentProject.progression}
-                onChange={(e) => setCurrentProject({ ...currentProject, progression: Number(e.target.value) })}
-                InputProps={{ inputProps: { min: 0, max: 100 } }}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <TextField
-                id="startDate"
-                label="Date de Début"
-                type="date"
-                variant="outlined"
-                fullWidth
-                value={currentProject.date_debut}
-                onChange={(e) => setCurrentProject({ ...currentProject, date_debut: e.target.value })}
-                InputLabelProps={{ shrink: true }}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <TextField
-                id="endDate"
-                label="Date de Fin"
-                type="date"
-                variant="outlined"
-                fullWidth
-                value={currentProject.date_fin}
-                onChange={(e) => setCurrentProject({ ...currentProject, date_fin: e.target.value })}
-                InputLabelProps={{ shrink: true }}
-              />
-            </div>
-            <div className="form-actions">
-              <Button
-                variant="contained"
-                color="primary"
-                type="submit"
-                style={{ backgroundColor: '#000000', color: '#ffffff' }}
-              >
-                Enregistrer
-              </Button>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={() => setShowForm(false)}
-                style={{ marginLeft: '10px' }}
-              >
-                Annuler
-              </Button>
-            </div>
+            <TextField
+              label="Titre du Projet"
+              variant="outlined"
+              size="small"
+              fullWidth
+              value={currentProject ? currentProject.titre : ''}
+              onChange={(e) => setCurrentProject({ ...currentProject, titre: e.target.value })}
+              required
+            />
+            <TextField
+              label="Date de Début"
+              variant="outlined"
+              size="small"
+              type="date"
+              fullWidth
+              value={currentProject ? dayjs(currentProject.date_debut).format('YYYY-MM-DD') : ''}
+              onChange={(e) => setCurrentProject({ ...currentProject, date_debut: e.target.value })}
+              required
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              label="Date de Fin"
+              variant="outlined"
+              size="small"
+              type="date"
+              fullWidth
+              value={currentProject ? dayjs(currentProject.date_fin).format('YYYY-MM-DD') : ''}
+              onChange={(e) => setCurrentProject({ ...currentProject, date_fin: e.target.value })}
+              required
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              style={{ backgroundColor: '#000000', color: '#ffffff', marginTop: '20px' }}
+            >
+              Enregistrer les modifications
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              style={{ marginLeft: '10px' }}
+              onClick={() => setShowForm(false)}
+            >
+              Annuler
+            </Button>
           </form>
         </div>
       )}
@@ -266,3 +274,5 @@ const MesProjets = () => {
 };
 
 export default MesProjets;
+
+

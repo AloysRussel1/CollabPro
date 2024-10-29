@@ -16,11 +16,25 @@ const Navbar = () => {
   const isAuthPage = location.pathname === '/signin' || location.pathname === '/register';
 
   useEffect(() => {
-    // Vérifier si l'utilisateur est connecté (vérification du token, par exemple)
-    const token = localStorage.getItem('authToken');
-    if (token) {
+    // Vérifier si l'utilisateur est connecté (vérification de l'accessToken)
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
       setIsLoggedIn(true); 
     }
+
+    // Écouter l'événement de changement de connexion
+    const handleLoginStatusChange = () => {
+      const token = localStorage.getItem('accessToken');
+      setIsLoggedIn(!!token); // Mettre à jour l'état en fonction de l'existence du token
+    };
+
+    // Ajouter un event listener pour l'événement personnalisé
+    window.addEventListener('loginStatusChanged', handleLoginStatusChange);
+
+    // Nettoyer l'event listener lors du démontage du composant
+    return () => {
+      window.removeEventListener('loginStatusChanged', handleLoginStatusChange);
+    };
   }, []);
 
   if (isAuthPage) {
@@ -32,9 +46,16 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    // Logique de déconnexion (supprimer le token, rediriger, etc.)
-    localStorage.removeItem('authToken');
+    // Logique de déconnexion (supprimer les tokens, rediriger, etc.)
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     setIsLoggedIn(false);
+    
+    // Déclencher l'événement personnalisé pour informer les autres composants du changement de statut de connexion
+    window.dispatchEvent(new Event('loginStatusChanged'));
+
+    // Rediriger l'utilisateur vers la page d'accueil après la déconnexion (optionnel)
+    window.location.href = '/';
   };
 
   return (
@@ -53,7 +74,7 @@ const Navbar = () => {
         <li><a href="/about"><FaInfoCircle /> À propos</a></li>
         <li><a href="/contact"><FaEnvelope /> Contact</a></li>
 
-        {/* Si l'utilisateur est connecté, afficher son profil */}
+        {/* Si l'utilisateur est connecté, afficher son profil et l'option de déconnexion */}
         {isLoggedIn ? (
           <li className="dropdown">
             <a href="/profile" className="cta"><FaUser /> Profil</a>
@@ -67,8 +88,8 @@ const Navbar = () => {
           <li className="dropdown">
             <a href="#user" className="cta"><FaUser /> Compte</a>
             <ul className="dropdown-menu">
-              <li><a href="/signin"><FaSignInAlt /> Sign In</a></li>
-              <li><a href="/register"><FaUserPlus /> Register</a></li>
+              <li><a href="/signin"><FaSignInAlt />Connexion</a></li>
+              <li><a href="/register"><FaUserPlus /> Inscription</a></li>
             </ul>
           </li>
         )}

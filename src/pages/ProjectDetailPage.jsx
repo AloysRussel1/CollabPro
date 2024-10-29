@@ -45,7 +45,7 @@ const ProjectDetailPage = () => {
 
     const fetchCollaborateurs = async () => {
       try {
-        const response = await api.get('/users/'); // Remplacez cette URL par la bonne
+        const response = await api.get('/users/');
         setCollaborateurs(response.data);
       } catch (error) {
         console.error('Erreur lors du chargement des collaborateurs:', error);
