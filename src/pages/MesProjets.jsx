@@ -13,33 +13,40 @@ const MesProjets = () => {
   const [currentProject, setCurrentProject] = useState(null);
   const [projects, setProjects] = useState([]); // État pour stocker les projets
   const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
     // Fonction pour récupérer les projets
-    const fetchProjects = async () => {
-      try {
-        const projectsResponse = await api.get('projets/');
-        if (Array.isArray(projectsResponse.data)) {
-          const updatedProjects = await Promise.all(projectsResponse.data.map(async (project) => {
-            const tasksResponse = await api.get(`projets/${project.id}/taches`);
-            return {
-              ...project,
-              taches: tasksResponse.data || [], // Associe les tâches au projet
-              statut: getProjectStatus({ ...project, taches: tasksResponse.data }),
-              progression: getProjectProgress({ ...project, taches: tasksResponse.data })
-            };
-          }));
-          setProjects(updatedProjects); // Met à jour l'état avec les projets récupérés
-        } else {
-          console.error('La réponse n\'est pas un tableau:', projectsResponse.data);
+    // Vérifier si l'utilisateur est connecté (vérification de l'accessToken)
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      setIsLogin(true);
+      const fetchProjects = async () => {
+        try {
+          const projectsResponse = await api.get('projets/');
+          if (Array.isArray(projectsResponse.data)) {
+            const updatedProjects = await Promise.all(projectsResponse.data.map(async (project) => {
+              const tasksResponse = await api.get(`projets/${project.id}/taches`);
+              return {
+                ...project,
+                taches: tasksResponse.data || [], // Associe les tâches au projet
+                statut: getProjectStatus({ ...project, taches: tasksResponse.data }),
+                progression: getProjectProgress({ ...project, taches: tasksResponse.data })
+              };
+            }));
+            setProjects(updatedProjects); // Met à jour l'état avec les projets récupérés
+          } else {
+            console.error('La réponse n\'est pas un tableau:', projectsResponse.data);
+          }
+        } catch (error) {
+          console.error('Erreur lors de la récupération des projets:', error);
         }
-      } catch (error) {
-        console.error('Erreur lors de la récupération des projets:', error);
-      }
-    };
-    
+      };
+  
+  
+      fetchProjects();
+    }
 
-    fetchProjects();
   }, []);
 
   const getProjectProgress = (project) => {
@@ -47,17 +54,17 @@ const MesProjets = () => {
     if (!project.taches || project.taches.length === 0) return 0;
     console.log('Taches:', project.taches);
     const totalProgress = project.taches.reduce((sum, task) => {
-        return sum + (task.progression >= 0 ? task.progression : 0);
+      return sum + (task.progression >= 0 ? task.progression : 0);
     }, 0);
     const progress = totalProgress / project.taches.length;
     console.log(`Total Progress: ${totalProgress}, Progression: ${progress}`);
     return progress;
-};
+  };
 
-const getProjectStatus = (project) => {
+  const getProjectStatus = (project) => {
     const progress = getProjectProgress(project);
     console.log(`Progress for project ${project.id}: ${progress}`);
-    
+
     const currentDate = dayjs();
     const endDate = dayjs(project.date_fin);
 
@@ -65,7 +72,7 @@ const getProjectStatus = (project) => {
     if (progress === 0) return 'Non commencé';
     if (currentDate.isAfter(endDate)) return 'En retard';
     return 'En cours';
-};
+  };
 
 
   const handleFilterChange = (event) => setFilter(event.target.value);
@@ -82,6 +89,14 @@ const getProjectStatus = (project) => {
 
   const handleDeleteClick = (projectId) => {
     console.log(`Supprimer le projet avec l'ID: ${projectId}`);
+  };
+
+  const handleAddProject = () => {
+    if (!isLogin) {
+      navigate('/signin');
+      return;
+    }
+    navigate('/services/projects/add-project');
   };
 
   const filteredProjects = projects.filter(project => (
@@ -104,7 +119,7 @@ const getProjectStatus = (project) => {
           color="primary"
           startIcon={<FaPlus />}
           style={{ backgroundColor: '#000000', color: '#ffffff', marginBottom: '20px' }}
-          onClick={() => navigate('/services/projects/add-project')}
+          onClick={() => handleAddProject()}
         >
           Ajouter un projet
         </Button>

@@ -15,10 +15,17 @@ const AddProjectPage = ({ initialData }) => {
     membres: [],
     chef_equipe: '',
   });
+  const [isLogin, setIsLogin] = useState(false);
 
- 
+
 
   useEffect(() => {
+
+    // Vérifier si l'utilisateur est connecté (vérification de l'accessToken)
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      setIsLogin(true);
+    }
     if (initialData) {
       setFormData({
         id: initialData.id || '',
@@ -55,7 +62,12 @@ const AddProjectPage = ({ initialData }) => {
     console.log("Membre updated:", updatedMembres);
   };
 
+
   const handleSubmit = async (e) => {
+    if (!isLogin) {
+      navigate('/signin');
+      return;
+    }
     e.preventDefault();
     console.log("Form submitted, validating...");
 

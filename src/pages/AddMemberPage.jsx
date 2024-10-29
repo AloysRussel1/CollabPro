@@ -4,32 +4,56 @@ import api from '../api/api'; // Votre configuration axios
 import './../assets/Css/pagesCss/AddMemberPage.css';
 
 const AddMemberPage = () => {
-    console.log('AddMemberPage rendu');
-    const [email, setEmail] = useState('');
-    const [role, setRole] = useState('');
+    const [members, setMembers] = useState([]); // Liste des membres ajoutés
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const { projectId } = useParams(); 
-    console.log('projectId:', projectId);
+
+    // Fonction pour ajouter un membre dans la liste
+    const addMember = () => {
+        setMembers([...members, { email: '', roleProjet: '' }]);
+    };
+
+    // Fonction pour gérer le changement des champs de membre
+    const handleMemberChange = (index, e) => {
+        const { name, value } = e.target;
+        const updatedMembers = members.map((membre, i) =>
+            i === index ? { ...membre, [name]: value } : membre
+        );
+        setMembers(updatedMembers);
+    };
 
     const handleAddMember = async (e) => {
         e.preventDefault();
+    
+        // Filtrer les membres avec des champs non vides
+        const validMembers = members.filter(
+            (membre) => membre.email.trim() !== '' && membre.roleProjet.trim() !== ''
+        );
+    
+        if (validMembers.length === 0) {
+            setError('Veuillez remplir les champs pour au moins un membre.');
+            return;
+        }
+    
         try {
-            if (!email || !role) {
-                setError('Veuillez remplir tous les champs.');
-                return;
+            // Envoi de la requête avec tous les membres valides en une seule fois
+            const response = await api.post(`/projets/${projectId}/ajouter-membre/`, {
+                membres: validMembers // Envoie le tableau de membres
+            });
+    
+            if (response.status !== 201) {
+                throw new Error('Erreur lors de l\'ajout des membres.');
             }
-
-            const response = await api.post(`/projets/${projectId}/ajouter-membre`, { email, role });
-            if (response.status === 201) {
-                navigate(`/teams`); // Redirection vers la page Teams après l'ajout
-            }
+    
+            // Redirection après succès
+            navigate(`/services/projects/equipes`);
         } catch (error) {
-            console.error('Erreur lors de l\'ajout du membre:', error);
-            setError('Erreur lors de l\'ajout du membre.');
+            console.error('Erreur lors de l\'ajout des membres:', error);
+            setError('Erreur lors de l\'ajout des membres.');
         }
     };
-
+    
     return (
         <div className="add-member-container">
             <h1 className="add-member-title">Ajouter un membre</h1>
@@ -37,33 +61,42 @@ const AddMemberPage = () => {
             {error && <p className="error-message">{error}</p>}
 
             <form className="add-member-form" onSubmit={handleAddMember}>
-                <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Entrez l'email du membre"
-                        className="input-field"
-                        required
-                    />
-                </div>
+                {members.map((membre, index) => (
+                    <div key={index} className="membre-section">
+                        <div className="form-group">
+                            <label htmlFor={`email-${index}`}>Email du membre</label>
+                            <input
+                                type="email"
+                                id={`email-${index}`}
+                                name="email"
+                                value={membre.email}
+                                onChange={(e) => handleMemberChange(index, e)}
+                                placeholder="Entrez l'email du membre"
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor={`role-${index}`}>Rôle du membre</label>
+                            <input
+                                type="text"
+                                id={`role-${index}`}
+                                name="roleProjet"
+                                value={membre.roleProjet}
+                                onChange={(e) => handleMemberChange(index, e)}
+                                placeholder="Entrez le rôle du membre"
+                                required
+                            />
+                        </div>
+                    </div>
+                ))}
 
-                <div className="form-group">
-                    <label htmlFor="role">Rôle</label>
-                    <input
-                        type="text"
-                        id="role"
-                        value={role}
-                        onChange={(e) => setRole(e.target.value)}
-                        placeholder="Entrez le rôle du membre"
-                        className="input-field"
-                        required
-                    />
-                </div>
+                <button type="button" className="btn-add-membre" onClick={addMember}>
+                    Ajouter un autre membre
+                </button>
 
-                <button type="submit" className="submit-btn">Ajouter le membre</button>
+                <button type="submit" className="btn-submit">
+                    Ajouter
+                </button>
             </form>
         </div>
     );

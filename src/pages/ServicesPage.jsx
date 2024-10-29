@@ -38,7 +38,7 @@ const ServicesPage = () => {
           <Route path="/reports/users" element={<UserStatistics />} />
           <Route path="/settings/configuration" element={<Configuration />} />
           <Route path="/help" element={<SupportPage />} />
-          <Route path="/projects/:projectId/ajouter_membre" element={<AddMemberPage />} />
+          <Route path="/projects/:projectId/ajouter-membre" element={<AddMemberPage />} />
 
 
 

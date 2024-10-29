@@ -20,30 +20,42 @@ const MesTaches = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedTask, setSelectedTask] = useState(null);
   const [progression, setProgression] = useState(0);
+  const [isLogin, setIsLogin] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchTaches = async () => {
-      try {
-        const response = await api.get('/taches/');
-        // Vérifier que la réponse est un tableau
-        if (Array.isArray(response.data)) {
-          // Filtrer les tâches pour exclure celles avec projet ou collaborateur
-          const filteredTaches = response.data.filter(tache => !tache.projet && !tache.collaborateur);
-          setTaches(filteredTaches);
-        } else {
-          console.error('Erreur: La réponse n\'est pas un tableau', response.data);
-        }
-      } catch (error) {
-        console.error('Erreur lors du chargement des tâches:', error);
-      }
-    };
 
-    fetchTaches();
+    // Vérifier si l'utilisateur est connecté (vérification de l'accessToken)
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      setIsLogin(true);
+
+      const fetchTaches = async () => {
+        try {
+          const response = await api.get('/taches/');
+          // Vérifier que la réponse est un tableau
+          if (Array.isArray(response.data)) {
+            // Filtrer les tâches pour exclure celles avec projet ou collaborateur
+            const filteredTaches = response.data.filter(tache => !tache.projet && !tache.collaborateur);
+            setTaches(filteredTaches);
+          } else {
+            console.error('Erreur: La réponse n\'est pas un tableau', response.data);
+          }
+        } catch (error) {
+          console.error('Erreur lors du chargement des tâches:', error);
+        }
+      };
+      fetchTaches();
+
+    }
   }, []);
 
   const handleAdd = () => {
+    if (!isLogin) {
+      navigate('/signin');
+      return;
+    }
     navigate('/services/tasks/add-task');
   };
 
@@ -77,7 +89,7 @@ const MesTaches = () => {
 
   const handleProgressClick = (tache) => {
     setSelectedTask(tache);
-    setProgression(tache.progression); 
+    setProgression(tache.progression);
     setOpenModal(true);
   };
 
@@ -89,23 +101,23 @@ const MesTaches = () => {
     const now = new Date();
     if (progression === 100) {
       return 'Terminé';
-    } else if (progression > 0 ) {
+    } else if (progression > 0) {
       return 'En cours';
     } else if (now > new Date(dateFin)) {
       return 'En retard';
     }
     return 'À commencer';
   };
-  
+
   const handleProgressionChange = async () => {
     try {
       const newStatus = getUpdatedStatus(progression, selectedTask.dateFin);
-      
+
       // Effectuer la requête PATCH pour mettre à jour la progression et le statut
       await api.patch(`/taches/${selectedTask.id}/`, { progression, statut: newStatus });
 
       // Mettre à jour l'état local
-      setTaches(taches.map(tache => 
+      setTaches(taches.map(tache =>
         tache.id === selectedTask.id ? { ...tache, progression, statut: newStatus } : tache
       ));
       setOpenModal(false);
@@ -113,7 +125,7 @@ const MesTaches = () => {
       console.error('Erreur lors de la mise à jour de la progression:', error);
     }
   };
-  
+
   const filteredTasks = taches.filter((tache) => {
     const matchesSearch = tache.titre.toLowerCase().includes(searchTerm.toLowerCase()) ||
       tache.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -212,10 +224,10 @@ const MesTaches = () => {
               <TableCell className="table-cell">
                 <div className="action-buttons">
                   <IconButton onClick={() => handleEdit(tache)}>
-                    <EditIcon  />
+                    <EditIcon />
                   </IconButton>
                   <IconButton onClick={() => handleDelete(tache.id)}>
-                    <DeleteIcon  />
+                    <DeleteIcon />
                   </IconButton>
                 </div>
               </TableCell>

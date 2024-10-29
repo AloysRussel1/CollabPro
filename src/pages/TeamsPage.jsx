@@ -44,9 +44,10 @@ const TeamsPage = () => {
 
   // Naviguer vers la page pour ajouter un membre
   const handleAddMember = (projectId) => {
-    navigate(`services/projects/${projectId}/ajouter_membre`); 
+    navigate(`/services/projects/${projectId}/ajouter-membre`); 
     console.log('Naviguer vers la page pour ajouter un membre');
   };
+
   
   
 

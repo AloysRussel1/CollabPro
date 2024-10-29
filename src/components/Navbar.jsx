@@ -47,8 +47,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     // Logique de déconnexion (supprimer les tokens, rediriger, etc.)
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+    localStorage.clear();
     setIsLoggedIn(false);
     
     // Déclencher l'événement personnalisé pour informer les autres composants du changement de statut de connexion

@@ -4,28 +4,24 @@
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    background-color: #000;
-    /* Noir pour l'arrière-plan */
+    background-color: #f4f6f8b6;
     padding: 20px;
 }
 
 .add-member-title {
     font-size: 2.5rem;
-    color: #fff;
-    /* Blanc pour le texte */
+    color: #000;
     margin-bottom: 30px;
 }
 
 .error-message {
     color: #ff4d4d;
-    /* Rouge pour le message d'erreur */
     font-size: 1.2rem;
     margin-bottom: 15px;
 }
 
 .add-member-form {
     background-color: #fff;
-    /* Blanc pour le fond du formulaire */
     padding: 40px;
     border-radius: 10px;
     width: 100%;
@@ -61,7 +57,7 @@
 }
 
 .submit-btn {
-    background-color: #ff4d4d;
+    background-color: #ff0000;
     /* Rouge pour le bouton */
     color: #fff;
     /* Blanc pour le texte du bouton */
@@ -81,4 +77,22 @@
 .submit-btn:focus {
     outline: none;
     box-shadow: 0 0 5px rgba(255, 77, 77, 0.7);
+}
+
+.btn-add-membre, .btn-submit {
+    background-color: #4CAF50; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    border: none; /* Pas de bordure */
+    padding: 10px 20px; /* Espacement intérieur */
+    text-align: center; /* Centrer le texte */
+    text-decoration: none; /* Pas de soulignement */
+    display: inline-block; /* Afficher en ligne */
+    font-size: 16px; /* Taille de la police */
+    margin: 10px 0; /* Marge autour des boutons */
+    cursor: pointer; /* Curseur en forme de main */
+    border-radius: 5px; /* Coins arrondis */
+}
+
+.btn-add-membre:hover, .btn-submit:hover {
+    background-color: #45a049; /* Couleur de fond au survol */
 }

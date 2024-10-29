@@ -20,8 +20,15 @@ const AddTaskPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
+    // Vérifier si l'utilisateur est connecté (vérification de l'accessToken)
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      setIsLogin(true);
+    }
+
     if (task) {
       setFormData({
         titre: task.titre,
@@ -60,6 +67,10 @@ const AddTaskPage = () => {
   };
 
   const handleSubmit = async (e) => {
+    if (!isLogin) {
+      navigate('/signin');
+      return;
+    }
     e.preventDefault();
     if (validateStep()) {
       // Inclure les valeurs du projet et du collaborateur lors de la soumission
