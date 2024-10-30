@@ -17,6 +17,7 @@ import Configuration from './Configuration';
 import SupportPage from './SupportPage';
 import TeamsPage from './TeamsPage';
 import AddMemberPage from './AddMemberPage';
+import AssignTaskPage from './AssignTaskPage';
 
 const ServicesPage = () => {
   return (
@@ -38,10 +39,8 @@ const ServicesPage = () => {
           <Route path="/reports/users" element={<UserStatistics />} />
           <Route path="/settings/configuration" element={<Configuration />} />
           <Route path="/help" element={<SupportPage />} />
-          <Route path="/projects/:projectId/ajouter-membre" element={<AddMemberPage />} />
-
-
-
+          <Route path="/projects/:projectId/ajouter-membre/:memberId?" element={<AddMemberPage />} />
+          <Route path="/projets/:projectId/assigner-taches/:memberId" element={<AssignTaskPage />} />
         </Routes>
       </div>
     </div>

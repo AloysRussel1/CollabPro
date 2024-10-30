@@ -9,9 +9,6 @@ const TeamsPage = () => {
   const navigate = useNavigate();
   const [projectsData, setProjectsData] = useState([]);
   const [activeProject, setActiveProject] = useState(null);
-  const [showAssignTask, setShowAssignTask] = useState(false);
-  const [newTask, setNewTask] = useState({ title: '', description: '', dueDate: '' });
-  const [selectedMember, setSelectedMember] = useState(null);
   const [file, setFile] = useState(null); // État pour le fichier sélectionné
 
   // Récupérer les projets depuis le backend
@@ -44,21 +41,21 @@ const TeamsPage = () => {
 
   // Naviguer vers la page pour ajouter un membre
   const handleAddMember = (projectId) => {
-    navigate(`/services/projects/${projectId}/ajouter-membre`); 
+    navigate(`/services/projects/${projectId}/ajouter-membre`);
     console.log('Naviguer vers la page pour ajouter un membre');
   };
 
-  
-  
+  const handleEditMember = (memberId, projectId) => {
+    const member = projectsData
+      .find((project) => project.id === projectId)
+      .membres.find((m) => m.id === memberId);
+
+    navigate(`/services/projects/${projectId}/ajouter-membre`, { state: { member } });
+  };
+
 
   const handleAssignTask = async (memberId, projectId) => {
-    try {
-      await api.post(`/projets/${projectId}/membres/${memberId}/taches`, newTask);
-      setNewTask({ title: '', description: '', dueDate: '' }); // Réinitialiser le formulaire
-      setShowAssignTask(false); // Fermer le modal d'assignation de tâche
-    } catch (error) {
-      console.error("Erreur lors de l'assignation de la tâche:", error);
-    }
+    navigate(`/services/projets/${projectId}/assigner-taches/${memberId}`);
   };
 
   const handleUploadFile = async (projectId) => {
@@ -132,18 +129,18 @@ const TeamsPage = () => {
                         <FontAwesomeIcon
                           icon={faTasks}
                           onClick={() => {
-                            setSelectedMember(member.id);
-                            setShowAssignTask(true);
+                            handleAssignTask(project.id, member.id)
                           }}
                           className="action-icon"
                           title="Assigner une tâche"
                         />
                         <FontAwesomeIcon
                           icon={faEdit}
-                          onClick={() => handleEditMember(member.id)}
+                          onClick={() => handleEditMember(member.id, project.id)}
                           className="action-icon"
                           title="Éditer"
                         />
+
                         <FontAwesomeIcon
                           icon={faTrashAlt}
                           onClick={() => handleDeleteMember(member.id, project.id)}

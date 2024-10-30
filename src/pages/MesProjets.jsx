@@ -87,9 +87,18 @@ const MesProjets = () => {
     setShowForm(true);
   };
 
-  const handleDeleteClick = (projectId) => {
-    console.log(`Supprimer le projet avec l'ID: ${projectId}`);
-  };
+  const handleDeleteClick = async (projectId) => {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer ce projet ?")) {
+        try {
+            await api.delete(`projets/${projectId}/`);
+            console.log(`Projet avec l'ID ${projectId} supprimé avec succès`);
+            // Mettre à jour la liste des projets après suppression
+            setProjects((prevProjects) => prevProjects.filter((project) => project.id !== projectId));
+        } catch (error) {
+            console.error('Erreur lors de la suppression du projet:', error);
+        }
+    }
+};
 
   const handleAddProject = () => {
     if (!isLogin) {
@@ -104,11 +113,22 @@ const MesProjets = () => {
     (searchTerm === '' || project.titre.toLowerCase().includes(searchTerm.toLowerCase()))
   ));
 
-  const handleModify = (event) => {
+  const handleModify = async (event) => {
     event.preventDefault();
-    console.log('Données du projet modifiées:', currentProject);
+    try {
+        const response = await api.put(`projets/${currentProject.id}/`, currentProject);
+        console.log('Projet modifié avec succès:', response.data);
+        // Mettre à jour la liste des projets après modification
+        setProjects((prevProjects) =>
+            prevProjects.map((project) =>
+                project.id === currentProject.id ? { ...project, ...currentProject } : project
+            )
+        );
+    } catch (error) {
+        console.error('Erreur lors de la modification du projet:', error);
+    }
     setShowForm(false);
-  };
+};
 
   return (
     <div className="mes-projets">

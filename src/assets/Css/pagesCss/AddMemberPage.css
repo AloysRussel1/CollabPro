@@ -79,8 +79,8 @@
     box-shadow: 0 0 5px rgba(255, 77, 77, 0.7);
 }
 
-.btn-add-membre, .btn-submit {
-    background-color: #4CAF50; /* Couleur de fond */
+.btn-submit {
+    background-color: #ff0000; /* Couleur de fond */
     color: white; /* Couleur du texte */
     border: none; /* Pas de bordure */
     padding: 10px 20px; /* Espacement intérieur */
@@ -94,5 +94,5 @@
 }
 
 .btn-add-membre:hover, .btn-submit:hover {
-    background-color: #45a049; /* Couleur de fond au survol */
+    background-color: #e60000; /* Couleur de fond au survol */
 }

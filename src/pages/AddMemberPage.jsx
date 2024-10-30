@@ -1,13 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../api/api'; // Votre configuration axios
 import './../assets/Css/pagesCss/AddMemberPage.css';
 
 const AddMemberPage = () => {
-    const [members, setMembers] = useState([]); // Liste des membres ajoutés
+    const [members, setMembers] = useState([{ email: '', roleProjet: '' }]); // Liste des membres ajoutés ou modifiés
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { projectId } = useParams(); 
+    const { projectId, memberId } = useParams(); // Récupérer le projectId et le memberId s'ils existent
+
+    // Fonction pour charger les informations du membre en cas de modification
+    useEffect(() => {
+        const fetchMemberData = async () => {
+            if (memberId) {
+                try {
+                    const response = await api.get(`/projets/${projectId}/membres/${memberId}`);
+                    const member = response.data;
+                    setMembers([{ email: member.email, roleProjet: member.roleProjet }]);
+                } catch (error) {
+                    console.error('Erreur lors de la récupération du membre:', error);
+                    setError('Erreur lors de la récupération des données du membre.');
+                }
+            }
+        };
+        fetchMemberData();
+    }, [projectId, memberId]);
 
     // Fonction pour ajouter un membre dans la liste
     const addMember = () => {
@@ -23,44 +40,54 @@ const AddMemberPage = () => {
         setMembers(updatedMembers);
     };
 
-    const handleAddMember = async (e) => {
+    const handleAddOrEditMember = async (e) => {
         e.preventDefault();
-    
+
         // Filtrer les membres avec des champs non vides
         const validMembers = members.filter(
             (membre) => membre.email.trim() !== '' && membre.roleProjet.trim() !== ''
         );
-    
+
         if (validMembers.length === 0) {
             setError('Veuillez remplir les champs pour au moins un membre.');
             return;
         }
-    
+
         try {
-            // Envoi de la requête avec tous les membres valides en une seule fois
-            const response = await api.post(`/projets/${projectId}/ajouter-membre/`, {
-                membres: validMembers // Envoie le tableau de membres
-            });
-    
-            if (response.status !== 201) {
-                throw new Error('Erreur lors de l\'ajout des membres.');
+            let response;
+            if (memberId) {
+                // Modifier un membre existant
+                response = await api.put(`/projets/${projectId}/membres/${memberId}/`, {
+                    membres: validMembers[0] // Envoyer seulement le premier membre
+                });
+            } else {
+                // Ajouter de nouveaux membres
+                response = await api.post(`/projets/${projectId}/ajouter-membre/`, {
+                    membres: validMembers // Envoyer la liste des membres
+                });
             }
-    
+
+            if (response.status !== 201 && response.status !== 200) {
+                throw new Error('Erreur lors de l\'ajout ou de la modification des membres.');
+            }
+
             // Redirection après succès
             navigate(`/services/projects/equipes`);
         } catch (error) {
-            console.error('Erreur lors de l\'ajout des membres:', error);
-            setError('Erreur lors de l\'ajout des membres.');
+            console.error('Erreur lors de l\'ajout ou de la modification des membres:', error);
+            setError('Erreur lors de l\'ajout ou de la modification des membres.');
         }
     };
-    
+
     return (
         <div className="add-member-container">
-            <h1 className="add-member-title">Ajouter un membre</h1>
+            <h1 className="add-member-title">
+                {memberId ? 'Modifier un membre' : 'Ajouter un membre'}
+            </h1>
 
             {error && <p className="error-message">{error}</p>}
 
-            <form className="add-member-form" onSubmit={handleAddMember}>
+            <form className="add-member-form" onSubmit={handleAddOrEditMember}>
                 {members.map((membre, index) => (
                     <div key={index} className="membre-section">
                         <div className="form-group">
@@ -90,12 +117,14 @@ const AddMemberPage = () => {
                     </div>
                 ))}
 
-                <button type="button" className="btn-add-membre" onClick={addMember}>
-                    Ajouter un autre membre
-                </button>
+                {!memberId && (
+                    <button type="button" className="btn-add-membre" onClick={addMember}>
+                        Ajouter un autre membre
+                    </button>
+                )}
 
                 <button type="submit" className="btn-submit">
-                    Ajouter
+                    {memberId ? 'Modifier' : 'Ajouter'}
                 </button>
             </form>
         </div>
