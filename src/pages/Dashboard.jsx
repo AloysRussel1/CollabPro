@@ -1,37 +1,70 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './../assets/Css/pagesCss/Dashboard.css';
 import { FaProjectDiagram, FaTasks, FaBell } from 'react-icons/fa';
 import { Bar, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
 import { useNavigate } from 'react-router-dom';
+import api from '../api/api';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
-// Données pour les graphiques
-const barData = {
-  labels: ['Projet Alpha', 'Projet Beta', 'Projet Gamma'],
-  datasets: [
-    {
-      label: 'Progression',
-      data: [70, 50, 90],
-      backgroundColor: '#ff0000',
-    },
-  ],
-};
-
-const pieData = {
-  labels: ['Projets Alpha', 'Projets Beta', 'Projets Gamma'],
-  datasets: [
-    {
-      data: [70, 50, 90],
-      backgroundColor: ['#ff0000', '#00ff00', '#0000ff'],
-    },
-  ],
-};
-
 const Dashboard = () => {
+  const [totalProjets, setTotalProjets] = useState(0);
+  const [totalTaches, setTotalTaches] = useState(0);
+  const [projetProgression, setProjetProgression] = useState([]);
+  const [pieData, setPieData] = useState({
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: ['#ff0000', '#00ff00', '#0000ff', '#ffa500', '#800080', '#00ced1'],
+      },
+    ],
+  });
+
   const navigate = useNavigate();
-  const buttonColor = '#000'; // Rouge vif pour les boutons
+
+  useEffect(() => {
+    // Récupérer le total des projets et leurs progressions
+    api.get('/projets/')
+      .then((response) => {
+        const projets = response.data;
+        setTotalProjets(projets.length);
+
+        // Vérification des données reçues
+        console.log("Projets récupérés :", projets);
+
+        // Calculer la progression totale des projets
+        const progressions = projets.map(projet => {
+          const progression = typeof projet.progression === 'number' ? projet.progression : 0; // Défaut à 0 si pas de progression
+          return progression;
+        });
+
+        // Vérification des valeurs de progression
+        console.log("Progression des projets :", progressions);
+
+        setProjetProgression(progressions);
+
+        // Mettre à jour les données pour le graphique circulaire
+        setPieData({
+          labels: projets.map(projet => projet.titre || 'Projet sans titre'), // Ajout d'un titre par défaut
+          datasets: [
+            {
+              data: progressions,
+              backgroundColor: ['#ff0000', '#00ff00', '#0000ff', '#ffa500', '#800080', '#00ced1'],
+            },
+          ],
+        });
+      })
+      .catch(error => console.error('Erreur lors de la récupération des projets:', error));
+
+    // Récupérer le total des tâches
+    api.get('/taches/')
+      .then((response) => {
+        setTotalTaches(response.data.length);
+      })
+      .catch(error => console.error('Erreur lors de la récupération des tâches:', error));
+  }, []);
 
   return (
     <div className="dashboard">
@@ -41,21 +74,21 @@ const Dashboard = () => {
 
       <section className="dashboard-overview">
         <div className="overview-item">
-          <FaProjectDiagram className="overview-icon" style={{ color: '#ff0000' }} /> {/* Rouge vif */}
+          <FaProjectDiagram className="overview-icon" style={{ color: '#ff0000' }} /> 
           <div className="overview-content">
             <h2>Total Projets</h2>
-            <p>34</p>
+            <p>{totalProjets}</p>
           </div>
         </div>
         <div className="overview-item">
-          <FaTasks className="overview-icon" style={{ color: '#ff0000' }} /> {/* Rouge vif */}
+          <FaTasks className="overview-icon" style={{ color: '#ff0000' }} />
           <div className="overview-content">
             <h2>Total Tâches</h2>
-            <p>120</p>
+            <p>{totalTaches}</p>
           </div>
         </div>
         <div className="overview-item">
-          <FaBell className="overview-icon" style={{ color: '#ff0000' }} /> {/* Rouge vif */}
+          <FaBell className="overview-icon" style={{ color: '#ff0000' }} />
           <div className="overview-content">
             <h2>Alertes</h2>
             <p>3 nouvelles alertes</p>
@@ -66,14 +99,29 @@ const Dashboard = () => {
       <section className="dashboard-charts">
         <h2>Statistiques des Projets</h2>
         <div className="chart-container">
-          <div className="chart-item">
-            <h3>Progression des Projets</h3>
-            <Bar data={barData} options={{ responsive: true, maintainAspectRatio: false }} />
-          </div>
-          <div className="chart-item">
-            <h3>Répartition des Projets</h3>
-            <Pie data={pieData} options={{ responsive: true, maintainAspectRatio: false }} />
-          </div>
+          {pieData.labels.length > 0 && projetProgression.length > 0 ? (
+            <>
+              <div className="chart-item">
+                <h3>Progression des Projets</h3>
+                <Bar data={{
+                  labels: pieData.labels,
+                  datasets: [
+                    {
+                      label: 'Progression',
+                      data: projetProgression,
+                      backgroundColor: '#ff0000',
+                    },
+                  ],
+                }} options={{ responsive: true, maintainAspectRatio: false }} />
+              </div>
+              <div className="chart-item">
+                <h3>Répartition des Projets</h3>
+                <Pie data={pieData} options={{ responsive: true, maintainAspectRatio: false }} />
+              </div>
+            </>
+          ) : (
+            <p>Chargement des données des graphiques...</p>
+          )}
         </div>
       </section>
     </div>

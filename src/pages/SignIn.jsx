@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from './../api/api.js';  // Assurez-vous que votre instance Axios est correctement configurée
 import './../assets/Css/pagesCss/SignIn.css';
+import { jwtDecode } from 'jwt-decode'; // Utilisation de l'importation alternative
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
@@ -26,11 +27,20 @@ const SignIn = () => {
       // Envoyer une requête POST pour obtenir le token JWT
       const response = await api.post('/token/', formData);
       const { access, refresh } = response.data;
+
       // Stocker le token JWT (access token)
       localStorage.setItem('accessToken', access);
       localStorage.setItem('refreshToken', refresh);
 
+      // Déchiffrer le token pour extraire l'ID de l'utilisateur
+      const decodedToken = jwtDecode(access); 
+      const userId = decodedToken.user_id; 
+
+      localStorage.setItem('userId', userId); // Stocker l'ID de l'utilisateur
+      console.log('ID de l’utilisateur stocké:', userId);
       console.log('Token JWT stocké:', access);
+
+      // Rediriger l'utilisateur vers le tableau de bord
       navigate('/services/dashboard');
     } catch (err) {
       setError('Identifiants invalides. Veuillez réessayer.');

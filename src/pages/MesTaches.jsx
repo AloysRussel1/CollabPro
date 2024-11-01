@@ -97,13 +97,13 @@ const MesTaches = () => {
     setOpenModal(false);
   };
 
-  const getUpdatedStatus = (progression, dateFin) => {
+  const getUpdatedStatus = (progression, date_fin) => {
     const now = new Date();
     if (progression === 100) {
       return 'Terminé';
     } else if (progression > 0) {
       return 'En cours';
-    } else if (now > new Date(dateFin)) {
+    } else if (now > new Date(date_fin)) {
       return 'En retard';
     }
     return 'À commencer';

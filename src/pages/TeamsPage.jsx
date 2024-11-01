@@ -129,7 +129,7 @@ const TeamsPage = () => {
                         <FontAwesomeIcon
                           icon={faTasks}
                           onClick={() => {
-                            handleAssignTask(project.id, member.id)
+                            handleAssignTask(member.id,project.id)
                           }}
                           className="action-icon"
                           title="Assigner une tâche"

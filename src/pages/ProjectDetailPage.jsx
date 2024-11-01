@@ -135,17 +135,26 @@ const ProjectDetailPage = () => {
     setOpenModal(false);
   };
 
-  const getUpdatedStatus = (progression, dateFin) => {
-    const now = new Date();
-    if (progression === 100) {
-      return 'Terminé';
-    } else if (progression > 0) {
-      return 'En cours';
-    } else if (now > new Date(dateFin)) {
-      return 'En retard';
-    }
-    return 'À commencer';
-  };
+const getUpdatedStatus = (progression, date_fin) => {
+  const now = new Date();
+  const endDate = new Date(date_fin);
+
+  if (progression === 100) {
+    return 'Terminé';
+  }
+  
+  if (now > endDate && progression < 100) {
+    return 'En retard';
+  }
+  
+  if (progression > 0 && progression < 100) {
+    return 'En cours';
+  }
+  
+  return 'À commencer';
+};
+
+  
 
   const handleProgressionChange = async () => {
     try {
