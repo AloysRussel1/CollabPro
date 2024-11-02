@@ -22,12 +22,13 @@ const Dashboard = () => {
     ],
   });
 
-  const navigate = useNavigate();
+  const userId = localStorage.getItem('userId'); // Récupérer l'ID de l'utilisateur connecté
 
   useEffect(() => {
     // Récupérer le total des projets et leurs progressions
-    api.get('/projets/')
-      .then((response) => {
+    const fetchProjets = async () => {
+      try {
+        const response = await api.get(`/user/${userId}/projets/`);
         const projets = response.data;
         setTotalProjets(projets.length);
 
@@ -55,16 +56,25 @@ const Dashboard = () => {
             },
           ],
         });
-      })
-      .catch(error => console.error('Erreur lors de la récupération des projets:', error));
+      } catch (error) {
+        console.error('Erreur lors de la récupération des projets:', error);
+      }
+    };
+
+    fetchProjets();
 
     // Récupérer le total des tâches
-    api.get('/taches/')
-      .then((response) => {
+    const fetchTaches = async () => {
+      try {
+        const response = await api.get(`/user/${userId}/taches/`);
         setTotalTaches(response.data.length);
-      })
-      .catch(error => console.error('Erreur lors de la récupération des tâches:', error));
-  }, []);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des tâches:', error);
+      }
+    };
+
+    fetchTaches();
+  }, [userId]); // Ajouter userId comme dépendance pour garantir qu'il est utilisé à chaque rendu
 
   return (
     <div className="dashboard">
@@ -74,7 +84,7 @@ const Dashboard = () => {
 
       <section className="dashboard-overview">
         <div className="overview-item">
-          <FaProjectDiagram className="overview-icon" style={{ color: '#ff0000' }} /> 
+          <FaProjectDiagram className="overview-icon" style={{ color: '#ff0000' }} />
           <div className="overview-content">
             <h2>Total Projets</h2>
             <p>{totalProjets}</p>

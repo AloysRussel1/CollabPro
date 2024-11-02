@@ -9,7 +9,8 @@ const TeamsPage = () => {
   const navigate = useNavigate();
   const [projectsData, setProjectsData] = useState([]);
   const [activeProject, setActiveProject] = useState(null);
-  const [file, setFile] = useState(null); // État pour le fichier sélectionné
+  const [file, setFile] = useState(null);
+  const userId = localStorage.getItem('userId');
 
   // Récupérer les projets depuis le backend
   useEffect(() => {
@@ -18,26 +19,35 @@ const TeamsPage = () => {
         const response = await api.get('/projets/');
         const projects = response.data;
 
-        // Pour chaque projet, récupérer ses membres
+        // Récupérer les membres de chaque projet et filtrer ceux auxquels l'utilisateur connecté appartient
         const projectsWithMembers = await Promise.all(
           projects.map(async (project) => {
             const membersResponse = await api.get(`/projets/${project.id}/membres`);
-            console.log('Membres pour le projet', project.id, membersResponse.data);
-            return {
-              ...project,
-              membres: membersResponse.data,
-            };
+            const members = membersResponse.data;
+
+            // Vérifier si l'utilisateur connecté est dans la liste des membres
+            const isUserInProject = members.some(member => member.id === parseInt(userId));
+
+            if (isUserInProject) {
+              return {
+                ...project,
+                membres: members,
+              };
+            }
+            return null; // Ne pas inclure les projets où l'utilisateur n'est pas membre
           })
         );
 
-        setProjectsData(projectsWithMembers);
+        // Supprimer les projets "null" du tableau
+        setProjectsData(projectsWithMembers.filter(project => project !== null));
       } catch (error) {
         console.error('Erreur lors de la récupération des projets:', error);
       }
     };
 
     fetchProjects();
-  }, []);
+  }, [userId]);
+
 
   // Naviguer vers la page pour ajouter un membre
   const handleAddMember = (projectId) => {
@@ -129,7 +139,7 @@ const TeamsPage = () => {
                         <FontAwesomeIcon
                           icon={faTasks}
                           onClick={() => {
-                            handleAssignTask(member.id,project.id)
+                            handleAssignTask(member.id, project.id)
                           }}
                           className="action-icon"
                           title="Assigner une tâche"

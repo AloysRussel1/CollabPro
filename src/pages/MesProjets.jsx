@@ -24,7 +24,7 @@ const MesProjets = () => {
       return [];
     }
   };
-  
+
 
   useEffect(() => {
     const fetchUserProjectsWithTasks = async () => {
@@ -32,7 +32,7 @@ const MesProjets = () => {
         const userId = localStorage.getItem('userId');
         const response = await api.get(`/user/${userId}/projets/`);
         const projects = response.data;
-  
+
         // Ajoutez les tâches pour chaque projet
         const projectsWithTasks = await Promise.all(
           projects.map(async (project) => {
@@ -40,35 +40,35 @@ const MesProjets = () => {
             return { ...project, taches };
           })
         );
-  
-        setProjects(projectsWithTasks); 
+
+        setProjects(projectsWithTasks);
       } catch (error) {
         console.error('Erreur lors de la récupération des projets et des tâches:', error);
       }
     };
-  
+
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       setIsLogin(true);
       fetchUserProjectsWithTasks();
     }
   }, []);
-  
+
   const getProjectProgress = (project) => {
-    const tasks = project.taches; 
+    const tasks = project.taches;
     console.log('Tasks for project', project.id, tasks);
     if (!tasks || tasks.length === 0) {
-      return 0; 
+      return 0;
     }
-  
+
     const totalProgress = tasks.reduce((sum, task) => {
       return sum + (task.progression || 0);
     }, 0);
-  
+
     return totalProgress / tasks.length;
   };
-  
-  
+
+
 
   const getProjectStatus = (project) => {
     const progress = getProjectProgress(project);
@@ -82,28 +82,20 @@ const MesProjets = () => {
     if (currentDate.isAfter(endDate)) return 'En retard';
     return 'En cours';
   };
-
-  // Nouvelle fonction pour mettre à jour le projet
-  // const updateProject = async (projectId, updatedProject) => {
-  //   try {
-  //     // Incluez tous les champs requis ici
-  //     const { titre, description, date_debut, date_fin, chef_equipe, progression, statut } = updatedProject;
-
-  //     const response = await api.put(`projets/${projectId}/`, {
-  //       titre,
-  //       description,
-  //       date_debut,
-  //       date_fin,
-  //       chef_equipe,
-  //       progression,
-  //       statut
-  //     });
-
-  //     console.log(`Projet ${projectId} mis à jour avec succès: progression = ${progression}, statut = ${statut}`);
-  //   } catch (error) {
-  //     console.error('Erreur lors de la mise à jour du projet:', error);
-  //   }
-  // };
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Terminé':
+        return '#4CAF50';
+      case 'En progression':
+        return '#FFC107';
+      case 'À commencer':
+        return '#D32F2F';
+      case 'En retard':
+        return '#FF5722';
+      default:
+        return '#9E9E9E';
+    }
+  };
 
   const handleFilterChange = (event) => setFilter(event.target.value);
   const handleSearchChange = (event) => setSearchTerm(event.target.value);
@@ -219,12 +211,15 @@ const MesProjets = () => {
                   {filteredProjects.map((project) => (
                     <TableRow key={project.id}>
                       <TableCell>{project.titre}</TableCell>
-                      <TableCell>{getProjectStatus(project)}</TableCell>
+                      <TableCell style={{ color: getStatusColor(getProjectStatus(project)) }}>
+                        {getProjectStatus(project)}
+                      </TableCell>
+
 
                       <TableCell>
                         <LinearProgress
                           variant="determinate"
-                          value={getProjectProgress(project)} 
+                          value={getProjectProgress(project)}
                           sx={{
                             height: 10,
                             borderRadius: 5,

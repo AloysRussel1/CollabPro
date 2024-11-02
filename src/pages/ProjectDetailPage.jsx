@@ -23,8 +23,11 @@ const ProjectDetailPage = () => {
   const [progression, setProgression] = useState(0);
   const [projectTitle, setProjectTitle] = useState('');
   const [collaborateurs, setCollaborateurs] = useState([]);
+  // const userId = localStorage.getItem('userId');
 
   const navigate = useNavigate();
+
+  const [chefEquipeId, setChefEquipeId] = useState(null);
 
   // Fetch des tâches filtrées par projet
   useEffect(() => {
@@ -55,7 +58,11 @@ const ProjectDetailPage = () => {
     const fetchProjectTitle = async () => {
       try {
         const response = await api.get(`/projets/${projectId}`);
-        setProjectTitle(response.data.titre); // Assurez-vous que la propriété du titre est correcte
+        console.log('Projet:', response)
+        setProjectTitle(response.data.titre);
+        const chefId = response.data.chef_equipe;
+        setChefEquipeId(chefId);
+        console.log('Chef de l\'equipe:', chefEquipeId)
       } catch (error) {
         console.error('Erreur lors du chargement du titre du projet:', error);
       }
@@ -66,21 +73,22 @@ const ProjectDetailPage = () => {
       fetchProjectTitle();
       fetchCollaborateurs();
     }
-  }, [projectId]);
+  }, [projectId, chefEquipeId]);
+
+
 
 
   const getCollaborateurNom = (id) => {
     const collaborateur = collaborateurs.find(collab => collab.id === id);
     return collaborateur ? collaborateur.nom : 'Non assigné';
   };
-  
 
   const handleAdd = () => {
     navigate('/services/tasks/add-task', {
       state: { projet: projectId }
     });
   };
-  
+
 
   const handleDelete = async (id) => {
     try {
@@ -95,16 +103,16 @@ const ProjectDetailPage = () => {
     // Vérifiez la tâche avant de naviguer
     console.log('Tâche à modifier:', tache);
 
-    // Assurez-vous que projet et collaborateur ne sont pas null
-    const projet = tache.projet || null; // Remplacez null par une valeur par défaut si nécessaire
-    const collaborateur = tache.collaborateur || 'Non assigné'; // Remplacez null par une valeur par défaut si nécessaire
+
+    const projet = tache.projet || null;
+    const collaborateur = tache.collaborateur || 'Non assigné';
 
     navigate('/services/tasks/add-task', {
       state: {
         task: {
-          ...tache, // Inclure toutes les propriétés de tache
-          projet, // On garde la valeur du projet
-          collaborateur // On garde la valeur du collaborateur
+          ...tache,
+          projet,
+          collaborateur
         }
       }
     });
@@ -135,26 +143,26 @@ const ProjectDetailPage = () => {
     setOpenModal(false);
   };
 
-const getUpdatedStatus = (progression, date_fin) => {
-  const now = new Date();
-  const endDate = new Date(date_fin);
+  const getUpdatedStatus = (progression, date_fin) => {
+    const now = new Date();
+    const endDate = new Date(date_fin);
 
-  if (progression === 100) {
-    return 'Terminé';
-  }
-  
-  if (now > endDate && progression < 100) {
-    return 'En retard';
-  }
-  
-  if (progression > 0 && progression < 100) {
-    return 'En cours';
-  }
-  
-  return 'À commencer';
-};
+    if (progression >= 100) {
+      return 'Terminé';
+    }
 
-  
+    if (now > endDate && progression < 100) {
+      return 'En retard';
+    }
+
+    if (progression > 0 && progression < 100) {
+      return 'En cours';
+    }
+
+    return 'À commencer';
+  };
+
+
 
   const handleProgressionChange = async () => {
     try {
@@ -173,7 +181,7 @@ const getUpdatedStatus = (progression, date_fin) => {
 
   const filteredTasks = taches.filter((tache) => {
     const matchesSearch = tache.titre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    tache.description.toLowerCase().includes(searchTerm.toLowerCase());
+      tache.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatut ? tache.statut === filterStatut : true;
     const matchesDateDebut = filterDateDebut ? new Date(tache.dateDebut) >= new Date(filterDateDebut) : true;
     const matchesDateEcheance = filterDateEcheance ? new Date(tache.dateEcheance) <= new Date(filterDateEcheance) : true;
@@ -246,7 +254,7 @@ const getUpdatedStatus = (progression, date_fin) => {
             <TableCell className="table-head-cell">Description</TableCell>
             <TableCell className="table-head-cell">Date de début</TableCell>
             <TableCell className="table-head-cell">Date d'échéance</TableCell>
-            <TableCell className="table-head-cell">Responsable</TableCell> 
+            <TableCell className="table-head-cell">Responsable</TableCell>
             <TableCell className="table-head-cell">Statut</TableCell>
             <TableCell className="table-head-cell">Progression</TableCell>
             <TableCell className="table-head-cell">Actions</TableCell>
@@ -268,14 +276,16 @@ const getUpdatedStatus = (progression, date_fin) => {
               <TableCell className="table-cell" onClick={() => handleProgressClick(tache)} style={{ cursor: 'pointer' }}>
                 <span>{tache.progression}%</span>
               </TableCell>
-              <TableCell className="table-cell">
-                <IconButton onClick={() => handleEdit(tache)}>
-                  <EditIcon />
-                </IconButton>
-                <IconButton onClick={() => handleDelete(tache.id)}>
-                  <DeleteIcon />
-                </IconButton>
-              </TableCell>
+              {/* {chefEquipeId === userId && ( */}
+                <TableCell className="table-cell">
+                  <IconButton onClick={() => handleEdit(tache)}>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton onClick={() => handleDelete(tache.id)}>
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              {/* )} */}
             </TableRow>
           ))}
         </TableBody>

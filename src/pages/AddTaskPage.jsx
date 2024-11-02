@@ -104,13 +104,19 @@ const AddTaskPage = () => {
           description: '',
           dateDebut: '',
           dateEcheance: '',
-          projet: null, 
-          collaborateur: null, 
+          projet: null,
+          collaborateur: null,
         });
-        setCurrentStep(1); 
+        setCurrentStep(1);
 
-        // Rediriger vers la page des tâches après un ajout/mise à jour réussi(e)
-        navigate('/services/projects/${project.id}'); 
+        // Redirection après la création ou la mise à jour
+        if (projectId) {
+          // Rediriger vers la page de détails du projet si l'ID est fourni
+          navigate(`/services/projects/${projectId}`);
+        } else {
+          // Sinon, rediriger vers la page "mes tâches"
+          navigate('/services/tasks/mytasks');
+        }
 
       } catch (error) {
         // En cas d'erreur

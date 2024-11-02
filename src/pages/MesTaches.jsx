@@ -99,7 +99,7 @@ const MesTaches = () => {
 
   const getUpdatedStatus = (progression, date_fin) => {
     const now = new Date();
-    if (progression === 100) {
+    if (progression >= 100) {
       return 'Terminé';
     } else if (progression > 0) {
       return 'En cours';
