@@ -76,7 +76,7 @@ const Navbar = () => {
         {/* Si l'utilisateur est connecté, afficher son profil et l'option de déconnexion */}
         {isLoggedIn ? (
           <li className="dropdown">
-            <a href="/profile" className="cta"><FaUser /> Profil</a>
+            <a href="" className="cta"><FaUser /> Profil</a>
             <ul className="dropdown-menu">
               <li><a href="/profile"><FaUser /> Mon Profil</a></li>
               <li><a href="#" onClick={handleLogout}><FaSignInAlt /> Déconnexion</a></li>

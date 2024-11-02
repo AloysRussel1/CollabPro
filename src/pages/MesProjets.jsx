@@ -15,26 +15,48 @@ const MesProjets = () => {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
 
+  const fetchProjectTasks = async (projectId) => {
+    try {
+      const response = await api.get(`/projets/${projectId}/taches/`);
+      return response.data;
+    } catch (error) {
+      console.error(`Erreur lors de la récupération des tâches pour le projet ${projectId}:`, error);
+      return [];
+    }
+  };
+  
+
   useEffect(() => {
-    const fetchUserProjects = async () => {
+    const fetchUserProjectsWithTasks = async () => {
       try {
         const userId = localStorage.getItem('userId');
         const response = await api.get(`/user/${userId}/projets/`);
-        console.log('Projets récupérés:', response.data);
-        setProjects(response.data); // Mettez à jour les projets avec la réponse
+        const projects = response.data;
+  
+        // Ajoutez les tâches pour chaque projet
+        const projectsWithTasks = await Promise.all(
+          projects.map(async (project) => {
+            const taches = await fetchProjectTasks(project.id);
+            return { ...project, taches };
+          })
+        );
+  
+        setProjects(projectsWithTasks); 
       } catch (error) {
-        console.error('Erreur lors de la récupération des projets:', error);
+        console.error('Erreur lors de la récupération des projets et des tâches:', error);
       }
     };
-
+  
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       setIsLogin(true);
-      fetchUserProjects();
+      fetchUserProjectsWithTasks();
     }
   }, []);
+  
   const getProjectProgress = (project) => {
     const tasks = project.taches; 
+    console.log('Tasks for project', project.id, tasks);
     if (!tasks || tasks.length === 0) {
       return 0; 
     }
