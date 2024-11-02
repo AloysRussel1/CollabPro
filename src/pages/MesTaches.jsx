@@ -212,7 +212,7 @@ const MesTaches = () => {
               <TableCell className="table-cell">{tache.date_debut}</TableCell>
               <TableCell className="table-cell">{tache.date_fin}</TableCell>
 
-              <TableCell className="table-cell" style={{ color: getStatusColor(tache.statut) }}>
+              <TableCell className="status-badge" style={{ color: getStatusColor(tache.statut) }}>
                 <strong>{tache.statut}</strong>
               </TableCell>
               <TableCell className="table-cell" onClick={() => handleProgressClick(tache)} style={{ cursor: 'pointer' }}>

@@ -27,26 +27,32 @@ const MesProjets = () => {
 
 
   useEffect(() => {
+    
     const fetchUserProjectsWithTasks = async () => {
       try {
         const userId = localStorage.getItem('userId');
         const response = await api.get(`/user/${userId}/projets/`);
         const projects = response.data;
-
-        // Ajoutez les tâches pour chaque projet
+    
         const projectsWithTasks = await Promise.all(
           projects.map(async (project) => {
             const taches = await fetchProjectTasks(project.id);
-            return { ...project, taches };
+            const progress = getProjectProgress({ ...project, taches });
+            const status = getProjectStatus({ ...project, taches });
+            
+            // Enregistrez la progression et le statut dans la base de données
+            await updateProjectStatus(project.id, progress, status);
+            
+            return { ...project, taches, progression: progress, statut: status };
           })
         );
-
+    
         setProjects(projectsWithTasks);
       } catch (error) {
         console.error('Erreur lors de la récupération des projets et des tâches:', error);
       }
     };
-
+    
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       setIsLogin(true);
@@ -78,15 +84,46 @@ const MesProjets = () => {
     const endDate = dayjs(project.date_fin);
 
     if (progress === 100) return 'Terminé';
-    if (progress === 0) return 'A Commencer';
+    if (progress === 0) return 'À commencer';
     if (currentDate.isAfter(endDate)) return 'En retard';
     return 'En cours';
   };
+
+  const updateProjectStatus = async (projectId, progress, status) => {
+    try {
+      await api.put(`/projets/${projectId}/`, { progression: progress, statut: status });
+      console.log(`Projet ${projectId} mis à jour avec succès.`);
+    } catch (error) {
+      console.error(`Erreur lors de la mise à jour du projet ${projectId}:`, error);
+    }
+  };
+
+  // const updateProjectStatus = async (projectId, progress, status) => {
+  //   try {
+  //     // Récupérer les détails actuels du projet
+  //     const response = await api.get(`/projets/${projectId}/`);
+  //     const existingProject = response.data;
+  
+  //     // Créer un nouvel objet avec les valeurs existantes
+  //     const updatedProject = {
+  //       ...existingProject,
+  //       progression: progress,
+  //       statut: status,
+  //     };
+  
+  //     // Envoyer la mise à jour avec toutes les valeurs
+  //     await api.put(`/projets/${projectId}/`, updatedProject);
+  //     console.log(`Projet ${projectId} mis à jour avec succès.`);
+  //   } catch (error) {
+  //     console.error(`Erreur lors de la mise à jour du projet ${projectId}:`, error);
+  //   }
+  // };
+  
   const getStatusColor = (status) => {
     switch (status) {
       case 'Terminé':
         return '#4CAF50';
-      case 'En progression':
+      case 'En cours':
         return '#FFC107';
       case 'À commencer':
         return '#D32F2F';
@@ -211,7 +248,7 @@ const MesProjets = () => {
                   {filteredProjects.map((project) => (
                     <TableRow key={project.id}>
                       <TableCell>{project.titre}</TableCell>
-                      <TableCell style={{ color: getStatusColor(getProjectStatus(project)) }}>
+                      <TableCell className='status-badge' style={{ color: getStatusColor(getProjectStatus(project)) }}>
                         {getProjectStatus(project)}
                       </TableCell>
 
