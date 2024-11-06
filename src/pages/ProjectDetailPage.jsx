@@ -23,7 +23,8 @@ const ProjectDetailPage = () => {
   const [progression, setProgression] = useState(0);
   const [projectTitle, setProjectTitle] = useState('');
   const [collaborateurs, setCollaborateurs] = useState([]);
-  // const userId = localStorage.getItem('userId');
+  const userId = localStorage.getItem('userId');
+  console.log('User ID:', userId);
 
   const navigate = useNavigate();
 
@@ -61,6 +62,7 @@ const ProjectDetailPage = () => {
         console.log('Projet:', response)
         setProjectTitle(response.data.titre);
         const chefId = response.data.chef_equipe;
+        console.log("Id", chefId)
         setChefEquipeId(chefId);
         console.log('Chef de l\'equipe:', chefEquipeId)
       } catch (error) {
@@ -74,7 +76,6 @@ const ProjectDetailPage = () => {
       fetchCollaborateurs();
     }
   }, [projectId, chefEquipeId]);
-
 
 
 
@@ -276,7 +277,7 @@ const ProjectDetailPage = () => {
               <TableCell className="table-cell" onClick={() => handleProgressClick(tache)} style={{ cursor: 'pointer' }}>
                 <span>{tache.progression}%</span>
               </TableCell>
-              {/* {chefEquipeId === userId && ( */}
+              {chefEquipeId === userId && (
                 <TableCell className="table-cell">
                   <IconButton onClick={() => handleEdit(tache)}>
                     <EditIcon />
@@ -285,7 +286,7 @@ const ProjectDetailPage = () => {
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
-              {/* )} */}
+              )} 
             </TableRow>
           ))}
         </TableBody>

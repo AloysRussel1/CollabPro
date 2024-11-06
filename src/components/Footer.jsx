@@ -7,7 +7,7 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/f
 const Footer = () => {
   const location = useLocation();
   const isServicePage = location.pathname.startsWith('/services');
-  const isAuthPage = location.pathname === '/signin' || location.pathname === '/register';
+  const isAuthPage = location.pathname === '/signin' || location.pathname === '/register' || location.pathname === '/profile';
 
   if (isAuthPage || isServicePage) {
     return null; 
@@ -37,6 +37,7 @@ const Footer = () => {
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"><FaFacebookF /></a>
             <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"><FaTwitter /></a>
             <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"><FaLinkedinIn /></a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
           </div>
         </div>
       </div>

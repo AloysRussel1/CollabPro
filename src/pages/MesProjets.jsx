@@ -33,6 +33,7 @@ const MesProjets = () => {
         const userId = localStorage.getItem('userId');
         const response = await api.get(`/user/${userId}/projets/`);
         const projects = response.data;
+        console.log('Projects:', projects);
     
         const projectsWithTasks = await Promise.all(
           projects.map(async (project) => {
@@ -89,35 +90,35 @@ const MesProjets = () => {
     return 'En cours';
   };
 
-  const updateProjectStatus = async (projectId, progress, status) => {
-    try {
-      await api.put(`/projets/${projectId}/`, { progression: progress, statut: status });
-      console.log(`Projet ${projectId} mis à jour avec succès.`);
-    } catch (error) {
-      console.error(`Erreur lors de la mise à jour du projet ${projectId}:`, error);
-    }
-  };
-
   // const updateProjectStatus = async (projectId, progress, status) => {
   //   try {
-  //     // Récupérer les détails actuels du projet
-  //     const response = await api.get(`/projets/${projectId}/`);
-  //     const existingProject = response.data;
-  
-  //     // Créer un nouvel objet avec les valeurs existantes
-  //     const updatedProject = {
-  //       ...existingProject,
-  //       progression: progress,
-  //       statut: status,
-  //     };
-  
-  //     // Envoyer la mise à jour avec toutes les valeurs
-  //     await api.put(`/projets/${projectId}/`, updatedProject);
+  //     await api.put(`/projets/${projectId}/`, { progression: progress, statut: status });
   //     console.log(`Projet ${projectId} mis à jour avec succès.`);
   //   } catch (error) {
   //     console.error(`Erreur lors de la mise à jour du projet ${projectId}:`, error);
   //   }
   // };
+
+  const updateProjectStatus = async (projectId, progress, status) => {
+    try {
+      // Récupérer les détails actuels du projet
+      const response = await api.get(`/projets/${projectId}/`);
+      const existingProject = response.data;
+  
+      // Créer un nouvel objet avec les valeurs existantes
+      const updatedProject = {
+        ...existingProject,
+        progression: progress,
+        statut: status,
+      };
+      console.log("Projet avant mise a jour:", updatedProject);
+      // Envoyer la mise à jour avec toutes les valeurs
+      await api.put(`/projets/${projectId}/`, updatedProject);
+      console.log(`Projet ${projectId} mis à jour avec succès.`);
+    } catch (error) {
+      console.error(`Erreur lors de la mise à jour du projet ${projectId}:`, error);
+    }
+  };
   
   const getStatusColor = (status) => {
     switch (status) {

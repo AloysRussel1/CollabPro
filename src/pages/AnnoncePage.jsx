@@ -11,7 +11,7 @@ const AnnoncePage = () => {
 
   // Fonction pour gérer la navigation
   const handleViewDetails = (id) => {
-    navigate(`/annonce/${id}`); // Naviguer vers la page de détails de l'annonce
+    navigate(`/annonce/${id}`); 
   };
 
   return (

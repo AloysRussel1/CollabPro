@@ -19,6 +19,7 @@ import TeamsPage from './TeamsPage';
 import AddMemberPage from './AddMemberPage';
 import AssignTaskPage from './AssignTaskPage';
 
+
 const ServicesPage = () => {
   return (
     <div className="services-page">
@@ -34,6 +35,7 @@ const ServicesPage = () => {
           <Route path="/projects/equipes" element={<TeamsPage />} />
           <Route path="/tasks/mytasks" element={<MesTaches />} />
           <Route path="/tasks/:taskId" element={<TaskDetailPage />} />
+          {/* <Route path="/inbox" element={<BoiteDeReception />} /> */}
           <Route path="/inbox" element={<BoiteDeReception />} />
           <Route path="/reports/performance" element={<PerformanceReports />} />
           <Route path="/reports/users" element={<UserStatistics />} />

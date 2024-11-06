@@ -13,7 +13,7 @@ const Navbar = () => {
   const location = useLocation();
 
   // Déterminer si nous sommes sur les pages de connexion ou d'inscription
-  const isAuthPage = location.pathname === '/signin' || location.pathname === '/register';
+  const isAuthPage = location.pathname === '/signin' || location.pathname === '/register' || location.pathname === '/profile';
 
   useEffect(() => {
     // Vérifier si l'utilisateur est connecté (vérification de l'accessToken)
