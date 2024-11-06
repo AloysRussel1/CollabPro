@@ -125,7 +125,7 @@ const MesProjets = () => {
       case 'Terminé':
         return '#4CAF50';
       case 'En cours':
-        return '#FFC107';
+        return '#7e00007a';
       case 'À commencer':
         return '#D32F2F';
       case 'En retard':

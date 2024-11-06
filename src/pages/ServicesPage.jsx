@@ -19,6 +19,8 @@ import TeamsPage from './TeamsPage';
 import AddMemberPage from './AddMemberPage';
 import AssignTaskPage from './AssignTaskPage';
 
+import ChatPage from '../components/ChatPage';
+
 
 const ServicesPage = () => {
   return (
@@ -36,7 +38,7 @@ const ServicesPage = () => {
           <Route path="/tasks/mytasks" element={<MesTaches />} />
           <Route path="/tasks/:taskId" element={<TaskDetailPage />} />
           {/* <Route path="/inbox" element={<BoiteDeReception />} /> */}
-          <Route path="/inbox" element={<BoiteDeReception />} />
+          <Route path="/inbox" element={<ChatPage />} />
           <Route path="/reports/performance" element={<PerformanceReports />} />
           <Route path="/reports/users" element={<UserStatistics />} />
           <Route path="/settings/configuration" element={<Configuration />} />

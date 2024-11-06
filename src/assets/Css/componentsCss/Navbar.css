@@ -95,7 +95,6 @@ nav {
     top: -20px;
 }
 
-/* Le menu déroulant est caché par défaut */
 .dropdown-menu {
     display: none;
     position: absolute;
@@ -110,8 +109,8 @@ nav {
     min-width: 180px;
 }
 
-/* Le menu déroulant s'affiche lorsque l'état est ouvert */
-.dropdown.open .dropdown-menu {
+/* Afficher le menu déroulant au survol */
+.dropdown:hover .dropdown-menu {
     display: block;
 }
 

@@ -10,7 +10,6 @@ import logo from './../assets/images/logo1.png';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // État pour savoir si l'utilisateur est connecté
-  const [dropdownOpen, setDropdownOpen] = useState(false); // État pour contrôler l'ouverture des dropdowns
   const location = useLocation();
 
   // Déterminer si nous sommes sur les pages de connexion ou d'inscription
@@ -32,7 +31,7 @@ const Navbar = () => {
     // Ajouter un event listener pour l'événement personnalisé
     window.addEventListener('loginStatusChanged', handleLoginStatusChange);
 
-    // Nettoyer l'événement lors du démontage du composant
+    // Nettoyer l'event listener lors du démontage du composant
     return () => {
       window.removeEventListener('loginStatusChanged', handleLoginStatusChange);
     };
@@ -44,10 +43,6 @@ const Navbar = () => {
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-  };
-
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen); // Bascule l'état du dropdown
   };
 
   const handleLogout = () => {
@@ -80,25 +75,21 @@ const Navbar = () => {
 
         {/* Si l'utilisateur est connecté, afficher son profil et l'option de déconnexion */}
         {isLoggedIn ? (
-          <li className="dropdown" onClick={toggleDropdown}>
+          <li className="dropdown">
             <a href="" className="cta"><FaUser /> Profil</a>
-            {dropdownOpen && (
-              <ul className="dropdown-menu">
-                <li><a href="/profile"><FaUser /> Mon Profil</a></li>
-                <li><a href="#" onClick={handleLogout}><FaSignInAlt /> Déconnexion</a></li>
-              </ul>
-            )}
+            <ul className="dropdown-menu">
+              <li><a href="/profile"><FaUser /> Mon Profil</a></li>
+              <li><a href="#" onClick={handleLogout}><FaSignInAlt /> Déconnexion</a></li>
+            </ul>
           </li>
         ) : (
           // Si l'utilisateur n'est pas connecté, afficher les options Sign In / Register
-          <li className="dropdown" onClick={toggleDropdown}>
+          <li className="dropdown">
             <a href="#user" className="cta"><FaUser /> Compte</a>
-            {dropdownOpen && (
-              <ul className="dropdown-menu">
-                <li><a href="/signin"><FaSignInAlt />Connexion</a></li>
-                <li><a href="/register"><FaUserPlus /> Inscription</a></li>
-              </ul>
-            )}
+            <ul className="dropdown-menu">
+              <li><a href="/signin"><FaSignInAlt />Connexion</a></li>
+              <li><a href="/register"><FaUserPlus /> Inscription</a></li>
+            </ul>
           </li>
         )}
       </ul>

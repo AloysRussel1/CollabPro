@@ -1,67 +1,80 @@
+// src/components/Chat.js
 import React, { useState, useEffect } from 'react';
+import axios from '../api/api';
 
-const Chat = () => {
-    const [messages, setMessages] = useState([]); // Liste des messages
-    const [newMessage, setNewMessage] = useState(''); // Nouveau message à envoyer
-    const [socket, setSocket] = useState(null); // Instance de WebSocket
+const Chat = ({ otherUserId }) => {
+    const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
-        const chatSocket = new WebSocket('ws://127.0.0.1:8000/ws/chat/');
-
-        chatSocket.onopen = () => {
-            console.log('Connecté au serveur WebSocket');
-        };
-
-        chatSocket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            if (data.message) {
-                setMessages((prevMessages) => [...prevMessages, data.message]); // Ajoute le nouveau message
-            }
-        };
-
-        chatSocket.onerror = (error) => {
-            console.error('Erreur WebSocket:', error);
-        };
-
-        chatSocket.onclose = (e) => {
-            console.error('WebSocket fermé. Essayez de vous reconnecter', e);
-        };
-
-        setSocket(chatSocket); // Stockez l'instance WebSocket pour l'utiliser plus tard
-
-        return () => {
-            chatSocket.close(); // Fermez le WebSocket lorsque le composant est démonté
-        };
-    }, []);
-
-    const sendMessage = () => {
-        if (socket && newMessage) {
+        const fetchMessages = async () => {
+            setLoading(true);
             try {
-                socket.send(JSON.stringify({ message: newMessage }));
-                setNewMessage(''); // Réinitialiser l'entrée du message après l'envoi
-            } catch (error) {
-                console.error('Erreur lors de l\'envoi du message:', error);
+                // Passer otherUserId directement dans l'URL
+                const response = await axios.get(`messages/${otherUserId}/`);
+                setMessages(response.data);
+                setLoading(false);
+            } catch (err) {
+                setError('Impossible de charger les messages');
+                setLoading(false);
             }
-        } else {
-            console.log("WebSocket non connecté ou message vide");
+        };
+
+        fetchMessages();
+    }, [otherUserId]);
+
+    const handleSendMessage = async (event) => {
+        event.preventDefault();
+        if (!newMessage.trim()) return;
+
+        const messageData = {
+            contenu: newMessage,
+            emetteur: userId,
+            recepteur: otherUserId,
+        };
+
+        try {
+            await axios.post(`messages/${otherUserId}/`, messageData);
+            setMessages([...messages, { contenu: newMessage, emetteur: { id: userId }, recepteur: { id: otherUserId }, date_envoie: new Date() }]);
+            setNewMessage('');
+        } catch (err) {
+            setError("Impossible d'envoyer le message");
         }
     };
 
     return (
         <div>
-            <h2>Chat</h2>
-            <div style={{ border: '1px solid #ccc', padding: '10px', maxHeight: '300px', overflowY: 'auto' }}>
-                {messages.map((msg, index) => (
-                    <div key={index}>{msg}</div>
-                ))}
-            </div>
-            <input
-                type="text"
-                value={newMessage}
-                onChange={(e) => setNewMessage(e.target.value)}
-                placeholder="Tapez votre message..."
-            />
-            <button onClick={sendMessage}>Envoyer</button>
+            <h2>Chat avec l'utilisateur {otherUserId}</h2>
+            {loading ? (
+                <p>Chargement des messages...</p>
+            ) : error ? (
+                <p style={{ color: 'red' }}>{error}</p>
+            ) : (
+                <div>
+                    <div className="messages-list">
+                        {messages.map((message) => (
+                            <div key={message.id} className="message">
+                                <p><strong>{message.emetteur.id === userId ? 'Vous' : "L'autre utilisateur"}:</strong> {message.contenu}</p>
+                                <small>{new Date(message.date_envoie).toLocaleString()}</small>
+                            </div>
+                        ))}
+                    </div>
+                    <form onSubmit={handleSendMessage}>
+                        <textarea
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            placeholder="Tapez votre message..."
+                            rows="4"
+                            style={{ width: '100%' }}
+                        ></textarea>
+                        <button type="submit">Envoyer</button>
+                    </form>
+                </div>
+            )}
         </div>
     );
 };
