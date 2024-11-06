@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import './../assets/Css/pagesCss/UserProfile.css';
 import api from '../api/api';
+import BackButton from '../components/BackButton';
 
 
 import defaultProfileImage from '../assets/images/profil.jpg';
@@ -41,6 +42,7 @@ const UserProfile = () => {
 
     return (
         <div className="profile-container">
+            <BackButton />
             <h2> Mon Profil</h2>
             {userData && (
                 <div className="user-details">

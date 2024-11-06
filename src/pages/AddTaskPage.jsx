@@ -23,10 +23,17 @@ const AddTaskPage = () => {
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    // Vérifier si l'utilisateur est connecté (vérification de l'accessToken)
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       setIsLogin(true);
+      const userId = localStorage.getItem('userId');
+      
+      if (!projectId && userId) {
+        setFormData(prevFormData => ({
+          ...prevFormData,
+          collaborateur: userId
+        }));
+      }
     }
 
     if (task) {
@@ -35,11 +42,11 @@ const AddTaskPage = () => {
         description: task.description,
         dateDebut: task.date_debut,
         dateEcheance: task.date_fin,
-        projet: task.projet, // Conservez la valeur du projet
-        collaborateur: task.collaborateur // Conservez la valeur du collaborateur
+        projet: task.projet,
+        collaborateur: task.collaborateur,
       });
     }
-  }, [task]);
+  }, [task, projectId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

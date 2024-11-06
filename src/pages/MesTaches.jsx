@@ -26,19 +26,22 @@ const MesTaches = () => {
 
   useEffect(() => {
 
-    // Vérifier si l'utilisateur est connecté (vérification de l'accessToken)
+    const userId = localStorage.getItem('userId');
     const accessToken = localStorage.getItem('accessToken');
-    if (accessToken) {
+    if (accessToken && userId) {
       setIsLogin(true);
 
       const fetchTaches = async () => {
         try {
           const response = await api.get('/taches/');
+          console.log("Taches", response.data);
           // Vérifier que la réponse est un tableau
           if (Array.isArray(response.data)) {
-            // Filtrer les tâches pour exclure celles avec projet ou collaborateur
-            const filteredTaches = response.data.filter(tache => !tache.projet && !tache.collaborateur);
+            const filteredTaches = response.data.filter(
+              tache => tache.projet === null && tache.collaborateur === parseInt(userId)
+            );
             setTaches(filteredTaches);
+            console.log("Tâches filtrées", filteredTaches);
           } else {
             console.error('Erreur: La réponse n\'est pas un tableau', response.data);
           }
@@ -76,7 +79,7 @@ const MesTaches = () => {
     switch (status) {
       case 'Terminé':
         return '#4CAF50';
-      case 'En progression':
+      case 'En cours':
         return '#FFC107';
       case 'À commencer':
         return '#D32F2F';
