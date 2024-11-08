@@ -104,3 +104,24 @@
   padding: 2rem;
   color: #888;
 }
+
+.message {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 60%;
+  word-wrap: break-word;
+}
+
+.message.sent {
+  background-color: #dcf8c6; /* Couleur pour les messages envoyés */
+  margin-left: auto;
+  text-align: right;
+}
+
+.message.received {
+  background-color: #f1f0f0; /* Couleur pour les messages reçus */
+  margin-right: auto;
+  text-align: left;
+}
+
