@@ -8,7 +8,7 @@ const BoiteDeReception = () => {
   const [discussions, setDiscussions] = useState([]);
   const [members, setMembers] = useState([]);  // Liste des membres du projet
   const [selectedMember, setSelectedMember] = useState(null); // Membre sélectionné
-  const [selectedDiscussion, setSelectedDiscussion] = useState(null);
+  const [selectedDiscussion, setSelectedDiscussion] = useState([]); // Discussion sélectionnée (modifiée en tableau vide)
   const [messageInput, setMessageInput] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState(null);
@@ -38,9 +38,19 @@ const BoiteDeReception = () => {
       try {
         const response = await axios.get(`/messages/${selectedMember.id}/`);
         console.log("Reponse", response.data);
-        setSelectedDiscussion({
-          messages: response.data,
-        });
+
+        // Trier les messages par date (ordre croissant)
+        const sortedMessages = response.data.sort((a, b) => new Date(a.date_envoie) - new Date(b.date_envoie));
+
+        // Fusionner les messages envoyés et reçus
+        const allMessages = sortedMessages.map(msg => ({
+          contenu: msg.contenu,
+          date_envoie: msg.date_envoie,
+          isSent: msg.emetteur === parseInt(userId), // Pour savoir si le message est envoyé par l'utilisateur
+        }));
+
+        // Mettre à jour l'état avec les messages triés et fusionnés
+        setSelectedDiscussion(allMessages);
         setLoading(false);
       } catch (err) {
         setError("Impossible de charger la discussion");
@@ -77,10 +87,10 @@ const BoiteDeReception = () => {
       };
 
       // Mettre à jour l'état avec le nouveau message ajouté
-      setSelectedDiscussion((prevDiscussion) => ({
-        ...prevDiscussion,
-        messages: [...(prevDiscussion?.messages || []), newMessage],
-      }));
+      setSelectedDiscussion((prevDiscussion) => [
+        ...(prevDiscussion || []),
+        { ...newMessage, isSent: true },
+      ]);
 
       // Réinitialisation du champ de saisie du message
       setMessageInput('');
@@ -88,7 +98,6 @@ const BoiteDeReception = () => {
       setError("Impossible d'envoyer le message");
     }
   };
-
 
   const filteredMembers = members.filter(member =>
     member.nom.toLowerCase().includes(searchTerm.toLowerCase())
@@ -144,23 +153,18 @@ const BoiteDeReception = () => {
             <p>Sélectionnez une discussion pour voir les messages...</p>
           ) : error ? (
             <p style={{ color: 'red' }}>{error}</p>
-          ) : selectedDiscussion ? (
+          ) : selectedDiscussion && selectedDiscussion.length > 0 ? (
             <>
               <div className="messages">
-                {selectedDiscussion && selectedDiscussion.messages && selectedDiscussion.messages.length > 0 ? (
-                  selectedDiscussion.messages.map((msg, index) => (
-                    <div
-                      key={index}
-                      className={`message ${msg.emetteur.id === userId ? 'sent' : 'received'}`}
-                    >
-                      <p>{msg.contenu}</p>
-                      <small>{new Date(msg.date_envoie).toLocaleString()}</small>
-                    </div>
-                  ))
-                ) : (
-                  <p>Aucun message dans cette discussion.</p>
-                )}
-
+                {selectedDiscussion.map((msg, index) => (
+                  <div
+                    key={index}
+                    className={`message ${msg.isSent ? 'sent' : 'received'}`}
+                  >
+                    <p>{msg.contenu}</p>
+                    <small>{new Date(msg.date_envoie).toLocaleString()}</small>
+                  </div>
+                ))}
               </div>
 
               <Divider />

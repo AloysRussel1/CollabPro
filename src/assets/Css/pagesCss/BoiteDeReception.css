@@ -73,14 +73,22 @@
 }
 
 .message.received {
-  background-color: #f1f1f1; /* Couleur de fond des messages reçus */
-  margin-right: auto;
+  background-color: #ffebeb;
+  margin-left: auto;
+  border-radius: 5px;
+  padding: 10px;
+  max-width: 75%;
+  word-wrap: break-word; 
+  text-align: right;
 }
 
 .message.sent {
-  background-color: #ffebeb; /* Couleur de fond des messages envoyés */
-  margin-left: auto;
-  text-align: right;
+  background-color: #f1f1f1;
+  margin-right: auto;
+  border-radius: 5px;
+  padding: 10px;
+  max-width: 75%;
+  word-wrap: break-word; 
 }
 
 .message-input {
@@ -105,23 +113,62 @@
   color: #888;
 }
 
-.message {
-  margin: 10px;
-  padding: 10px;
-  border-radius: 8px;
-  max-width: 60%;
-  word-wrap: break-word;
+/* Input pour envoyer un message */
+.message-input {
+  display: flex;
+  align-items: center;
+  position: sticky;
+  bottom: 0;
+  background-color: #fff;
+  padding: 10px 0;
+  z-index: 10; 
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
 }
 
-.message.sent {
-  background-color: #dcf8c6; /* Couleur pour les messages envoyés */
-  margin-left: auto;
-  text-align: right;
+/* Input de texte */
+.message-input .MuiTextField-root {
+  flex: 1;
+  margin-right: 8px;
+  max-height: 60px; /* Limiter la hauteur de l'input */
+  resize: none; /* Empêcher la redimension de la zone de texte */
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 8px;
 }
 
-.message.received {
-  background-color: #f1f0f0; /* Couleur pour les messages reçus */
-  margin-right: auto;
-  text-align: left;
+
+
+.send-button:hover {
+  background-color: #7e020215;
 }
+
+/* Zone de recherche */
+.search-bar {
+  margin-bottom: 1rem;
+}
+
+/* Ajustement des membres */
+.members-list {
+  width: 300px;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+  background-color: #ffffff;
+  padding: 1rem;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Membres sélectionnés */
+.member-item.active {
+  background-color: #e0e0e0;
+  font-weight: bold;
+}
+
+.no-discussion {
+  text-align: center;
+  padding: 2rem;
+  color: #888;
+  font-size: 1.2rem;
+}
+
 

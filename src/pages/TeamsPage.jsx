@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../api/api'; // Votre fichier axios config
 import './../assets/Css/pagesCss/TeamsPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTasks, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faTasks, faEdit, faTrashAlt, faFileDownload, faChevronDown, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
 const TeamsPage = () => {
@@ -10,36 +10,37 @@ const TeamsPage = () => {
   const [projectsData, setProjectsData] = useState([]);
   const [activeProject, setActiveProject] = useState(null);
   const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState('');
+  const [showFiles, setShowFiles] = useState({});
   const userId = localStorage.getItem('userId');
 
-  // Récupérer les projets depuis le backend
+  // Récupérer les projets et fichiers associés depuis le backend
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         const response = await api.get('/projets/');
         const projects = response.data;
 
-        // Récupérer les membres de chaque projet et filtrer ceux auxquels l'utilisateur connecté appartient
-        const projectsWithMembers = await Promise.all(
+        const projectsWithDetails = await Promise.all(
           projects.map(async (project) => {
             const membersResponse = await api.get(`/projets/${project.id}/membres`);
             const members = membersResponse.data;
+            const filesResponse = await api.get(`/projets/${project.id}/fichiers`);
+            const files = filesResponse.data;
 
-            // Vérifier si l'utilisateur connecté est dans la liste des membres
             const isUserInProject = members.some(member => member.id === parseInt(userId));
-
             if (isUserInProject) {
               return {
                 ...project,
                 membres: members,
+                fichiers: files,
               };
             }
-            return null; // Ne pas inclure les projets où l'utilisateur n'est pas membre
+            return null;
           })
         );
 
-        // Supprimer les projets "null" du tableau
-        setProjectsData(projectsWithMembers.filter(project => project !== null));
+        setProjectsData(projectsWithDetails.filter(project => project !== null));
       } catch (error) {
         console.error('Erreur lors de la récupération des projets:', error);
       }
@@ -47,7 +48,6 @@ const TeamsPage = () => {
 
     fetchProjects();
   }, [userId]);
-
 
   // Naviguer vers la page pour ajouter un membre
   const handleAddMember = (projectId) => {
@@ -68,15 +68,64 @@ const TeamsPage = () => {
     navigate(`/services/projets/${projectId}/assigner-taches/${memberId}`);
   };
 
+  const handleOrganizeMeeting = (projectId) => {
+    navigate(`/services/projects/${projectId}/organiser-reunion`); // Navigation vers la page de réunion
+  };
+  
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+    setFileName(selectedFile.name);
+  };
+
   const handleUploadFile = async (projectId) => {
+    if (!file) {
+      alert('Veuillez sélectionner un fichier avant de soumettre.');
+      return;
+    }
+
     const formData = new FormData();
-    formData.append('file', file); // Ajoutez le fichier sélectionné
+    formData.append('fichier', file);
+    formData.append('projet', projectId);
+    formData.append('nom', fileName);  // Ajout du nom du fichier
 
     try {
-      await api.post(`/projets/${projectId}/fichiers`, formData);
-      setFile(null); // Réinitialiser l'état du fichier
+      await api.post(`/projets/${projectId}/fichiers`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      // Réinitialiser l'état
+      setFile(null);
+      setFileName('');
+
+      const updatedFilesResponse = await api.get(`/projets/${projectId}/fichiers`);
+      setProjectsData((prevProjects) =>
+        prevProjects.map((project) =>
+          project.id === projectId ? { ...project, fichiers: updatedFilesResponse.data } : project
+        )
+      );
     } catch (error) {
       console.error('Erreur lors du téléchargement du fichier:', error);
+    }
+  };
+
+
+  const toggleShowFiles = (projectId) => {
+    setShowFiles(prev => ({ ...prev, [projectId]: !prev[projectId] }));
+  };
+
+  const handleDeleteFile = async (fileId, projectId) => {
+    try {
+      await api.delete(`/projets/${projectId}/fichiers/${fileId}/`);
+
+      setProjectsData((prevProjects) =>
+        prevProjects.map((project) =>
+          project.id === projectId ? { ...project, fichiers: project.fichiers.filter(file => file.id !== fileId) } : project
+        )
+      );
+    } catch (error) {
+      console.error('Erreur lors de la suppression du fichier:', error);
     }
   };
 
@@ -102,7 +151,7 @@ const TeamsPage = () => {
 
   return (
     <div className="projects-page">
-      <h1 className="projects-page-title">Gestion des équipes de projet</h1>
+      <h1 className="projects-page-title"> Mes équipes </h1>
       <div className="projects-container">
         {projectsData.map((project) => (
           <div key={project.id} className="project-card">
@@ -112,10 +161,58 @@ const TeamsPage = () => {
                 <button onClick={() => handleAddMember(project.id)} className="add-member-btn">
                   Ajouter un membre
                 </button>
-                <button onClick={() => setActiveProject(project.id)} className="upload-file-btn">
-                  Ajouter des fichiers
+                <button
+                  className="upload-file-btn"
+                  onClick={() => handleUploadFile(project.id)}
+                  disabled={!file}
+                >
+                  <label style={{ cursor: 'pointer' }}>
+                    Ajouter des fichiers
+                    <input
+                      type="file"
+                      onChange={handleFileChange}
+                      style={{ display: 'none' }}
+                    />
+                  </label>
+                </button>
+                <button
+                  onClick={() => handleOrganizeMeeting(project.id)}
+                  className="add-member-btn"
+                >
+                  Organiser une réunion
                 </button>
               </div>
+
+            </div>
+
+            {/* Affichage des fichiers */}
+            <div className="files-section">
+              <h3 onClick={() => toggleShowFiles(project.id)} style={{ cursor: 'pointer' }}>
+                Fichiers du projet <FontAwesomeIcon icon={faChevronDown} />
+              </h3>
+              {showFiles[project.id] && (
+                <ul className="files-list">
+                  {project.fichiers && project.fichiers.length > 0 ? (
+                    project.fichiers.map((file, index) => (
+                      <li key={file.id}>
+                        <a href={file.url} target="_blank" rel="noopener noreferrer" download>
+                          {`Fichier ${index + 1}`}  {/* Affichage dynamique basé sur l'index */}
+                          <FontAwesomeIcon icon={faFileDownload} className="download-icon" />
+                        </a>
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          onClick={() => handleDeleteFile(file.id, project.id)}
+                          className="delete-icon"
+                          title="Supprimer"
+                        />
+                      </li>
+                    ))
+                  ) : (
+                    <li>Aucun fichier disponible.</li>
+                  )}
+
+                </ul>
+              )}
             </div>
 
             {/* Afficher les membres du projet */}

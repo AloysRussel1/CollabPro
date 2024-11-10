@@ -277,7 +277,7 @@ const ProjectDetailPage = () => {
               <TableCell className="table-cell" onClick={() => handleProgressClick(tache)} style={{ cursor: 'pointer' }}>
                 <span>{tache.progression}%</span>
               </TableCell>
-              {chefEquipeId === userId && (
+              {/* {chefEquipeId === userId && ( */}
                 <TableCell className="table-cell">
                   <IconButton onClick={() => handleEdit(tache)}>
                     <EditIcon />
@@ -286,7 +286,7 @@ const ProjectDetailPage = () => {
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
-              )} 
+              {/* )}  */}
             </TableRow>
           ))}
         </TableBody>

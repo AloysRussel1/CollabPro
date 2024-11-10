@@ -20,6 +20,7 @@ import AddMemberPage from './AddMemberPage';
 import AssignTaskPage from './AssignTaskPage';
 
 import ChatPage from '../components/ChatPage';
+import OrganizeMeetingPage from './OrganizeMeetingPage';
 
 
 const ServicesPage = () => {
@@ -45,6 +46,7 @@ const ServicesPage = () => {
           <Route path="/help" element={<SupportPage />} />
           <Route path="/projects/:projectId/ajouter-membre/:memberId?" element={<AddMemberPage />} />
           <Route path="/projets/:projectId/assigner-taches/:memberId" element={<AssignTaskPage />} />
+          <Route path="/projects/:projectId/organiser-reunion" element={<OrganizeMeetingPage />} />
         </Routes>
       </div>
     </div>

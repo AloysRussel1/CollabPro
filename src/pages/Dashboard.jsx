@@ -52,7 +52,8 @@ const Dashboard = () => {
           datasets: [
             {
               data: progressions,
-              backgroundColor: ['#ff0000', '#00ff00', '#0000ff', '#ffa500', '#800080', '#00ced1'],
+              backgroundColor: ['#ff0000', '#000000', '#b22222', '#8b0000', '#d3d3d3'],
+
             },
           ],
         });
