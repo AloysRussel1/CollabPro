@@ -38,20 +38,27 @@ api.interceptors.response.use(
 
             // Appel à la fonction de rafraîchissement du token ici
             const refreshToken = localStorage.getItem('refreshToken');
-            try {
-                const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', { refresh: refreshToken });
-                const { access } = response.data; // Récupérer le nouveau token d'accès
+            if (refreshToken) {
+                try {
+                    const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', { refresh: refreshToken });
+                    const { access } = response.data; // Récupérer le nouveau token d'accès
 
-                // Stocker le nouveau token d'accès
-                localStorage.setItem('accessToken', access);
-                // Mettre à jour l'en-tête Authorization et réessayer la requête originale
-                api.defaults.headers['Authorization'] = `Bearer ${access}`;
-                originalRequest.headers['Authorization'] = `Bearer ${access}`;
-                return api(originalRequest); // Réessayer la requête avec le nouveau token
-            } catch (err) {
-                // Gérer l'erreur de rafraîchissement, par exemple en déconnectant l'utilisateur
-                console.error('Échec du rafraîchissement du token', err);
-                // Rediriger vers la page de connexion ou gérer comme nécessaire
+                    // Stocker le nouveau token d'accès
+                    localStorage.setItem('accessToken', access);
+                    // Mettre à jour l'en-tête Authorization et réessayer la requête originale
+                    api.defaults.headers['Authorization'] = `Bearer ${access}`;
+                    originalRequest.headers['Authorization'] = `Bearer ${access}`;
+                    return api(originalRequest);
+                } catch (err) {
+                    console.error('Échec du rafraîchissement du token', err);
+                    // Si le rafraîchissement échoue, rediriger vers la page de connexion
+                    localStorage.removeItem('accessToken');
+                    localStorage.removeItem('refreshToken');
+                    window.location.href = '/signin'; 
+                }
+            } else {
+                // Si aucun refreshToken n'est disponible, rediriger vers la page de connexion
+                window.location.href = '/signin';
             }
         }
 
