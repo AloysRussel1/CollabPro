@@ -1,23 +1,23 @@
 .dashboard {
   padding: 20px;
-  background-color: #f9f9f9; /* Fond clair */
-  color: #333333; /* Texte en gris foncé */
+  background-color: #f9f9f9;
+  color: #333333;
 }
 
 .dashboard-header {
-  background-color: #ffffff; /* Fond blanc pour le header */
-  color: #333333; /* Texte en gris foncé */
+  background-color: #ffffff;
+  color: #333333;
   padding: 15px;
   border-radius: 8px;
   margin-bottom: 20px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Légère ombre */
-  border-left: 5px solid #ff0000; /* Bordure gauche rouge pour accent */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  border-left: 5px solid #ff0000; 
 }
 
 .dashboard-header h1 {
   margin: 0;
   font-size: 24px;
-  color: #ff0000; /* Rouge vif pour le titre */
+  color: #ff0000; 
 }
 
 .dashboard-overview {
@@ -27,15 +27,15 @@
 }
 
 .overview-item {
-  background-color: #ffffff; /* Fond blanc pour les éléments d'aperçu */
+  background-color: #ffffff;
   padding: 15px;
   border-radius: 8px;
   flex: 1;
   margin-right: 10px;
   text-align: center;
-  color: #333333; /* Texte en gris foncé */
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Légère ombre */
-  border-bottom: 4px solid #ff0000; /* Bordure inférieure rouge */
+  color: #333333; 
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); 
+  border-bottom: 4px solid #ff0000; 
 }
 
 .overview-item:last-child {
@@ -44,7 +44,7 @@
 
 .overview-icon {
   font-size: 24px;
-  color: #ff0000; /* Rouge pour les icônes */
+  color: #ff0000; 
   margin-bottom: 10px;
 }
 
@@ -55,26 +55,26 @@
 .chart-container {
   display: flex;
   justify-content: space-between;
-  gap: 10px; /* Espacement entre les graphiques */
-  overflow: hidden; /* Assure qu'il n'y ait pas de barre de défilement horizontale */
+  gap: 10px; 
+  overflow: hidden; 
 }
 
 .chart-item {
-  background-color: #ffffff; /* Fond blanc pour les éléments de graphique */
-  padding: 10px; /* Réduit l'espace intérieur */
+  background-color: #ffffff; 
+  padding: 10px; 
   border-radius: 8px;
   flex: 1;
-  min-width: 0; /* Permet aux éléments flexibles de réduire leur largeur si nécessaire */
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); /* Légère ombre */
-  height: 250px; /* Hauteur des graphiques */
-  width: calc(50% - 5px); /* Largeur ajustée pour deux graphiques côte à côte */
-  position: relative; /* Pour que le titre soit correctement positionné */
-  overflow: hidden; /* Cache les débordements */
+  min-width: 0; 
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1); 
+  height: 400px; 
+  width: calc(50% - 5px); 
+  position: relative;
+  overflow: hidden; 
 }
 
 .chart-item h3 {
-  margin-bottom: 10px; /* Réduit l'espace sous le titre */
-  color: #333333; /* Texte en gris foncé */
+  margin-bottom: 10px; 
+  color: #333333;
 }
 
 /* Ajustements pour les appareils mobiles */
@@ -98,7 +98,7 @@
 
   .chart-item {
     margin-bottom: 10px;
-    height: 180px; /* Réduit la hauteur des graphiques sur les petits écrans */
-    width: 100%; /* Occupe toute la largeur disponible sur petits écrans */
+    height: 180px;
+    width: 100%; 
   }
 }
