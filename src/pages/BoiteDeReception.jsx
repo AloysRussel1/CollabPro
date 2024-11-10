@@ -150,21 +150,25 @@ const BoiteDeReception = () => {
         </div>
         <div className="discussion-detail">
           {loading ? (
-            <p>Sélectionnez une discussion pour voir les messages...</p>
+            <p>Chargement des messages...</p>
           ) : error ? (
             <p style={{ color: 'red' }}>{error}</p>
-          ) : selectedDiscussion && selectedDiscussion.length > 0 ? (
+          ) : selectedMember ? ( // Afficher la discussion si un membre est sélectionné
             <>
               <div className="messages">
-                {selectedDiscussion.map((msg, index) => (
-                  <div
-                    key={index}
-                    className={`message ${msg.isSent ? 'sent' : 'received'}`}
-                  >
-                    <p>{msg.contenu}</p>
-                    <small>{new Date(msg.date_envoie).toLocaleString()}</small>
-                  </div>
-                ))}
+                {selectedDiscussion.length > 0 ? (
+                  selectedDiscussion.map((msg, index) => (
+                    <div
+                      key={index}
+                      className={`message ${msg.isSent ? 'sent' : 'received'}`}
+                    >
+                      <p>{msg.contenu}</p>
+                      <small>{new Date(msg.date_envoie).toLocaleString()}</small>
+                    </div>
+                  ))
+                ) : (
+                  <p>Aucun message dans cette discussion pour l'instant.</p>
+                )}
               </div>
 
               <Divider />
@@ -191,6 +195,7 @@ const BoiteDeReception = () => {
             <div className="no-discussion">Sélectionnez un membre pour commencer une discussion.</div>
           )}
         </div>
+
       </div>
     </div>
   );
