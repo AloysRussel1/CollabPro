@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './../assets/Css/pagesCss/MesProjets.css';
 import { FaSearch, FaEdit, FaTrash, FaInfoCircle, FaPlus } from 'react-icons/fa';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, TextField, Select, MenuItem, LinearProgress } from '@mui/material';
+import {
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,
+  Button, TextField, Select, MenuItem, LinearProgress, Dialog, DialogTitle, DialogContent,
+  DialogContentText, DialogActions
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/api'; // Importez votre instance Axios
 import dayjs from 'dayjs'; // Pour gérer les dates
@@ -14,6 +18,12 @@ const MesProjets = () => {
   const [projects, setProjects] = useState([]); // État pour stocker les projets
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
+  const userId = localStorage.getItem('userId');
+  const [chefEquipeId, setChefEquipeId] = useState(null);
+  const [openAlertDialog, setOpenAlertDialog] = useState(false);
+
+
+
 
   const fetchProjectTasks = async (projectId) => {
     try {
@@ -27,39 +37,58 @@ const MesProjets = () => {
 
 
   useEffect(() => {
-    
+
     const fetchUserProjectsWithTasks = async () => {
       try {
         const userId = localStorage.getItem('userId');
+        if (!userId) {
+          console.error("Aucun ID utilisateur trouvé dans le localStorage.");
+          return;
+        }
+
+        // Récupération des projets de l'utilisateur
         const response = await api.get(`/user/${userId}/projets/`);
-        const projects = response.data;
+        const projects = Array.isArray(response.data) ? response.data : []; // S'assurer que la réponse est un tableau
+
         console.log('Projects:', projects);
-    
+
+        // Vérifiez si la clé `chef_equipe` est disponible et définissez-la si possible
+        const chefId = projects.length > 0 && projects[0].chef_equipe ? projects[0].chef_equipe : null;
+        setChefEquipeId(chefId);
+        console.log("Id du chef d'équipe:", chefId || 'Chef d\'équipe non défini');
+
+        // Ajout des tâches et calcul de progression/statut pour chaque projet
         const projectsWithTasks = await Promise.all(
           projects.map(async (project) => {
-            const taches = await fetchProjectTasks(project.id);
-            const progress = getProjectProgress({ ...project, taches });
-            const status = getProjectStatus({ ...project, taches });
-            
-            // Enregistrez la progression et le statut dans la base de données
-            await updateProjectStatus(project.id, progress, status);
-            
-            return { ...project, taches, progression: progress, statut: status };
+            try {
+              const taches = await fetchProjectTasks(project.id); // Récupérer les tâches pour chaque projet
+              const progress = getProjectProgress({ ...project, taches });
+              const status = getProjectStatus({ ...project, taches });
+
+              // Enregistrez la progression et le statut dans la base de données
+              await updateProjectStatus(project.id, progress, status);
+
+              return { ...project, taches, progression: progress, statut: status };
+            } catch (taskError) {
+              console.error(`Erreur lors du traitement des tâches pour le projet ${project.id}:`, taskError);
+              return { ...project, taches: [], progression: 0, statut: 'Erreur' };
+            }
           })
         );
-    
-        setProjects(projectsWithTasks);
+
+        setProjects(projectsWithTasks); // Met à jour l'état avec les projets enrichis
       } catch (error) {
         console.error('Erreur lors de la récupération des projets et des tâches:', error);
       }
     };
-    
+
+
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       setIsLogin(true);
       fetchUserProjectsWithTasks();
     }
-  }, []);
+  }, [chefEquipeId]);
 
   const getProjectProgress = (project) => {
     const tasks = project.taches;
@@ -90,21 +119,14 @@ const MesProjets = () => {
     return 'En cours';
   };
 
-  // const updateProjectStatus = async (projectId, progress, status) => {
-  //   try {
-  //     await api.put(`/projets/${projectId}/`, { progression: progress, statut: status });
-  //     console.log(`Projet ${projectId} mis à jour avec succès.`);
-  //   } catch (error) {
-  //     console.error(`Erreur lors de la mise à jour du projet ${projectId}:`, error);
-  //   }
-  // };
+
 
   const updateProjectStatus = async (projectId, progress, status) => {
     try {
       // Récupérer les détails actuels du projet
       const response = await api.get(`/projets/${projectId}/`);
       const existingProject = response.data;
-  
+
       // Créer un nouvel objet avec les valeurs existantes
       const updatedProject = {
         ...existingProject,
@@ -119,7 +141,7 @@ const MesProjets = () => {
       console.error(`Erreur lors de la mise à jour du projet ${projectId}:`, error);
     }
   };
-  
+
   const getStatusColor = (status) => {
     switch (status) {
       case 'Terminé':
@@ -142,12 +164,19 @@ const MesProjets = () => {
     navigate(`/services/projects/${projectId}`);
   };
 
+
+
   const handleEditClick = (project) => {
     setCurrentProject(project);
     setShowForm(true);
   };
 
   const handleDeleteClick = async (projectId) => {
+    if (parseInt(userId, 10) !== chefEquipeId) {
+      setOpenAlertDialog(true);
+      return;
+    }
+
     if (window.confirm("Êtes-vous sûr de vouloir supprimer ce projet ?")) {
       try {
         await api.delete(`projets/${projectId}/`);
@@ -173,7 +202,15 @@ const MesProjets = () => {
     (searchTerm === '' || project.titre.toLowerCase().includes(searchTerm.toLowerCase()))
   ));
 
+  const handleCloseAlertDialog = () => {
+    setOpenAlertDialog(false);
+  };
+
   const handleModify = async (event) => {
+    if (parseInt(userId, 10) !== chefEquipeId) {
+      setOpenAlertDialog(true);
+      return;
+    }
     event.preventDefault();
     try {
       const response = await api.put(`projets/${currentProject.id}/`, currentProject);
@@ -189,6 +226,7 @@ const MesProjets = () => {
     }
     setShowForm(false);
   };
+
 
   return (
     <div className="mes-projets">
@@ -288,6 +326,7 @@ const MesProjets = () => {
                           startIcon={<FaEdit />}
                           style={{ backgroundColor: '#000000', color: '#ffffff', width: '100%' }}
                           onClick={() => handleEditClick(project)}
+                          disabled={parseInt(userId, 10) !== chefEquipeId} // Désactiver si l'utilisateur n'est pas le chef
                         >
                           Modifier
                         </Button>
@@ -299,6 +338,7 @@ const MesProjets = () => {
                           startIcon={<FaTrash />}
                           style={{ backgroundColor: '#cc0000', color: '#ffffff', width: '100%' }}
                           onClick={() => handleDeleteClick(project.id)}
+                          disabled={parseInt(userId, 10) !== chefEquipeId} // Désactiver si l'utilisateur n'est pas le chef
                         >
                           Supprimer
                         </Button>
@@ -307,6 +347,26 @@ const MesProjets = () => {
                   ))}
                 </TableBody>
               </Table>
+
+              {/* Dialog pour l'accès refus */}
+              <Dialog
+                open={openAlertDialog}
+                onClose={handleCloseAlertDialog}
+              >
+                <DialogTitle>Accès refusé</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Vous n'avez pas les permissions nécessaires pour effectuer cette action. Seul le chef d'équipe peut modifier ou supprimer ce projet.
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleCloseAlertDialog} color="primary">
+                    OK
+                  </Button>
+                </DialogActions>
+              </Dialog>
+
+
             </TableContainer>
           </section>
         </>

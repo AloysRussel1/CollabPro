@@ -24,6 +24,7 @@ const ProjectDetailPage = () => {
   const [projectTitle, setProjectTitle] = useState('');
   const [collaborateurs, setCollaborateurs] = useState([]);
   const userId = localStorage.getItem('userId');
+  const [openAlertDialog, setOpenAlertDialog] = useState(false);
   console.log('User ID:', userId);
 
   const navigate = useNavigate();
@@ -62,9 +63,8 @@ const ProjectDetailPage = () => {
         console.log('Projet:', response)
         setProjectTitle(response.data.titre);
         const chefId = response.data.chef_equipe;
-        console.log("Id", chefId)
         setChefEquipeId(chefId);
-        console.log('Chef de l\'equipe:', chefEquipeId)
+        console.log("Id du chef d'équipe:", chefId);
       } catch (error) {
         console.error('Erreur lors du chargement du titre du projet:', error);
       }
@@ -75,7 +75,7 @@ const ProjectDetailPage = () => {
       fetchProjectTitle();
       fetchCollaborateurs();
     }
-  }, [projectId, chefEquipeId]);
+  }, [projectId]);
 
 
 
@@ -85,9 +85,17 @@ const ProjectDetailPage = () => {
   };
 
   const handleAdd = () => {
+    if (parseInt(userId, 10) !== chefEquipeId) {
+      setOpenAlertDialog(true);
+      return;
+    }
     navigate('/services/tasks/add-task', {
       state: { projet: projectId }
     });
+  };
+
+  const handleCloseAlertDialog = () => {
+    setOpenAlertDialog(false);
   };
 
 
@@ -277,7 +285,7 @@ const ProjectDetailPage = () => {
               <TableCell className="table-cell" onClick={() => handleProgressClick(tache)} style={{ cursor: 'pointer' }}>
                 <span>{tache.progression}%</span>
               </TableCell>
-              {/* {chefEquipeId === userId && ( */}
+              {chefEquipeId === parseInt(userId, 10) && (
                 <TableCell className="table-cell">
                   <IconButton onClick={() => handleEdit(tache)}>
                     <EditIcon />
@@ -286,7 +294,7 @@ const ProjectDetailPage = () => {
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>
-              {/* )}  */}
+              )}
             </TableRow>
           ))}
         </TableBody>
@@ -312,14 +320,31 @@ const ProjectDetailPage = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseModal} color="primary">
+          <Button onClick={handleCloseModal} color="">
             Annuler
           </Button>
-          <Button onClick={handleProgressionChange} color="primary">
+          <Button onClick={handleProgressionChange} color="">
             Enregistrer
           </Button>
         </DialogActions>
       </Dialog>
+
+
+      {/* Dialog pour l'accès refus */}
+      <Dialog open={openAlertDialog} onClose={handleCloseAlertDialog}>
+        <DialogTitle>Accès refusé</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Seul le chef d'équipe a le droit d'ajouter une tâche au projet.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseAlertDialog} color="">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+
     </TableContainer>
   );
 };
