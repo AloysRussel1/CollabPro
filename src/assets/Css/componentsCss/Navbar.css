@@ -148,6 +148,10 @@ nav {
 .nav-links.open {
     transform: translateX(0);
 }
+.cta {
+    text-align: center;
+    margin-top: 40px;
+}
 @media (max-width: 1200px) {
     .nav-links {
         display: none;

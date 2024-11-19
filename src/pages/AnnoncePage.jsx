@@ -47,10 +47,10 @@ const AnnoncePage = () => {
         </div>
       </section>
 
-      <section className="cta">
+      <section className="cta2">
         <h2>Publiez Votre Annonce</h2>
         <p>Vous avez quelque chose à offrir ou une opportunité de collaboration? Publiez une annonce dès maintenant!</p>
-        <a href="/post-annonce" className="cta-button">Publier une Annonce</a>
+        <a href="/post-annonce" className="cta2-button">Publier une Annonce</a>
       </section>
     </div>
   );

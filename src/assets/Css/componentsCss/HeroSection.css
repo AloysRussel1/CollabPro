@@ -81,9 +81,9 @@
     font-size: 1rem;
 }
 
-.cta-button {
+.cta2-button {
     display: inline-block;
-    background-color: #ff4b2b;
+    background-color: #e03b1f;
     color: #ffffff;
     padding: 0.75rem 1.5rem;
     border-radius: 50px;
@@ -92,8 +92,8 @@
     transition: background-color 0.3s ease;
 }
 
-.cta-button:hover {
-    background-color: #e03b1f;
+.cta2-button:hover {
+    background-color: #ff4b2b;
 }
 
 .image-section {

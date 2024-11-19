@@ -18,7 +18,7 @@ const HeroSection = () => {
             <button className="search-button"><FaSearch /></button>
           </div>
           
-          <a href="#features" className="cta-button">Découvrez les fonctionnalités</a>
+          <a href="#features" className="cta2-button">Découvrez les fonctionnalités</a>
         </div>
 
         <div className="image-section">

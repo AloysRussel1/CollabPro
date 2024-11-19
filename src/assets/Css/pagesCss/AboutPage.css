@@ -2,18 +2,18 @@
 .about-page {
     font-family: 'Montserrat', sans-serif;
     color: #333;
-    margin-top: 80px; /* Décalage pour la barre de navigation fixe */
+    margin-top: 80px;
     padding: 0 2rem;
-    background-color: #ffffff; /* Fond blanc pour la page */
+    background-color: #ffffff;
 }
 
 /* Style pour l'en-tête */
 .about-header {
     text-align: center;
     padding: 4rem 2rem;
-    background-color: #f5f5f5; /* Fond gris clair */
-    color: #333; /* Texte sombre */
-    border-bottom: 1px solid #dddddd; /* Bordure subtile en bas */
+    background-color: #f5f5f5;
+    color: #333;
+    border-bottom: 1px solid #dddddd;
 }
 
 .about-header h1 {
@@ -30,10 +30,10 @@
 /* Style pour la section d'histoire */
 .about-story {
     padding: 4rem 2rem;
-    background-color: #ffffff; /* Fond blanc pour un contraste doux */
-    border: 1px solid #f5f5f5; /* Bordure gris clair */
+    background-color: #ffffff;
+    border: 1px solid #f5f5f5;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre subtile */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -57,54 +57,54 @@
 
 .about-story h2 {
     font-size: 2.5rem;
-    color: #000000; /* Texte noir */
+    color: #000000;
 }
 
 .about-story p {
     font-size: 1.125rem;
     line-height: 1.8;
     max-width: 800px;
-    color: #666666; /* Gris clair */
+    color: #666666;
 }
 
 /* Style pour la section d'équipe */
 .team {
     padding: 4rem 2rem;
-    background-color: #ffffff; /* Fond blanc */
+    background-color: #ffffff;
 }
 
 .team h2 {
     text-align: center;
     font-size: 2.5rem;
     margin-bottom: 2rem;
-    color: #000000; /* Texte noir */
+    color: #000000;
 }
 
 .team-members {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
+    justify-content: space-around;
+    gap: 3rem; /* Augmente l'espacement entre les membres */
 }
 
 .team-member {
     text-align: center;
-    max-width: 240px;
+    max-width: 300px; /* Augmente la taille maximale des cartes */
     background: #ffffff;
-    padding: 1.5rem;
-    border: 1px solid #dddddd; /* Bordure gris clair */
+    padding: 2rem; /* Augmente le padding pour plus d'espace */
+    border: 1px solid #dddddd;
     border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Augmente l'ombre pour un effet de profondeur */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .team-member:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    transform: translateY(-10px); /* Augmente l'effet de survol */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
 }
 
 .team-member img {
-    max-width: 120px;
+    max-width: 150px; /* Augmente la taille des images */
     height: auto;
     border-radius: 50%;
     margin-bottom: 1rem;
@@ -112,18 +112,20 @@
 
 .team-member h3 {
     margin: 0.5rem 0;
-    font-size: 1.25rem;
-    color: #000000; /* Texte noir */
+    font-size: 1.5rem; /* Augmente la taille de la police */
+    color: #000000;
 }
 
 .team-member p {
-    color: #666666; /* Gris clair */
+    color: #666666;
+    font-size: 1.125rem; /* Augmente la taille de la police */
 }
+
 
 /* Style pour la section mission */
 .mission {
     padding: 4rem 2rem;
-    background-color: #f9f9f9; /* Fond gris clair */
+    background-color: #f9f9f9;
     text-align: center;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -132,7 +134,7 @@
 .mission h2 {
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
-    color: #000000; /* Texte noir */
+    color: #000000;
 }
 
 .mission p {
@@ -140,49 +142,49 @@
     line-height: 1.8;
     max-width: 800px;
     margin: 0 auto;
-    color: #666666; /* Gris clair */
+    color: #666666;
 }
 
 /* Style pour la section CTA */
-.cta {
-    background-color: #ffffff; /* Fond blanc */
-    color: #000000; /* Texte noir */
+.cta1 {
+    background-color: #ffffff;
+    color: #000000;
     text-align: center;
     padding: 4rem 2rem;
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-top: 3rem;
-    border: 1px solid #ff0000; /* Bordure rouge subtile */
+    border: 1px solid #ff0000;
 }
 
-.cta h2 {
+.cta1 h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: #ff0000; /* Texte rouge */
+    color: #ff0000;
 }
 
-.cta p {
+.cta1 p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
     line-height: 1.8;
-    color: #666666; /* Gris clair */
+    color: #666666;
 }
 
-.cta-button {
-    background-color: #ff0000; /* Fond rouge */
-    color: #ffffff; /* Texte blanc */
+.cta1-button {
+    background-color: #ff0000;
+    color: #ffffff;
     text-decoration: none;
     padding: 1rem 2.5rem;
     border-radius: 12px;
     font-weight: bold;
     font-size: 1.125rem;
-    border: 2px solid #ff0000; /* Bordure rouge */
+    border: 2px solid #ff0000;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.cta-button:hover {
-    background-color: #cc0000; /* Rouge plus foncé au survol */
-    color: #ffffff; /* Texte blanc au survol */
+.cta1-button:hover {
+    background-color: #cc0000;
+    color: #ffffff;
 }
 
 /* Responsive */
@@ -193,6 +195,7 @@
 
     .team-members {
         flex-direction: column;
+        align-items: center;
     }
 
     .team-member {

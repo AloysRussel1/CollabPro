@@ -14,40 +14,39 @@ const TeamsPage = () => {
   const [showFiles, setShowFiles] = useState({});
   const userId = localStorage.getItem('userId');
 
-  // Récupérer les projets et fichiers associés depuis le backend
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         const response = await api.get('/projets/');
         const projects = response.data;
-
+  
+        // Filtrer uniquement les projets où l'utilisateur est chef d'équipe
+        const userProjects = projects.filter(project => project.chef_equipe === parseInt(userId));
+  
         const projectsWithDetails = await Promise.all(
-          projects.map(async (project) => {
+          userProjects.map(async (project) => {
             const membersResponse = await api.get(`/projets/${project.id}/membres`);
             const members = membersResponse.data;
             const filesResponse = await api.get(`/projets/${project.id}/fichiers`);
             const files = filesResponse.data;
-
-            const isUserInProject = members.some(member => member.id === parseInt(userId));
-            if (isUserInProject) {
-              return {
-                ...project,
-                membres: members,
-                fichiers: files,
-              };
-            }
-            return null;
+  
+            return {
+              ...project,
+              membres: members,
+              fichiers: files,
+            };
           })
         );
-
-        setProjectsData(projectsWithDetails.filter(project => project !== null));
+  
+        setProjectsData(projectsWithDetails);
       } catch (error) {
         console.error('Erreur lors de la récupération des projets:', error);
       }
     };
-
+  
     fetchProjects();
   }, [userId]);
+  
 
   // Naviguer vers la page pour ajouter un membre
   const handleAddMember = (projectId) => {

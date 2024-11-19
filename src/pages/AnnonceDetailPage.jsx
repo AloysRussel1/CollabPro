@@ -1,6 +1,5 @@
 // src/pages/AnnonceDetailPage.jsx
 import React from 'react';
-import './../assets/Css/pagesCss/AnnonceDetailPage.css';
 import { useParams } from 'react-router-dom';
 
 const AnnonceDetailPage = () => {
