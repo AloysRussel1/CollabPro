@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import api from '../api/api'; // Votre configuration axios
 import './../assets/Css/pagesCss/AssignTaskPage.css';
-
+import  BackButton from '../components/BackButton.jsx';
 const AssignTaskPage = () => {
     const [tasks, setTasks] = useState([]);
     const [selectedTasks, setSelectedTasks] = useState([]);
@@ -60,6 +60,7 @@ const AssignTaskPage = () => {
 
     return (
         <div className="assign-task-container">
+            <BackButton />
             <h1 className="assign-task-title">Assigner des tâches à un membre</h1>
 
             {/* Afficher un message d'erreur s'il y a un problème */}

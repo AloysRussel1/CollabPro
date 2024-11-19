@@ -4,6 +4,7 @@ import './../assets/Css/pagesCss/TeamsPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTasks, faEdit, faTrashAlt, faFileDownload, faChevronDown, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import  BackButton from '../components/BackButton.jsx';
 
 const TeamsPage = () => {
   const navigate = useNavigate();
@@ -150,6 +151,7 @@ const TeamsPage = () => {
 
   return (
     <div className="projects-page">
+      <BackButton/>
       <h1 className="projects-page-title"> Mes équipes </h1>
       <div className="projects-container">
         {projectsData.map((project) => (

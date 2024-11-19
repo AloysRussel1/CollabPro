@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './../assets/Css/pagesCss/MesTaches.css';
 import api from '../api/api';
+import  BackButton from '../components/BackButton.jsx';
 
 const ProjectDetailPage = () => {
   const { projectId } = useParams(); // Récupération de l'ID du projet à partir de l'URL
@@ -199,6 +200,7 @@ const ProjectDetailPage = () => {
 
   return (
     <TableContainer component={Paper} className="table-container">
+      <BackButton/>
       <h2 className="table-title">{projectTitle || "Ma liste de tâches"}</h2>
 
       <Button
